@@ -1,4 +1,4 @@
-defaults: &defaults
+development: &defaults
   fusion_table_id: 
   google_account: 
   google_password: 
