@@ -10,48 +10,36 @@
     /[if lt IE 9]
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     = stylesheet_link_tag "application", :media => "all"
-    %link(href="images/apple-touch-icon-144x144.png" rel="apple-touch-icon-precomposed" sizes="144x144")
-    %link(href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114")
-    %link(href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72")
-    %link(href="images/apple-touch-icon.png" rel="apple-touch-icon-precomposed")
+    = content_for :stylesheets
+    
+    /%link(href="images/apple-touch-icon-144x144.png" rel="apple-touch-icon-precomposed" sizes="144x144")
+    /%link(href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114")
+    /%link(href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72")
+    /%link(href="images/apple-touch-icon.png" rel="apple-touch-icon-precomposed")
     %link(href="images/favicon.ico" rel="shortcut icon")
-
 
   %body
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
-          %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %a.brand(href="#") TechLocator
-          .container.nav-collapse
-            %ul.nav
-              %li= link_to "Link 1", "/path1"
-              %li= link_to "Link 2", "/path2"
-              %li= link_to "Link 3", "/path3"
+          %a.brand(href="/") Tech Locator
+          %p.navbar-text Find technology resources in Chicago
 
     .container
 
       .content
-        .row
-          .span9
-            = bootstrap_flash
-            = yield
-          .span3
-            .well.sidebar-nav
-              %h3 Sidebar
-              %ul.nav.nav-list
-                %li.nav-header Sidebar
-                %li= link_to "Link 1", "/path1"
-                %li= link_to "Link 2", "/path2"
-                %li= link_to "Link 3", "/path3"
+        = yield
     
       %footer
-        %p &copy; Company 2012
+        %p.pull-right
+          Website by 
+          %a{:href => "http://derekeder.com", :title => "Derek Eder"} Derek Eder
+          2012
     /
       Javascripts
       \==================================================
     / Placed at the end of the document so the pages load faster
     = javascript_include_tag "application"
+    = content_for :javascripts
+    
+    = javascript_include_tag "analytics_lib" if Rails.env.production?

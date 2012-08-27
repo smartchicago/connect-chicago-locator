@@ -1,2 +1,54 @@
-%h1 Home#index
-%p Find me in app/views/home/index.html.haml
+- content_for :stylesheets do 
+  = stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+
+- content_for :javascripts do
+  = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false"
+  = javascript_include_tag "home"
+     
+
+.row
+  .span3
+    .well
+      %h3 
+        Address <small>(<a id='findMe' href='#'>find me</a>)</small>
+      %input.input-block-level#txtSearchAddress{:placeholder => "Enter an address or an intersection", :type => "text"}
+      
+      %label
+        within
+        %select#ddlRadius.input-small
+          %option{:value => "400"} 2 blocks
+          %option{:value => "805"} 1/2 mile
+          %option{:value => "1610"} 1 mile
+          %option{:value => "3220"} 2 miles
+      
+      %h3
+        Services
+      
+      %ul.inputs-list.unstyled
+        %li
+          %label.checkbox.inline
+            %input#cbInternetYes{:type => "checkbox"}
+            Internet access
+        %li
+          %label.checkbox.inline
+            %input#cbTrainingYes{:type => "checkbox"}
+            Technology training
+        %li
+          %label.checkbox.inline
+            %input#cbWifiYes{:type => "checkbox"}
+            Wi-Fi
+      
+      %hr
+      
+      %input#btnSearch.btn.btn-primary.btn-large{:type => "button", :value => "Search"}
+      %button#reset.btn Reset
+      
+    %p#resultCount.alert.alert-info.lead
+
+  .span9.hidden-phone.hidden-tablet
+    #mapCanvas
+    
+  .span9.hidden-desktop
+    .row
+      .span12
+        %ul.item-list#resultsList
