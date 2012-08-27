@@ -5,13 +5,13 @@
   = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false"
   = javascript_include_tag "home"
      
-
 .row
   .span3
     .well
-      %h3 
-        Address <small>(<a id='findMe' href='#'>find me</a>)</small>
-      %input.input-block-level#txtSearchAddress{:placeholder => "Enter an address or an intersection", :type => "text"}
+      %h4
+        Find address 
+        <small>(<a id='findMe' href='#'>find me</a>)</small>
+      %input.input-block-level#txtSearchAddress{:placeholder => "Enter an address ...", :type => "text"}
       
       %label
         within
@@ -21,8 +21,12 @@
           %option{:value => "1610"} 1 mile
           %option{:value => "3220"} 2 miles
       
-      %h3
-        Services
+      %input#btnSearch.btn.btn-primary{:type => "button", :value => "Search"}
+      %button#reset.btn Reset
+      
+    .well
+      %h4
+        Filter by services
       
       %ul.inputs-list.unstyled
         %li
@@ -37,11 +41,6 @@
           %label.checkbox.inline
             %input#cbWifiYes{:type => "checkbox"}
             Wi-Fi
-      
-      %hr
-      
-      %input#btnSearch.btn.btn-primary.btn-large{:type => "button", :value => "Search"}
-      %button#reset.btn Reset
       
     %p#resultCount.alert.alert-info.lead
 
