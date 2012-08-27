@@ -41,10 +41,10 @@ var MapsLib = {
 
     //reset filters
     var loadAddress = MapsLib.convertToPlainString($.address.parameter('address'));
-    $("#txtSearchAddress").val(loadAddress);
+    $("#search_address").val(loadAddress);
     var loadRadius = MapsLib.convertToPlainString($.address.parameter('radius'));
-    if (loadRadius != "") $("#ddlRadius").val(loadRadius);
-    else $("#ddlRadius").val(MapsLib.searchRadius);  
+    if (loadRadius != "") $("#search_radius").val(loadRadius);
+    else $("#search_radius").val(MapsLib.searchRadius);  
     
     if (loadAddress != "")
       MapsLib.doSearch();
@@ -60,15 +60,18 @@ var MapsLib = {
   
   doSearch: function() {
     MapsLib.clearSearch();
-    var address = $("#txtSearchAddress").val();
-    MapsLib.searchRadius = $("#ddlRadius").val();
+    var address = $("#search_address").val();
+    MapsLib.searchRadius = $("#search_radius").val();
 
     var searchStr = "SELECT " + MapsLib.locationColumn + " FROM " + MapsLib.fusionTableId + " WHERE " + MapsLib.locationColumn + " not equal to ''";
     
     //checkbox filters
-    if ( $("#cbInternetYes").is(':checked')) searchStr += " AND Internet = 1";
-    if ( $("#cbTrainingYes").is(':checked')) searchStr += " AND Training = 1";
-    if ( $("#cbWifiYes").is(':checked')) searchStr += " AND Wifi = 1";
+    if ( $("#filter_internet").is(':checked')) searchStr += " AND Internet = 1";
+    if ( $("#filter_training").is(':checked')) searchStr += " AND Training = 1";
+    if ( $("#filter_wifi").is(':checked')) searchStr += " AND Wifi = 1";
+    
+    //location type filter
+    if ( $("#filter_type").val() != "") searchStr += " AND OrganizationType = '" + $("#filter_type").val() + "'";
     
     //the geocode function does a callback so we have to handle it in both cases - when they search for and address and when they dont
     if (address != "") {

@@ -11,11 +11,11 @@
       %h4
         Find address 
         <small>(<a id='findMe' href='#'>find me</a>)</small>
-      %input.input-block-level#txtSearchAddress{:placeholder => "Enter an address ...", :type => "text"}
+      %input.input-block-level#search_address{:placeholder => "Enter an address ...", :type => "text"}
       
       %label
         within
-        %select#ddlRadius.input-small
+        %select#search_radius.input-small
           %option{:value => "400"} 2 blocks
           %option{:value => "805"} 1/2 mile
           %option{:value => "1610"} 1 mile
@@ -31,16 +31,33 @@
       %ul.inputs-list.unstyled
         %li
           %label.checkbox.inline
-            %input#cbInternetYes{:type => "checkbox"}
+            %input#filter_internet{:type => "checkbox"}
             Internet access
         %li
           %label.checkbox.inline
-            %input#cbTrainingYes{:type => "checkbox"}
+            %input#filter_technology{:type => "checkbox"}
             Technology training
         %li
           %label.checkbox.inline
-            %input#cbWifiYes{:type => "checkbox"}
+            %input#filter_wifi{:type => "checkbox"}
             Wi-Fi
+               
+      %p 
+        %strong Location type
+        %select#filter_type
+          %option{:value => ""} -- Select location type --
+          %option{:value => "Chicago Housing Authority"} Chicago Housing Authority
+          %option{:value => "Chicago Public Library"} Chicago Public Library
+          %option{:value => "Chicago Public School"} Chicago Public School
+          %option{:value => "City Colleges of Chicago"} City Colleges of Chicago
+          %option{:value => "Community Service Center"} Community Service Center
+          %option{:value => "Community Technology Center"} Community Technology Center
+          %option{:value => "Senior Center"} Senior Center
+          %option{:value => "Wireless Internet Zone"} Wireless Internet Zone
+          %option{:value => "WorkForce Center"} WorkForce Center
+          %option{:value => "WorkNet Chicago"} WorkNet Chicago
+          %option{:value => "Youth Career Development Center"} Youth Career Development Center
+          
       
     %p#resultCount.alert.alert-info.lead
 

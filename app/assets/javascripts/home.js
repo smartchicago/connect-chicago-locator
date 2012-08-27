@@ -6,7 +6,7 @@
 
 $(window).resize(function () {
   var h = $(window).height(),
-    offsetTop = 115; // Calculate the top offset
+    offsetTop = 100; // Calculate the top offset
 
   $('#mapCanvas').css('height', (h - offsetTop));
 }).resize();
@@ -14,6 +14,10 @@ $(window).resize(function () {
 $(function() {
   MapsLib.initialize();
   $(':checkbox').click(function(){
+    MapsLib.doSearch();
+  });
+  
+  $('#filter_type').change(function(){
     MapsLib.doSearch();
   });
   
@@ -33,7 +37,7 @@ $(function() {
     return false;
   });
   
-  $("#txtSearchAddress").keydown(function(e){
+  $("#search_address").keydown(function(e){
       var key =  e.keyCode ? e.keyCode : e.which;
       if(key == 13) {
           $('#btnSearch').click();
