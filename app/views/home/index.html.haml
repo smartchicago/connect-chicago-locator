@@ -4,7 +4,17 @@
 - content_for :javascripts do
   = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false"
   = javascript_include_tag "home"
-     
+
+- if cookies[:"show-welcome"].nil?     
+  #welcome-modal.modal{"aria-hidden" => "true", "aria-labelledby" => "welcomeModalLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-header
+      %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+      %h3#myModalLabel Welcome to the Tech Locator!
+    .modal-body
+      %p Use this site to find free public computer labs and technology resources in Chicago. 
+    .modal-footer
+      %button.btn.btn-info{"aria-hidden" => "true", "data-dismiss" => "modal"} Ok, thanks!
+
 .row
   .span3
     .well
@@ -32,15 +42,18 @@
         %li
           %label.checkbox.inline
             %input#filter_internet{:type => "checkbox"}
-            Internet access
+            %span{:rel => "popover", :"data-content" => "Locations that offer computers with access to the internet.", :"data-original-title" => "<h4>Internet access</h4>"}
+              Internet access
         %li
           %label.checkbox.inline
             %input#filter_technology{:type => "checkbox"}
-            Technology training
+            %span{:rel => "popover", :"data-content" => "Locations that offer training and courses on using computers.", :"data-original-title" => "<h4>Technology training</h4>"}
+              Technology training
         %li
           %label.checkbox.inline
             %input#filter_wifi{:type => "checkbox"}
-            Wi-Fi
+            %span{:rel => "popover", :"data-content" => "Locations that offer free wireless internet access.", :"data-original-title" => "<h4>Wifi</h4>"}
+              Wi-Fi
                
       %p 
         %strong Location type

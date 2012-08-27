@@ -2,6 +2,7 @@
 // All this logic will automatically be available in application.js.
 
 //= require jquery.address.min
+//= require jquery.cookie
 //= require maps_lib 
 
 $(window).resize(function () {
@@ -44,4 +45,12 @@ $(function() {
           return false;
       }
   });
+  
+  $("span[rel=popover]").popover({trigger: 'hover'});
+  //$('#welcome-modal').modal();
+  if ($.cookie("show-welcome") != "read") {
+    //console.log('showing welcome modal');
+    $('#welcome-modal').modal('show');
+    $.cookie("show-welcome", "read", { expires: 7 });
+  }
 });
