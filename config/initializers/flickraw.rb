@@ -1,0 +1,3 @@
+#initialize Flickr
+FlickRaw.api_key=AppSettings.flickr_key
+FlickRaw.shared_secret=AppSettings.flickr_secret

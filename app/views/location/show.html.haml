@@ -1,0 +1,155 @@
+- content_for :javascripts do
+  = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" 
+  = javascript_include_tag :location
+  :javascript 
+    $(function(){
+      initializeMap();
+    
+      if (map != null)
+        displayPoint("#{encodeAddress(@location[:full_address])}");
+      
+    });
+.row
+  .span7
+    %h2
+      = @location[:organizationname]
+    %p.lead
+      = @location[:organizationtype]
+    .row  
+      .span4
+        %p  
+          = formatAddress @location[:address], @location[:city], @location[:state], @location[:zipcode], @location[:roomlist]
+        
+        %p 
+          = @location[:orgphone]
+          - unless @location[:website].nil?
+            %br
+            %a{:href => @location[:website]}
+              = snippet(@location[:website])
+            
+        - unless @location[:hours].nil?
+          %p
+            Hours:  
+            = @location[:hours]
+    
+      .span3  
+        %table.table.table-bordered
+          %thead
+            %tr
+              %th Internet
+              %th Training
+              %th Wifi
+              
+          %tbody
+            %tr
+              %td
+                = yes_no_icon @location[:internet]
+              %td
+                = yes_no_icon @location[:training]
+              %td
+                = yes_no_icon @location[:wifi]
+    .row
+      .span7
+        %hr
+        %p
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        
+        - unless @location[:hardwarepublic].nil?  
+          %h3 
+            Additional info
+            
+          %dl.dl-horizontal
+            - unless @location[:hardwarepublic].nil?  
+              %dt
+                Computers
+              %dd
+                = @location[:hardwarepublic]
+                computers available to the public
+                
+            - unless @location[:internetupload].nil?  
+              %dt 
+                Internet speed
+              %dd
+                Upload: 
+                = @location[:internetupload] 
+              %dd
+                Download: 
+                = @location[:internetdownload] 
+              
+            - unless @location[:pcuserestrictions].nil?
+              %dt 
+                Use restrictions
+              %dd 
+                = @location[:pcuserestrictions]
+            
+            - unless @location[:assistivetechnology].nil?  
+              %dt 
+                Assistive tech
+              %dd 
+                = @location[:assistivetechnology] 
+            
+            - unless @location[:timeallowedperuser].nil?  
+              %dt 
+                Time restrictions
+              %dd
+                = @location[:timeallowedperuser] 
+              %dd
+                = @location[:timeallowedperuserdetail]
+                
+    .row
+      .span7
+        %h3 
+          Photos of 
+          = @location[:organizationname]
+        %ul.thumbnails
+          - list = flickr.photos.search(:tags => "public computer center", :safe_search => "1")
+          - list.each do |photo|
+            %li.span1
+              %a.thumbnail{:href => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg"}
+                %img{:src => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}_s.jpg"}              
+                
+  .span5
+    .well
+      %p
+        / AddThis Button BEGIN
+        .addthis_toolbox.addthis_default_style
+          %a.addthis_button_facebook_like{"fb:like:layout" => "button_count"}
+          %a.addthis_button_tweet
+          %a.addthis_button_pinterest_pinit
+          %a.addthis_counter.addthis_pill_style
+        :javascript
+          var addthis_config = {"data_track_addressbar":false};
+        %script{:src => "http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5023cf8c771737b1", :type => "text/javascript"}
+        / AddThis Button END
+  
+      #mapDetail
+      %hr
+      %p.lead
+        = formatAddress @location[:address], @location[:city], @location[:state], @location[:zipcode], @location[:roomlist]
+      %p
+        %a.btn.btn-success{:href => "https://maps.google.com/maps?f=d&hl=en&geocode=&daddr=#{encodeAddress(@location[:full_address])}"}
+          Get directions
+          %i.icon-white.icon-arrow-right
+          
+      
+      %dl
+        - unless @location[:nearestparking].nil?
+          %dt
+            Nearest parking 
+          %dd
+            = @location[:nearestparking]
+          %dd
+            = @location[:nearestparkingdetail]
+        
+        - unless @location[:publictransportationdetail].nil?
+          %dt
+            Public transportation
+          %dd 
+            = @location[:publictransportationdetail]
+            
+        - unless @location[:handicapaccessdetail].nil?
+          %dt
+            Handicap access
+          %dd 
+            = @location[:handicapaccessdetail]
+    

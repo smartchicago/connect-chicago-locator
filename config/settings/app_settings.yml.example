@@ -1,0 +1,16 @@
+defaults: &defaults
+  fusion_table_id: 
+  google_account: 
+  google_password: 
+  
+  flickr_key: 
+  flickr_secret: 
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
