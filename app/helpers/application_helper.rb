@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def title(page_title)
+    content_for :title, page_title.to_s
+  end
+  
   def snippet(string, length = 40) 
     string.size > length+5 ? [string[0,length],string[-5,5]].join("...") : string
   end 

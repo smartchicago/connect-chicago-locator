@@ -5,13 +5,16 @@ gem 'rails', '3.2.8'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+# database
 gem 'pg'
-gem 'heroku'
+
+# markup and rendering
 gem 'haml-rails'
-gem 'settingslogic'
+gem 'twitter-bootstrap-rails'
+
+# apis
 gem 'fusion_tables'
 gem 'flickraw'
-gem 'twitter-bootstrap-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -24,8 +27,8 @@ end
 
 gem 'jquery-rails'
 
-# To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', '~> 3.0.0'
+# authentication
+gem 'devise'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
@@ -33,8 +36,8 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # Use unicorn as the app server
 gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
+# Deploy with Heroku
+gem 'heroku'
 
 # To use debugger
 # gem 'debugger'

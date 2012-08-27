@@ -1,3 +1,4 @@
+- title @location[:organizationname] + " - Tech Locator"
 - content_for :javascripts do
   = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" 
   = javascript_include_tag :location
@@ -52,7 +53,7 @@
       .span7
         %hr
         %p
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          = "There are [#] computer rooms with [#] computers at #{@location[:organizationname]}. The labs are available to [some group of people] with priority given to [some other group of people]. Additional friendly directions and information about locating the lab within the building."
         
         - unless @location[:hardwarepublic].nil?  
           %h3 
@@ -115,7 +116,6 @@
         .addthis_toolbox.addthis_default_style
           %a.addthis_button_facebook_like{"fb:like:layout" => "button_count"}
           %a.addthis_button_tweet
-          %a.addthis_button_pinterest_pinit
           %a.addthis_counter.addthis_pill_style
         :javascript
           var addthis_config = {"data_track_addressbar":false};

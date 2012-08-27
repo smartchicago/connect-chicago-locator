@@ -11,8 +11,8 @@ rescue Errno::ENOENT
   APP_CONFIG['flickr_secret'] = ENV['flickr_secret'].to_s
 end
 
-puts "google_account: #{APP_CONFIG['google_account']}"
-puts "google_password: #{APP_CONFIG['google_password']}"
+#puts "google_account: #{APP_CONFIG['google_account']}"
+#puts "google_password: #{APP_CONFIG['google_password']}"
 
 #initialize Fusion Tables API
 FT = GData::Client::FusionTables.new      
