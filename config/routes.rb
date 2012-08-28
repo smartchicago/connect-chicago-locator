@@ -1,4 +1,6 @@
 TechLocator::Application.routes.draw do
+  devise_for :admins
+
   get "location/show"
 
   get "home/index"

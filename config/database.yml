@@ -51,5 +51,5 @@ production:
   encoding: unicode
   database: TechLocator_production
   pool: 5
-  username: TechLocator
+  username:
   password:

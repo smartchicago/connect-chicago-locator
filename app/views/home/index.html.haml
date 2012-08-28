@@ -24,39 +24,41 @@
       %input.input-block-level#search_address{:placeholder => "Enter an address ...", :type => "text"}
       
       %label
-        within
         %select#search_radius.input-small
           %option{:value => "400"} 2 blocks
           %option{:value => "805"} 1/2 mile
           %option{:value => "1610"} 1 mile
           %option{:value => "3220"} 2 miles
+        search radius
       
       %input#btnSearch.btn.btn-primary{:type => "button", :value => "Search"}
       %button#reset.btn Reset
       
     .well
       %h4
-        Filter by services
+        Filters
       
-      %ul.inputs-list.unstyled
-        %li
-          %label.checkbox.inline
-            %input#filter_internet{:type => "checkbox"}
-            %span{:rel => "popover", :"data-content" => "Locations that offer computers with access to the internet.", :"data-original-title" => "<h4>Internet access</h4>"}
-              Internet access
-        %li
-          %label.checkbox.inline
-            %input#filter_technology{:type => "checkbox"}
-            %span{:rel => "popover", :"data-content" => "Locations that offer training and courses on using computers.", :"data-original-title" => "<h4>Technology training</h4>"}
-              Technology training
-        %li
-          %label.checkbox.inline
-            %input#filter_wifi{:type => "checkbox"}
-            %span{:rel => "popover", :"data-content" => "Locations that offer free wireless internet access.", :"data-original-title" => "<h4>Wifi</h4>"}
-              Wi-Fi
+      %label 
+        %strong Show me locations that have …
+        %ul.inputs-list.unstyled
+          %li
+            %label.checkbox.inline
+              %input#filter_internet{:type => "checkbox"}
+              %span{:rel => "popover", :"data-content" => "Locations that offer computers with access to the internet.", :"data-original-title" => "<h4>Internet access</h4>"}
+                Internet access
+          %li
+            %label.checkbox.inline
+              %input#filter_technology{:type => "checkbox"}
+              %span{:rel => "popover", :"data-content" => "Locations that offer training and courses on using computers.", :"data-original-title" => "<h4>Technology training</h4>"}
+                Technology training
+          %li
+            %label.checkbox.inline
+              %input#filter_wifi{:type => "checkbox"}
+              %span{:rel => "popover", :"data-content" => "Locations that offer free wireless internet access.", :"data-original-title" => "<h4>Wifi</h4>"}
+                Wi-Fi
                
-      %p 
-        %strong Location type
+      %label 
+        %strong and are …
         %select#filter_type.input-block-level
           %option{:value => ""} -- Select location type --
           %option{:value => "Chicago Housing Authority"} Chicago Housing Authority
