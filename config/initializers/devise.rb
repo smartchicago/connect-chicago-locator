@@ -7,7 +7,7 @@ Devise.setup do |config|
   config.mailer_sender = "no-reply@weconnectchicago.org"
 
   # Configure the class responsible to send e-mails.
-  # config.mailer = "Devise::Mailer"
+  config.mailer = "Devise::Mailer"
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
@@ -23,7 +23,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [ :email ]
+  config.authentication_keys = [ :email ]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -82,7 +82,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = "36ba3938472b3441d7e9e1044281e460d9980eaf42665b18e62e3fc9af31623dccfa505dd033863d4aa412aac035c51d36eefca4792fe8fa84f954375d781837"
+  config.pepper = "36ba3938472b3441d7e9e1044281e460d9980eaf42665b18e62e3fc9af31623dccfa505dd033863d4aa412aac035c51d36eefca4792fe8fa84f954375d781837"
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -99,11 +99,11 @@ Devise.setup do |config|
   # config.reconfirmable = true
 
   # Defines which key will be used when confirming an account
-  # config.confirmation_keys = [ :email ]
+  config.confirmation_keys = [ :email ]
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
-  config.remember_for = 2.weeks
+  # config.remember_for = 2.weeks
 
   # If true, extends the user's remember period when remembered via cookie.
   # config.extend_remember_period = false
@@ -119,12 +119,12 @@ Devise.setup do |config|
   # Email regex used to validate email formats. It simply asserts that
   # an one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
-  config.email_regexp = /\A[^@]+@[^@]+\z/
+  # config.email_regexp = /\A[^@]+@[^@]+\z/
 
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
-  config.timeout_in = 30.minutes
+  # config.timeout_in = 30.minutes
   
   # If true, expires auth token on session timeout.
   # config.expire_auth_token_on_timeout = false
