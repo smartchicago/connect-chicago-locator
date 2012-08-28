@@ -191,7 +191,7 @@ var MapsLib = {
     geocoder.geocode({'latLng': latLngPoint}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
-          $('#txtSearchAddress').val(results[1].formatted_address);
+          $('#search_address').val(results[1].formatted_address);
           $('.hint').focus();
           MapsLib.doSearch();
         }

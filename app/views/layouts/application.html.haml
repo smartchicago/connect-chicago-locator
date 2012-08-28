@@ -35,14 +35,14 @@
                 %li
                   = link_to('Sign up', new_admin_registration_path)
                 %li
-                  = link_to('Login', new_admin_session_path)
+                  = link_to('Admin login', new_admin_session_path)
 
 
     .container
 
       .content
         - flash.each do |name, msg|
-          %div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
+          %div#flash{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
             %a.close{"data-dismiss" => "alert"} &#215;
             = content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String)
         = yield

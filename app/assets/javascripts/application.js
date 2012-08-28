@@ -13,3 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+
+$('#flash').delay(500).fadeIn('normal', function() {
+  $(this).delay(2500).fadeOut();
+});

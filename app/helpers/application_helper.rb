@@ -10,11 +10,11 @@ module ApplicationHelper
   def yes_no_icon input
     #puts "input: #{input}"
     if input == "1"
-      return "<i class='icon-ok'></i> Yes".html_safe()
+      return "<i class='icon-ok'></i>&nbsp;Yes".html_safe()
     elsif input == "0"
-      return "<i class='icon-remove'></i> No".html_safe()
+      return "<i class='icon-remove'></i>&nbsp;No".html_safe()
     else
-      return "<i class='icon-minus'></i> Unknown".html_safe()
+      return "<i class='icon-minus'></i>&nbsp;Unknown".html_safe()
     end
   end
   
