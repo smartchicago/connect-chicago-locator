@@ -1,0 +1,16 @@
+%h2 Sign in
+
+= semantic_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+  = f.semantic_errors
+  = f.inputs do
+    = f.input :email, hint:"Enter your email address"
+    = f.input :password, hint:"Enter password"
+  -if devise_mapping.rememberable?
+    .clearfix
+      = f.label :remember_me
+      .input
+        = f.check_box :remember_me
+  = f.buttons do
+    = f.commit_button :button_html => {:class => "primary"}
+
+= render :partial => "devise/shared/links"

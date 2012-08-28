@@ -43,6 +43,11 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     flickraw (0.9.6)
+    formtastic (2.1.1)
+      actionpack (~> 3.0)
+    formtastic-bootstrap (1.1.1)
+      formtastic
+      rails (~> 3.1)
     fusion_tables (0.3.1)
       gdata_19 (>= 1.1.2)
     gdata_19 (1.1.5)
@@ -148,6 +153,8 @@ PLATFORMS
 DEPENDENCIES
   devise
   flickraw
+  formtastic (~> 2.1.1)
+  formtastic-bootstrap
   fusion_tables
   haml-rails
   heroku

@@ -5,15 +5,14 @@
   = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false"
   = javascript_include_tag "home"
 
-- if cookies[:"show-welcome"].nil?     
-  #welcome-modal.modal{"aria-hidden" => "true", "aria-labelledby" => "welcomeModalLabel", :role => "dialog", :tabindex => "-1"}
-    .modal-header
-      %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
-      %h3#myModalLabel Welcome to the Tech Locator!
-    .modal-body
-      %p Use this site to find free public computer labs and technology resources in Chicago. 
-    .modal-footer
-      %button.btn.btn-info{"aria-hidden" => "true", "data-dismiss" => "modal"} Ok, thanks!
+#welcome-modal.modal.hide.fade.in{"aria-hidden" => "true", "aria-labelledby" => "welcomeModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-header
+    %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+    %h3#myModalLabel Welcome to the Tech Locator!
+  .modal-body
+    %p Use this site to find free public computer labs and technology resources in Chicago. 
+  .modal-footer
+    %button.btn.btn-info{"aria-hidden" => "true", "data-dismiss" => "modal"} Ok, thanks!
 
 .row
   .span3

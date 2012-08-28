@@ -11,6 +11,8 @@ gem 'pg'
 # markup and rendering
 gem 'haml-rails'
 gem 'twitter-bootstrap-rails'
+gem 'formtastic', " ~> 2.1.1"
+gem 'formtastic-bootstrap'
 
 # apis
 gem 'fusion_tables'
