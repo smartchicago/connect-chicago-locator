@@ -6,5 +6,5 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 puts 'SETTING UP ADMIN USERS'
-admin1 = Admin.create! :email => 'test@example.com', :password => 'testpass', :password_confirmation => 'testpass', :approved => true
+admin1 = Admin.create! :email => 'test@example.com', :password => 'testpass', :password_confirmation => 'testpass', :approved => true, :superadmin => true
 puts 'New user created: ' << admin1.email
