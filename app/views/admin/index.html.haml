@@ -1,0 +1,19 @@
+%h1 Admins
+
+= link_to "All Admins", :action => "index"
+|
+= link_to "Admins awaiting approval", :action => "index", :approved => "false"
+
+%table.table
+  %thead
+    %tr
+      %th Email
+      %th Approved?
+      %th 
+  %tbody
+    - @admins.each do |admin|
+      %tr
+        %td= admin.email
+        %td= admin.approved
+        %td= link_to "Edit", edit_admin_registration_path(admin)
+			
