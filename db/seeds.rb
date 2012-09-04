@@ -6,7 +6,17 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 puts 'SETTING UP ADMIN USERS'
-admin1 = Admin.create! :email => 'test@example.com', :password => 'testpass', :password_confirmation => 'testpass'
+
+admin1Email = 'test@example.com'
+admin1Pass = 'testpass'
+
+if (Rails.env.production?)
+	puts 'In production, using ENV credentials'
+	admin1Email = ENV['admin1Email']
+	admin1Pass = ENV['admin1Pass']
+end
+
+admin1 = Admin.create! :email => admin1Email, :password => admin1Pass, :password_confirmation => admin1Pass
 admin1.approved = true
 admin1.superadmin = true
 admin1.save!
