@@ -1,19 +1,27 @@
-%h1 Admins
+.span8
+  %h1 Admins
 
-= link_to "All Admins", :action => "index"
-|
-= link_to "Admins awaiting approval", :action => "index", :approved => "false"
+  %p
+    = link_to "All Admins", :action => "index"
+    |
+    = link_to "Admins awaiting approval", :action => "index", :approved => "false"
 
-%table.table
-  %thead
-    %tr
-      %th Email
-      %th Approved?
-      %th 
-  %tbody
-    - @admins.each do |admin|
-      %tr
-        %td= admin.email
-        %td= admin.approved
-        %td= link_to "Edit", edit_admin_registration_path(admin)
-			
+    %table.table.table-bordered.table-condensed.table-hover
+      %thead
+        %tr
+          %th Email
+          %th Approved
+          %th Super admin
+          %th 
+      %tbody
+        - @admins.each do |admin|
+          %tr
+            %td= admin.email
+            %td= admin.approved
+            %td= admin.superadmin
+            %td
+              = link_to "View", admin_path(admin)
+              |
+              = link_to "Edit", edit_admin_path(admin)
+
+.span4

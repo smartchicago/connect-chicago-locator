@@ -1,0 +1,13 @@
+%h1 
+  = @admin.email
+
+%dl.dl-horizontal
+  %dt Approved
+  %dd
+    = @admin.approved
+  %dt Super admin
+  %dd
+    = @admin.superadmin
+  %dt Actions
+  %dd
+    = link_to "Edit", edit_admin_path(@admin)

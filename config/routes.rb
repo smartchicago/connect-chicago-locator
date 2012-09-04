@@ -1,6 +1,5 @@
 TechLocator::Application.routes.draw do
-  get "admin/index"
-
+	resources :admin
   devise_for :admins
   match 'location/:slug' => 'location#show'
   root :to => 'home#index'

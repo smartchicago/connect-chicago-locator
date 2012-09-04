@@ -27,6 +27,9 @@
           .container.nav-collapse
             %ul.nav.pull-right
               - if admin_signed_in?
+                - if current_admin.try(:superadmin?)
+                  %li
+                    = link_to('Manage admins', admin_index_path)
                 %li
                   = link_to('Edit your account', edit_admin_registration_path)
                 %li
