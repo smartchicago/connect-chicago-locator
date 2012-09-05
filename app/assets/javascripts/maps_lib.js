@@ -14,7 +14,7 @@ var MapsLib = MapsLib || {};
 var MapsLib = {
   
   //Setup - put your Fusion Table details here
-  fusionTableId:      4696952,        //the ID of your Fusion Table (found under File => About)
+  fusionTableId:      5104729,        //the ID of your Fusion Table (found under File => About)
   locationColumn:     "'Full Address'",     //name of the location column in your Fusion Table
   map_centroid:       new google.maps.LatLng(41.8781136, -87.66677856445312), //center that your map defaults to
   locationScope:      "chicago",      //geographical area appended to all address searches

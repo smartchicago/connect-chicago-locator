@@ -16,6 +16,17 @@
       = @location[:organizationname]
     %p.lead
       = @location[:organizationtype]
+
+    %p
+      / AddThis Button BEGIN
+      .addthis_toolbox.addthis_default_style
+        %a.addthis_button_facebook_like{"fb:like:layout" => "button_count"}
+        %a.addthis_button_tweet
+        %a.addthis_counter.addthis_pill_style
+      :javascript
+        var addthis_config = {"data_track_addressbar":false};
+      %script{:src => "http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5023cf8c771737b1", :type => "text/javascript"}
+      / AddThis Button END
     .row  
       .span4
         %p  
@@ -26,8 +37,13 @@
           - unless @location[:website].nil?
             %br
             %a{:href => @location[:website]}
-              = snippet(@location[:website])
-            
+              = snippet @location[:website]
+
+          - unless @location[:pcc_staff_person].nil?
+            %br
+              Administrator:  
+              = formatContact @location[:pcc_staff_person], @location[:pcc_staff_person_email]
+              
         - unless @location[:hours].nil?
           %p
             Hours:  
@@ -52,11 +68,24 @@
     .row
       .span7
         %hr
+        %h4 About this place
         %p
-          = "There are [#] computer rooms with [#] computers at #{@location[:organizationname]}. The labs are available to [some group of people] with priority given to [some other group of people]. Additional friendly directions and information about locating the lab within the building."
+          - if @location[:friendly_description].nil?
+            = "There are [#] computer rooms with [#] computers at #{@location[:organizationname]}. The labs are available to [some group of people] with priority given to [some other group of people]. Additional friendly directions and information about locating the lab within the building."
+          - else
+            = @location[:friendly_description]
         
+        - unless @location[:training_headline].nil?  
+          %hr
+          %h4 
+            Training:
+            = @location[:training_headline]
+          %p
+            = @location[:training_description]
+
         - unless @location[:hardwarepublic].nil?  
-          %h3 
+          %hr
+          %h4 
             Additional info
             
           %dl.dl-horizontal
@@ -97,31 +126,27 @@
               %dd
                 = @location[:timeallowedperuserdetail]
                 
-    .row
+    .row.hidden-phone.hidden-tablet
       .span7
-        %h3 
-          Photos of 
+        %hr
+        %h4 
+          More photos of 
           = @location[:organizationname]
         %ul.thumbnails
           - list = flickr.photos.search(:tags => "public computer center", :safe_search => "1")
+          - photo_count = 0
           - list.each do |photo|
-            %li.span1
-              %a.thumbnail{:href => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg"}
-                %img{:src => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}_s.jpg"}              
+            - if (photo_count < 14)
+              - photo_count += 1
+              %li.span1
+                %a.thumbnail{:href => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg"}
+                  %img{:src => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}_s.jpg"} 
                 
   .span5
     .well
       %p
-        / AddThis Button BEGIN
-        .addthis_toolbox.addthis_default_style
-          %a.addthis_button_facebook_like{"fb:like:layout" => "button_count"}
-          %a.addthis_button_tweet
-          %a.addthis_counter.addthis_pill_style
-        :javascript
-          var addthis_config = {"data_track_addressbar":false};
-        %script{:src => "http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5023cf8c771737b1", :type => "text/javascript"}
-        / AddThis Button END
-  
+        %img.img-polaroid{:src => "/assets/pcc-ex-132.jpg", :title => "Placeholder external image"}
+
       #mapDetail
       %hr
       %p.lead
@@ -132,7 +157,7 @@
           %i.icon-white.icon-arrow-right
           
       
-      %dl
+      %dl.dl-horizontal
         - unless @location[:nearestparking].nil?
           %dt
             Nearest parking 
@@ -143,7 +168,7 @@
         
         - unless @location[:publictransportationdetail].nil?
           %dt
-            Public transportation
+            Public transit
           %dd 
             = @location[:publictransportationdetail]
             

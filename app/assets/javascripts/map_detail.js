@@ -22,7 +22,8 @@ function displayPoint(address) {
         map.setCenter(results[0].geometry.location);
         var marker = new google.maps.Marker({
           map: map,
-          position: results[0].geometry.location
+          position: results[0].geometry.location,
+          icon: "/assets/computers.png"
         });
         map_bounds.extend(results[0].geometry.location);
         map.fitBounds(map_bounds);

@@ -32,6 +32,14 @@ module ApplicationHelper
     end
     result.html_safe()
   end
+
+  def formatContact name, email
+    result = name
+    unless (email.nil?)
+      result = "<a href='mailto:#{email}'>#{name}</a>";
+    end
+    result.html_safe()
+  end
   
   def formatLocationAttribute title, attribute 
     result = ""
