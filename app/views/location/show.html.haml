@@ -130,10 +130,12 @@
       .span7
         %hr
         %h4 
-          More photos of 
+          Photos of 
           = @location[:organizationname]
         %ul.thumbnails
-          - list = flickr.photos.search(:tags => "public computer center", :safe_search => "1")
+          - list = flickr.photos.search(:tags => @location[:flickr_tag], :safe_search => "1")
+          - if list.length == 0
+            - list = flickr.photos.search(:tags => "public computer center", :safe_search => "1")  
           - photo_count = 0
           - list.each do |photo|
             - if (photo_count < 14)
@@ -141,6 +143,13 @@
               %li.span1
                 %a.thumbnail{:href => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg"}
                   %img{:src => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}_s.jpg"} 
+
+        %p
+          Have a photo for this location? Upload it to
+          %a{:href => "http://flickr.com"} Flickr
+          and tag it with
+          %strong
+            = @location[:flickr_tag]
                 
   .span5
     .well
