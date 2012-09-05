@@ -126,13 +126,13 @@
               %dd
                 = @location[:timeallowedperuserdetail]
                 
-    .row.hidden-phone.hidden-tablet
+    .row.hidden-phone
       .span7
         %hr
         %h4 
           Photos of 
           = @location[:organizationname]
-        %ul.thumbnails
+        %ul.thumbnails#gallery{:"data-toggle" => "modal-gallery", :"data-target" => "#modal-gallery"}
           - list = flickr.photos.search(:tags => @location[:flickr_tag], :safe_search => "1")
           - if list.length == 0
             - list = flickr.photos.search(:tags => "public computer center", :safe_search => "1")  
@@ -141,7 +141,7 @@
             - if (photo_count < 14)
               - photo_count += 1
               %li.span1
-                %a.thumbnail{:href => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg"}
+                %a.thumbnail{:href => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg", :rel =>"gallery", :title => "#{photo.title}"}
                   %img{:src => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}_s.jpg"} 
 
         %p
@@ -186,4 +186,22 @@
             Handicap access
           %dd 
             = @location[:handicapaccessdetail]
+
+/ modal-gallery for the image gallery
+#modal-gallery.modal.modal-gallery.hide.fade
+  .modal-header
+    %a.close{"data-dismiss" => "modal"} ×
+    %h3.modal-title
+  .modal-body
+    .modal-image
+  .modal-footer
+    %a.btn.btn-info.modal-download{:target => "_blank"}
+      %i.icon-download
+      %span Download
+    %a.btn.modal-prev
+      %i.icon-arrow-left.icon-white
+      %span Previous
+    %a.btn.modal-next
+      %span Next
+      %i.icon-arrow-right.icon-white
     

@@ -2,3 +2,5 @@
 // All this logic will automatically be available in application.js.
 
 //= require map_detail
+//= require load-image.min
+//= require bootstrap-image-gallery
