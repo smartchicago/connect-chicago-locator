@@ -132,16 +132,10 @@
           Photos of 
           = @location[:organizationname]
         %ul.thumbnails#gallery{:"data-toggle" => "modal-gallery", :"data-target" => "#modal-gallery"}
-          - list = flickr.photos.search(:tags => @location[:flickr_tag], :safe_search => "1")
-          - if list.length == 0
-            - list = flickr.photos.search(:tags => "public computer center", :safe_search => "1")  
-          - photo_count = 0
-          - list.each do |photo|
-            - if (photo_count < 14)
-              - photo_count += 1
-              %li.span1
-                %a.thumbnail{:href => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg", :rel =>"gallery", :title => "#{photo.title}"}
-                  %img{:src => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}_s.jpg"} 
+          - getFlickrGalleryPhotos(@location[:flickr_tag]).each do |photo|
+            %li.span1
+              %a.thumbnail{:href => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg", :rel =>"gallery", :title => "#{photo.title}"}
+                %img{:src => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}_s.jpg"} 
 
         %p
           Have a photo for this location? Upload it to
@@ -153,7 +147,12 @@
   .span5
     .well
       %p
-        %img.img-polaroid{:src => "/assets/pcc-ex-132.jpg", :title => "Placeholder external image"}
+        - featured_photo = getFlickrFeaturedPhoto("#{@location[:flickr_tag]}-featured")
+        - unless featured_photo.nil?
+          %img.img-polaroid{:src => "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg", :title => "Placeholder external image"}
+        - else
+          - puts "no featured photo found"
+          %img.img-polaroid{:src => "/assets/pcc-ex-132.jpg", :title => "Placeholder external image"}
 
       #mapDetail
       %hr
