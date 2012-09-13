@@ -2,6 +2,10 @@ module ApplicationHelper
   def title(page_title)
     content_for :title, page_title.to_s
   end
+
+  def page_layout(layout)
+    content_for :page_layout, layout.to_s
+  end
   
   def snippet(string, length = 40) 
     string.size > length+5 ? [string[0,length],string[-5,5]].join("...") : string
@@ -64,9 +68,19 @@ module ApplicationHelper
   def getFlickrFeaturedPhoto tags
     featured_photos = flickr.photos.search(:tags => "#{tags}-featured", :safe_search => "1", 
       :per_page => 1, :user_id => "36521980095@N01")
+    if featured_photos.length == 0
+      puts "no photo found, using placeholder"
+      featured_photos = flickr.photos.search(:tags => "pcc-demo-photo-featured", :safe_search => "1", 
+      :per_page => 1)
+    end
+
     if featured_photos.length > 0
-      featured_photos.first
+      return featured_photos.first
     end
     nil
+  end
+
+  def getFlickrPhotoPath photo
+    return "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg"
   end
 end

@@ -38,8 +38,7 @@
           /       %li
           /         = link_to('Admin login', new_admin_session_path)
 
-
-    .container
+    %div{:class => content_for?(:page_layout) ? content_for(:page_layout) : "container"}
 
       .content
         - flash.each do |name, msg|

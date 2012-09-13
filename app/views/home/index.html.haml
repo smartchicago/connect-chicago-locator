@@ -1,3 +1,4 @@
+- page_layout "container-fluid"
 - content_for :stylesheets do 
   = stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
 
@@ -14,7 +15,7 @@
   .modal-footer
     %button.btn.btn-info{"aria-hidden" => "true", "data-dismiss" => "modal"} Ok, thanks!
 
-.row
+.row-fluid
   .span3
     .well
       %h4
