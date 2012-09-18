@@ -11,6 +11,7 @@ rescue Errno::ENOENT
   APP_CONFIG['flickr_secret'] = ENV['flickr_secret'].to_s
 end
 
+#APP_CONFIG['domain'] = 'http://localhost:8888/'
 APP_CONFIG['domain'] = 'http://ec2-50-19-111-149.compute-1.amazonaws.com/'
 
 #puts "google_account: #{APP_CONFIG['google_account']}"
