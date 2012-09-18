@@ -8,6 +8,7 @@ module ApplicationHelper
   end
   
   def snippet(string, length = 40) 
+    string = string.delete "http://"
     string.size > length+5 ? [string[0,length],string[-5,5]].join("...") : string
   end 
   
@@ -58,22 +59,12 @@ module ApplicationHelper
 
   def getFlickrGalleryPhotos tags, count=14
     list = flickr.photos.search(:tags => tags, :safe_search => "1", :per_page => count)
-    if list.length == 0
-      # fetch the default list of photos for now
-      list = flickr.photos.search(:tags => "public computer center", :safe_search => "1", :per_page => count)  
-    end
     list
   end
 
   def getFlickrFeaturedPhoto tags
     featured_photos = flickr.photos.search(:tags => "#{tags}-featured", :safe_search => "1", 
       :per_page => 1, :user_id => "36521980095@N01")
-    if featured_photos.length == 0
-      puts "no photo found, using placeholder"
-      featured_photos = flickr.photos.search(:tags => "pcc-demo-photo-featured", :safe_search => "1", 
-      :per_page => 1)
-    end
-
     if featured_photos.length > 0
       return featured_photos.first
     end
