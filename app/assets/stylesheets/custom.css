@@ -28,3 +28,44 @@
   padding: 10px 30px 10px 10px;
   text-decoration: none;
 }
+
+.logo {
+  padding: 15px 0 15px 20px;
+}
+
+@media (max-width: 767px) {
+  .logo {
+    margin-right: -20px;
+    margin-left: -20px;
+  }
+}
+
+.navbar .nav > li > a {
+  float: none;
+  padding: 5px 15px 5px;
+  color: #ffffff;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.navbar .nav > li > a:focus,
+.navbar .nav > li > a:hover {
+  text-decoration: underline;
+  background-color: transparent;
+}
+
+.navbar .nav > .active > a,
+.navbar .nav > .active > a:hover,
+.navbar .nav > .active > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #C3B639;
+  -webkit-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+     -moz-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+          box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+}
+
+h2 { 
+  line-height: 35px; 
+  margin: 5px 0;
+}

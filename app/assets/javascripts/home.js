@@ -7,7 +7,7 @@
 
 $(window).resize(function () {
   var h = $(window).height(),
-    offsetTop = 100; // Calculate the top offset
+    offsetTop = 160; // Calculate the top offset
 
   $('#mapCanvas').css('height', (h - offsetTop));
 }).resize();
