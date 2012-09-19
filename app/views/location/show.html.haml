@@ -22,7 +22,6 @@
       .addthis_toolbox.addthis_default_style
         %a.addthis_button_facebook_like{"fb:like:layout" => "button_count"}
         %a.addthis_button_tweet
-        %a.addthis_counter.addthis_pill_style
       :javascript
         var addthis_config = {"data_track_addressbar":false};
       %script{:src => "http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5023cf8c771737b1", :type => "text/javascript"}
@@ -78,7 +77,8 @@
         - unless @location[:training_headline].nil?  
           %hr
           %h4 
-            Training:
+            Training
+          %h5
             = @location[:training_headline]
           %p
             = @location[:training_description]
