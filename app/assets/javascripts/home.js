@@ -14,6 +14,8 @@ $(window).resize(function () {
 
 $(function() {
   MapsLib.initialize();
+  $.address.change(function(event) { MapsLib.initialize(); }); 
+
   $(':checkbox').click(function(){
     MapsLib.doSearch();
   });
@@ -45,12 +47,4 @@ $(function() {
           return false;
       }
   });
-  
-  $("span[rel=popover]").popover({trigger: 'hover'});
-  //$('#welcome-modal').modal();
-  if ($.cookie("show-welcome") != "read") {
-    //console.log('showing welcome modal');
-    $('#welcome-modal').modal('show');
-    $.cookie("show-welcome", "read", { expires: 7 });
-  }
 });
