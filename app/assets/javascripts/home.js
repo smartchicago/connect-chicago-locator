@@ -2,7 +2,6 @@
 // All this logic will automatically be available in application.js.
 
 //= require jquery.address.min
-//= require jquery.cookie
 //= require maps_lib 
 
 $(window).resize(function () {
@@ -12,9 +11,11 @@ $(window).resize(function () {
   $('#mapCanvas').css('height', (h - offsetTop));
 }).resize();
 
+ $.address.externalChange(function(event) { console.log("external change!"); }); 
+ $.address.internalChange(function(event) { console.log("internal change!"); });
+
 $(function() {
   MapsLib.initialize();
-  $.address.change(function(event) { MapsLib.initialize(); }); 
 
   $(':checkbox').click(function(){
     MapsLib.doSearch();
@@ -34,8 +35,12 @@ $(function() {
   });
   
   $('#reset').click(function(){
+    console.log('RESET BUTTON');
     $.address.parameter('address','');
     $.address.parameter('radius','');
+    // $.address.parameter('internet','');
+    // $.address.parameter('training','');
+    // $.address.parameter('wifi','');
     MapsLib.initialize(); 
     return false;
   });
@@ -47,4 +52,6 @@ $(function() {
           return false;
       }
   });
+
+  console.log('more stuff');
 });

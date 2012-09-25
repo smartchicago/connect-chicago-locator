@@ -1,3 +1,7 @@
+body {
+  font-family: 'Quattrocento Sans', sans-serif;
+}
+
 #mapCanvas img, #mapDetail img {
   max-width: none;
 }

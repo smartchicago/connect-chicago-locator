@@ -10,6 +10,8 @@
     /[if lt IE 9]
       = javascript_include_tag "http://html5shim.googlecode.com/svn/trunk/html5.js"
     = stylesheet_link_tag "application", :media => "all"
+    :css
+      @import url('https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,400italic,700,700italic');
     = content_for :stylesheets
     
     /%link(href="images/favicon.ico" rel="shortcut icon")
@@ -58,7 +60,7 @@
       Javascripts
       \==================================================
     / Placed at the end of the document so the pages load faster
-    = javascript_include_tag "application"
+
     = content_for :javascripts
     
     = javascript_include_tag "analytics_lib" if Rails.env.production?

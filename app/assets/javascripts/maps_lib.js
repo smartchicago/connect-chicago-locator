@@ -27,6 +27,7 @@ var MapsLib = {
   currentPinpoint: null,
   
   initialize: function() {
+    console.log('initialize!');
     $( "#resultCount" ).html("");
   
     geocoder = new google.maps.Geocoder();
@@ -40,31 +41,33 @@ var MapsLib = {
     $("#resultCount").hide();
 
     //reset filters
+
     var loadAddress = MapsLib.convertToPlainString($.address.parameter('address'));
+    console.log('setting address to: ' + loadAddress);
     $("#search_address").val(loadAddress);
     var loadRadius = MapsLib.convertToPlainString($.address.parameter('radius'));
     if (loadRadius != "") $("#search_radius").val(loadRadius);
     else $("#search_radius").val(MapsLib.searchRadius);
 
-    var internet = MapsLib.convertToPlainString($.address.parameter('internet'));
-    if (internet == "1") 
-      $("#filter_internet").attr("checked", true);
-    else 
-      $("#filter_internet").attr("checked", false);
+    // var internet = MapsLib.convertToPlainString($.address.parameter('internet'));
+    // if (internet == "1") 
+    //   $("#filter_internet").attr("checked", true);
+    // else 
+    //   $("#filter_internet").attr("checked", false);
 
-    var training = MapsLib.convertToPlainString($.address.parameter('training'));
-    if (training == "1") 
-      $("#filter_training").attr("checked", true);
-    else 
-      $("#filter_training").attr("checked", false);
+    // var training = MapsLib.convertToPlainString($.address.parameter('training'));
+    // if (training == "1") 
+    //   $("#filter_training").attr("checked", true);
+    // else 
+    //   $("#filter_training").attr("checked", false);
 
-    var wifi = MapsLib.convertToPlainString($.address.parameter('wifi'));
-    if (wifi == "1") 
-      $("#filter_wifi").attr("checked", true);
-    else 
-      $("#filter_wifi").attr("checked", false);
+    // var wifi = MapsLib.convertToPlainString($.address.parameter('wifi'));
+    // if (wifi == "1") 
+    //   $("#filter_wifi").attr("checked", true);
+    // else 
+    //   $("#filter_wifi").attr("checked", false);
     
-    console.log($.address.queryString());
+    console.log("query string: " + $.address.queryString());
     if ($.address.queryString() != undefined)
       MapsLib.doSearch();
     else {
@@ -75,6 +78,7 @@ var MapsLib = {
       });
       MapsLib.searchrecords.setMap(map);
     }
+    console.log('init complete');
   },
   
   doSearch: function() {
@@ -85,23 +89,23 @@ var MapsLib = {
     var searchStr = "SELECT " + MapsLib.locationColumn + " FROM " + MapsLib.fusionTableId + " WHERE " + MapsLib.locationColumn + " not equal to ''";
     
     //checkbox filters
-    if ( $("#filter_internet").is(':checked')) {
-      searchStr += " AND Internet = 1";
-      $.address.parameter('internet', "1");
-    }
-    else $.address.parameter('internet', "0");
+    // if ( $("#filter_internet").is(':checked')) {
+    //   searchStr += " AND Internet = 1";
+    //   $.address.parameter('internet', "1");
+    // }
+    // else $.address.parameter('internet', '');
 
-    if ( $("#filter_training").is(':checked')) {
-      searchStr += " AND Training = 1";
-      $.address.parameter('training', "1");
-    }
-    else $.address.parameter('training', "0");
+    // if ( $("#filter_training").is(':checked')) {
+    //   searchStr += " AND Training = 1";
+    //   $.address.parameter('training', "1");
+    // }
+    // else $.address.parameter('training', '');
 
-    if ( $("#filter_wifi").is(':checked')) {
-      searchStr += " AND Wifi = 1";
-      $.address.parameter('wifi', "1");
-    }
-    else $.address.parameter('wifi', "0");
+    // if ( $("#filter_wifi").is(':checked')) {
+    //   searchStr += " AND Wifi = 1";
+    //   $.address.parameter('wifi', "1");
+    // }
+    // else $.address.parameter('wifi', '');
     
     //location type filter
     if ( $("#filter_type").val() != "") searchStr += " AND OrganizationType = '" + $("#filter_type").val() + "'";
