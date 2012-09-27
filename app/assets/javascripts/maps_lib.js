@@ -6,16 +6,29 @@
  * Licensed under the MIT license.
  * https://github.com/derekeder/FusionTable-Map-Template/wiki/License
  *
- * Date: 5/2/2012
+ * Date: 8/15/2012
  * 
  */
-
+ 
 var MapsLib = MapsLib || {};
 var MapsLib = {
   
-  //Setup - put your Fusion Table details here
-  fusionTableId:      5104729,        //the ID of your Fusion Table (found under File => About)
-  locationColumn:     "'Full Address'",     //name of the location column in your Fusion Table
+  //Setup section - put your Fusion Table details here
+  //Using the v1 Fusion Tables API. See https://developers.google.com/fusiontables/docs/v1/migration_guide for more info
+  
+  //the encrypted Table ID of your Fusion Table (found under File => About)
+  //NOTE: numeric IDs will be depricated soon
+  fusionTableId:      "1uM3e-loECodj00NgNC0b1I1nP5zJLL2UkDkn3Fo",  
+  
+  //*New Fusion Tables Requirement* API key. found at https://code.google.com/apis/console/   
+  //*Important* this key is for demonstration purposes. please register your own.   
+  googleApiKey:       "AIzaSyDEr3t9l3rUbE69ZB72Lj7hMVx_R_IXKaE",        
+  
+  //name of the location column in your Fusion Table. 
+  //NOTE: if your location column name has spaces in it, surround it with single quotes 
+  //example: locationColumn:     "'my location'",
+  locationColumn:     "'Full Address'",  
+
   map_centroid:       new google.maps.LatLng(41.8781136, -87.66677856445312), //center that your map defaults to
   locationScope:      "chicago",      //geographical area appended to all address searches
   recordName:         "location",       //for showing number of results
@@ -27,7 +40,6 @@ var MapsLib = {
   currentPinpoint: null,
   
   initialize: function() {
-    console.log('initialize!');
     $( "#resultCount" ).html("");
   
     geocoder = new google.maps.Geocoder();
@@ -36,81 +48,75 @@ var MapsLib = {
       center: MapsLib.map_centroid,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    map = new google.maps.Map($("#mapCanvas")[0],myOptions);  
+    map = new google.maps.Map($("#mapCanvas")[0],myOptions);
+    
     MapsLib.searchrecords = null;
     $("#resultCount").hide();
-
+    
     //reset filters
+    $(":checkbox").attr("checked", false);
 
     var loadAddress = MapsLib.convertToPlainString($.address.parameter('address'));
-    console.log('setting address to: ' + loadAddress);
     $("#search_address").val(loadAddress);
+    
     var loadRadius = MapsLib.convertToPlainString($.address.parameter('radius'));
     if (loadRadius != "") $("#search_radius").val(loadRadius);
     else $("#search_radius").val(MapsLib.searchRadius);
 
-    // var internet = MapsLib.convertToPlainString($.address.parameter('internet'));
-    // if (internet == "1") 
-    //   $("#filter_internet").attr("checked", true);
-    // else 
-    //   $("#filter_internet").attr("checked", false);
+    if ($.address.parameter('internet') == "1") 
+      $("#filter_internet").attr("checked", true);
+    else 
+      $("#filter_internet").attr("checked", false);
 
-    // var training = MapsLib.convertToPlainString($.address.parameter('training'));
-    // if (training == "1") 
-    //   $("#filter_training").attr("checked", true);
-    // else 
-    //   $("#filter_training").attr("checked", false);
+    if ($.address.parameter('training') == "1")
+      $("#filter_training").attr("checked", true);
+    else 
+      $("#filter_training").attr("checked", false);
 
-    // var wifi = MapsLib.convertToPlainString($.address.parameter('wifi'));
-    // if (wifi == "1") 
-    //   $("#filter_wifi").attr("checked", true);
-    // else 
-    //   $("#filter_wifi").attr("checked", false);
-    
-    console.log("query string: " + $.address.queryString());
-    if ($.address.queryString() != undefined)
-      MapsLib.doSearch();
-    else {
-      //default search shows all points on map, but doesn't list results 
-      var searchStr = "SELECT " + MapsLib.locationColumn + " FROM " + MapsLib.fusionTableId + " WHERE " + MapsLib.locationColumn + " not equal to ''";
-      MapsLib.searchrecords = new google.maps.FusionTablesLayer(MapsLib.fusionTableId, {
-        query: searchStr
-      });
-      MapsLib.searchrecords.setMap(map);
-    }
-    console.log('init complete');
+    if ($.address.parameter('wifi') == "1") 
+      $("#filter_wifi").attr("checked", true);
+    else 
+      $("#filter_wifi").attr("checked", false);
+
+    var filter_type = MapsLib.convertToPlainString($.address.parameter('filter_type'));
+    $("#filter_type").val(filter_type);
+     
+    //run the default search
+    MapsLib.doSearch();
   },
   
-  doSearch: function() {
+  doSearch: function(location) {
     MapsLib.clearSearch();
     var address = $("#search_address").val();
     MapsLib.searchRadius = $("#search_radius").val();
 
-    var searchStr = "SELECT " + MapsLib.locationColumn + " FROM " + MapsLib.fusionTableId + " WHERE " + MapsLib.locationColumn + " not equal to ''";
-    
+    var whereClause = MapsLib.locationColumn + " not equal to ''";
+
     //checkbox filters
-    // if ( $("#filter_internet").is(':checked')) {
-    //   searchStr += " AND Internet = 1";
-    //   $.address.parameter('internet', "1");
-    // }
-    // else $.address.parameter('internet', '');
+    if ( $("#filter_internet").is(':checked')) {
+      whereClause += " AND Internet = 1";
+      $.address.parameter('internet', "1");
+    }
+    else $.address.parameter('internet', '');
 
-    // if ( $("#filter_training").is(':checked')) {
-    //   searchStr += " AND Training = 1";
-    //   $.address.parameter('training', "1");
-    // }
-    // else $.address.parameter('training', '');
-
-    // if ( $("#filter_wifi").is(':checked')) {
-    //   searchStr += " AND Wifi = 1";
-    //   $.address.parameter('wifi', "1");
-    // }
-    // else $.address.parameter('wifi', '');
+    if ( $("#filter_training").is(':checked')) {
+      whereClause += " AND Training = 1";
+      $.address.parameter('training', "1");
+    }
+    else $.address.parameter('training', '');
     
+    if ( $("#filter_wifi").is(':checked')) {
+      whereClause += " AND Wifi = 1";
+      $.address.parameter('wifi', "1");
+    }
+    else $.address.parameter('wifi', '');
+
     //location type filter
-    if ( $("#filter_type").val() != "") searchStr += " AND OrganizationType = '" + $("#filter_type").val() + "'";
+    if ( $("#filter_type").val() != "") {
+      whereClause += " AND OrganizationType = '" + $("#filter_type").val() + "'";
+      $.address.parameter('filter_type', encodeURIComponent($("#filter_type").val()));
+    }
     
-    //the geocode function does a callback so we have to handle it in both cases - when they search for and address and when they dont
     if (address != "") {
       if (address.toLowerCase().indexOf(MapsLib.locationScope) == -1)
         address = address + " " + MapsLib.locationScope;
@@ -131,11 +137,11 @@ var MapsLib = {
             animation: google.maps.Animation.DROP,
             title:address
           });
+          
+          whereClause += " AND ST_INTERSECTS(" + MapsLib.locationColumn + ", CIRCLE(LATLNG" + MapsLib.currentPinpoint.toString() + "," + MapsLib.searchRadius + "))";
+          
           MapsLib.drawSearchRadiusCircle(MapsLib.currentPinpoint);
-          
-          searchStr += " AND ST_INTERSECTS(" + MapsLib.locationColumn + ", CIRCLE(LATLNG" + MapsLib.currentPinpoint.toString() + "," + MapsLib.searchRadius + "))";
-          
-          MapsLib.submitSearch(searchStr, map);
+          MapsLib.submitSearch(whereClause, map, MapsLib.currentPinpoint);
         } 
         else {
           alert("We could not find your address: " + status);
@@ -143,32 +149,45 @@ var MapsLib = {
       });
     }
     else { //search without geocoding callback
-      MapsLib.submitSearch(searchStr, map);
+      MapsLib.submitSearch(whereClause, map);
     }
   },
   
-  submitSearch: function(searchStr, map) {
+  submitSearch: function(whereClause, map, location) {
     //get using all filters
-    MapsLib.searchrecords = new google.maps.FusionTablesLayer(MapsLib.fusionTableId, {
-      query: searchStr
+    MapsLib.searchrecords = new google.maps.FusionTablesLayer({
+      query: {
+        from:   MapsLib.fusionTableId,
+        select: MapsLib.locationColumn,
+        where:  whereClause
+      }
     });
-  
     MapsLib.searchrecords.setMap(map);
-    MapsLib.getResultsList(searchStr);
-    
+    MapsLib.getResultsList(whereClause);
+
     //for tablet and phone, scroll to results
     $('html, body').animate({
          scrollTop: $("#resultsList").offset().top
-    }, 2000);
+    }, 1000);
   },
   
-  getResultsList: function(searchStr) {
-    searchStr = searchStr.replace("SELECT " + MapsLib.locationColumn + " ","SELECT Slug, OrganizationName, OrganizationType, Address, Hours ");
-    MapsLib.query(searchStr,"MapsLib.renderResultsList");
+  clearSearch: function() {
+    if (MapsLib.searchrecords != null)
+      MapsLib.searchrecords.setMap(null);
+    if (MapsLib.addrMarker != null)
+      MapsLib.addrMarker.setMap(null);  
+    if (MapsLib.searchRadiusCircle != null)
+      MapsLib.searchRadiusCircle.setMap(null);
+  },
+
+  getResultsList: function(whereClause) {
+    selectColumns = "Slug, OrganizationName, OrganizationType, Address, Hours ";
+    MapsLib.query(selectColumns, whereClause, "MapsLib.renderResultsList");
   },
   
   renderResultsList: function(json) {
-    var data = json["table"]["rows"];
+    MapsLib.handleError(json);
+    var data = json["rows"];
     var template = "";
     
     var results = $("#resultsList");
@@ -195,18 +214,21 @@ var MapsLib = {
         results.append(template);
       }
     }
-    
-    MapsLib.displaySearchCount(data.length);
+    var resultCount = 0;
+    if (data != undefined)
+      resultCount = data.length;
+    MapsLib.displaySearchCount(resultCount);
     results.fadeIn(); //tada!
   },
-  
-  clearSearch: function() {
-    if (MapsLib.searchrecords != null)
-      MapsLib.searchrecords.setMap(null);
-    if (MapsLib.addrMarker != null)
-      MapsLib.addrMarker.setMap(null);  
-    if (MapsLib.searchRadiusCircle != null)
-      MapsLib.searchRadiusCircle.setMap(null);
+
+  displaySearchCount: function(numRows) {     
+    var name = MapsLib.recordNamePlural;
+    if (numRows == 1)
+    name = MapsLib.recordName;
+    $( "#resultCount" ).fadeOut(function() {
+        $( "#resultCount" ).html(MapsLib.addCommas(numRows) + " " + name + " found");
+      });
+    $( "#resultCount" ).fadeIn();
   },
   
   findMe: function() {
@@ -254,19 +276,22 @@ var MapsLib = {
       MapsLib.searchRadiusCircle = new google.maps.Circle(circleOptions);
   },
   
-  query: function(sql, callback) {
-    var sql = encodeURIComponent(sql);
-    $.ajax({url: "https://www.google.com/fusiontables/api/query?sql="+sql+"&jsonCallback="+callback, dataType: "jsonp"});
-  },
+  query: function(selectColumns, whereClause, callback) {
+    var queryStr = [];
+    queryStr.push("SELECT " + selectColumns);
+    queryStr.push(" FROM " + MapsLib.fusionTableId);
+    queryStr.push(" WHERE " + whereClause);
   
-  displaySearchCount: function(numRows) {     
-    var name = MapsLib.recordNamePlural;
-    if (numRows == 1)
-    name = MapsLib.recordName;
-    $( "#resultCount" ).fadeOut(function() {
-        $( "#resultCount" ).html(MapsLib.addCommas(numRows) + " " + name + " found");
-      });
-    $( "#resultCount" ).fadeIn();
+    var sql = encodeURIComponent(queryStr.join(" "));
+    $.ajax({
+      url: "https://www.googleapis.com/fusiontables/v1/query?sql="+sql+"&callback="+callback+"&key="+MapsLib.googleApiKey, 
+      dataType: "jsonp"
+    });
+  },
+
+  handleError: function(json) {
+    if (json["error"] != undefined)
+      console.log("Error in Fusion Table call: " + json["error"]["message"]);
   },
   
   addCommas: function(nStr) {
@@ -284,6 +309,6 @@ var MapsLib = {
   //converts a slug or query string in to readable text
   convertToPlainString: function(text) {
     if (text == undefined) return '';
-  	return decodeURIComponent(text);
+    return decodeURIComponent(text);
   }
 }

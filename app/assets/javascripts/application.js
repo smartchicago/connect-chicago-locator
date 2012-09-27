@@ -11,7 +11,6 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery_ujs
 //= require twitter/bootstrap
 
 $('#flash').delay(500).fadeIn('normal', function() {

@@ -11,9 +11,6 @@ $(window).resize(function () {
   $('#mapCanvas').css('height', (h - offsetTop));
 }).resize();
 
- $.address.externalChange(function(event) { console.log("external change!"); }); 
- $.address.internalChange(function(event) { console.log("internal change!"); });
-
 $(function() {
   MapsLib.initialize();
 
@@ -38,9 +35,9 @@ $(function() {
     console.log('RESET BUTTON');
     $.address.parameter('address','');
     $.address.parameter('radius','');
-    // $.address.parameter('internet','');
-    // $.address.parameter('training','');
-    // $.address.parameter('wifi','');
+    $.address.parameter('internet','');
+    $.address.parameter('training','');
+    $.address.parameter('wifi','');
     MapsLib.initialize(); 
     return false;
   });
@@ -52,6 +49,4 @@ $(function() {
           return false;
       }
   });
-
-  console.log('more stuff');
 });
