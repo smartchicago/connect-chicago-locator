@@ -12,7 +12,7 @@ rescue Errno::ENOENT
 end
 
 #APP_CONFIG['domain'] = 'http://localhost:8888/'
-APP_CONFIG['domain'] = 'http://ec2-50-19-111-149.compute-1.amazonaws.com/'
+APP_CONFIG['domain'] = 'http://weconnectchicago.org/'
 
 #puts "google_account: #{APP_CONFIG['google_account']}"
 #puts "google_password: #{APP_CONFIG['google_password']}"
