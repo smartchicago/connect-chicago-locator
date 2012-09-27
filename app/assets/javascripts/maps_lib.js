@@ -166,9 +166,9 @@ var MapsLib = {
     MapsLib.getResultsList(whereClause);
 
     //for tablet and phone, scroll to results
-    $('html, body').animate({
-         scrollTop: $("#resultsList").offset().top
-    }, 1000);
+    // $('html, body').animate({
+    //      scrollTop: $("#resultsList").offset().top
+    // }, 1000);
   },
   
   clearSearch: function() {
