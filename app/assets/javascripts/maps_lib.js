@@ -163,7 +163,7 @@ var MapsLib = {
       }
     });
     MapsLib.searchrecords.setMap(map);
-    MapsLib.getResultsList(whereClause);
+    MapsLib.getResultsList(whereClause, location);
 
     //for tablet and phone, scroll to results
     // $('html, body').animate({
@@ -180,9 +180,9 @@ var MapsLib = {
       MapsLib.searchRadiusCircle.setMap(null);
   },
 
-  getResultsList: function(whereClause) {
-    selectColumns = "Slug, OrganizationName, OrganizationType, Address, Hours ";
-    MapsLib.query(selectColumns, whereClause, "MapsLib.renderResultsList");
+  getResultsList: function(whereClause, location) {
+    var selectColumns = "Slug, OrganizationName, OrganizationType, Address, Hours ";
+    MapsLib.query(selectColumns, whereClause, "", "MapsLib.renderResultsList");
   },
   
   renderResultsList: function(json) {
@@ -276,11 +276,16 @@ var MapsLib = {
       MapsLib.searchRadiusCircle = new google.maps.Circle(circleOptions);
   },
   
-  query: function(selectColumns, whereClause, callback) {
+  query: function(selectColumns, whereClause, orderBy, callback) {
     var queryStr = [];
     queryStr.push("SELECT " + selectColumns);
     queryStr.push(" FROM " + MapsLib.fusionTableId);
-    queryStr.push(" WHERE " + whereClause);
+    
+    if (whereClause != "")
+      queryStr.push(" WHERE " + whereClause);
+
+    if (orderBy != "")
+      queryStr.push(" ORDER BY " + orderBy);
   
     var sql = encodeURIComponent(queryStr.join(" "));
     $.ajax({
