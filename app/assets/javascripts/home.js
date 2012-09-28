@@ -43,24 +43,14 @@ $(function() {
   });
 
   $('#view_mode').click(function(){
-    var element = $('#view_mode');
-    if (element.attr('data-mode') == 'list') {
-      $('#listCanvas').hide();
-      $('#mapCanvas').show();
-      google.maps.event.trigger(map, 'resize');
-      map.setCenter(MapsLib.map_centroid);
-      MapsLib.doSearch();
-      
-      element.html('Show list');
-      element.attr('data-mode', 'map');
-    }
-    else {
-      $('#listCanvas').show();
-      $('#mapCanvas').hide();
-      
-      element.html('Show map');
-      element.attr('data-mode', 'list');
-    }
+    var view_mode = $.address.parameter('view_mode');
+    if (view_mode == 'map')
+      view_mode = 'list';
+    else
+      view_mode = 'map';
+
+    $.address.parameter('view_mode', view_mode);
+    MapsLib.setResultsView(view_mode);
     return false;
   });
   

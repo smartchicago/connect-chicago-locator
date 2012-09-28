@@ -80,6 +80,9 @@ var MapsLib = {
 
     var filter_type = MapsLib.convertToPlainString($.address.parameter('filter_type'));
     $("#filter_type").val(filter_type);
+
+    if ($.address.parameter('view_mode') != undefined) 
+      MapsLib.setResultsView($.address.parameter('view_mode'));
      
     //run the default search
     MapsLib.doSearch();
@@ -178,6 +181,29 @@ var MapsLib = {
       MapsLib.addrMarker.setMap(null);  
     if (MapsLib.searchRadiusCircle != null)
       MapsLib.searchRadiusCircle.setMap(null);
+  },
+
+  setResultsView: function(view_mode) {
+    var element = $('#view_mode');
+    if (view_mode == undefined)
+      view_mode = 'map';
+
+    if (view_mode == 'map') {
+      $('#listCanvas').hide();
+      $('#mapCanvas').show();
+      google.maps.event.trigger(map, 'resize');
+      map.setCenter(MapsLib.map_centroid);
+      MapsLib.doSearch();
+      
+      element.html('Show list');
+    }
+    else {
+      $('#listCanvas').show();
+      $('#mapCanvas').hide();
+      
+      element.html('Show map');
+    }
+    return false;
   },
 
   getResultsList: function(whereClause, location) {
