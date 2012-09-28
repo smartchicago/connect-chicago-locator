@@ -23,7 +23,7 @@ function displayPoint(address) {
         var marker = new google.maps.Marker({
           map: map,
           position: results[0].geometry.location,
-          icon: "/assets/computers.png"
+          icon: "/assets/connect-chicago-location.png"
         });
         map_bounds.extend(results[0].geometry.location);
         map.fitBounds(map_bounds);

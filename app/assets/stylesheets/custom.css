@@ -13,24 +13,8 @@ body {
 }
 
 .item-list { 
-  border-top: 1px solid #d9d9d9; 
-  list-style: none; 
-  margin: 0; 
-  padding: 0; 
-}
-
-.item-list li { 
-  clear: both; 
-  margin: 0; 
-}
-
-.item-list a {
-  background: url(/assets/arrow.gif) no-repeat 96% 50%;
   border-bottom: 1px solid #d9d9d9;
-  color: #000;
-  display: block;
-  padding: 10px 30px 10px 10px;
-  text-decoration: none;
+  padding: 8px 0;
 }
 
 .logo {

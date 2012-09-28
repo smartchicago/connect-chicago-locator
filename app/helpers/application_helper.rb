@@ -56,22 +56,4 @@ module ApplicationHelper
     end
     result.html_safe()
   end
-
-  def getFlickrGalleryPhotos tags, count=14
-    list = flickr.photos.search(:tags => tags, :safe_search => "1", :per_page => count)
-    list
-  end
-
-  def getFlickrFeaturedPhoto tags
-    featured_photos = flickr.photos.search(:tags => "#{tags}-featured", :safe_search => "1", 
-      :per_page => 1, :user_id => "36521980095@N01")
-    if featured_photos.length > 0
-      return featured_photos.first
-    end
-    nil
-  end
-
-  def getFlickrPhotoPath photo
-    return "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg"
-  end
 end
