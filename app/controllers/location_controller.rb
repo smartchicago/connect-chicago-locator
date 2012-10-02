@@ -19,11 +19,7 @@ class LocationController < ApplicationController
         render :text => response, :status => 200, :content_type => 'image/jpeg'
       end
     else
-      url = URI.parse('http://www.neurillion.com/p/35/static/media/images/1x1t.gif')
-      open(url) do |http|
-        response = http.read
-        render :text => response, :status => 200, :content_type => 'image/gif'
-      end
+      send_data File.read("#{Rails.root}/app/assets/images/450x250.gif", :mode => "rb"), :status => 200, :content_type => 'image/gif'
     end
   end
 end

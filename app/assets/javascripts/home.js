@@ -44,10 +44,10 @@ $(function() {
 
   $('#view_mode').click(function(){
     var view_mode = $.address.parameter('view_mode');
-    if (view_mode == 'map')
-      view_mode = 'list';
-    else
+    if (view_mode == 'list')
       view_mode = 'map';
+    else
+      view_mode = 'list';
 
     $.address.parameter('view_mode', view_mode);
     MapsLib.setResultsView(view_mode);
