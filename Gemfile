@@ -8,6 +8,9 @@ gem 'rails', '3.2.8'
 # database
 gem 'pg'
 
+# caching
+gem 'dalli'
+
 # markup and rendering
 gem 'haml-rails'
 gem 'twitter-bootstrap-rails'

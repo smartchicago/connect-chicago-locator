@@ -240,7 +240,7 @@ var MapsLib = {
             </div>\
             <div class='span4'>\
               <a href='/location/" + data[row][0] + "'>\
-                <img height='100px' class='pull-right img-polaroid' src='/location/image/" + data[row][0] + "' alt='" + data[row][1] + "' title='" + data[row][1] + "'/>\
+                <img height='100px' class='pull-right img-polaroid' src='/location/" + data[row][0] + "/image.jpg' alt='" + data[row][1] + "' title='" + data[row][1] + "'/>\
               </a>\
             </div>\
           </div>"

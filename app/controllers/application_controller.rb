@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def getFlickrFeaturedPhoto tags
+    puts 'fetching featured photo from flickr'
     featured_photos = flickr.photos.search(:tags => "#{tags}-featured", :safe_search => "1", 
       :per_page => 1, :user_id => "36521980095@N01")
     if featured_photos.length > 0

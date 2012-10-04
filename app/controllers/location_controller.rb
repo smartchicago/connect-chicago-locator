@@ -1,5 +1,9 @@
 class LocationController < ApplicationController
+  caches_page :showImage
+
   def show
+    expire_page :action => :showImage
+
     @location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE Slug = '#{params[:slug]}';").first
     
     respond_to do |format|
@@ -19,7 +23,7 @@ class LocationController < ApplicationController
         render :text => response, :status => 200, :content_type => 'image/jpeg'
       end
     else
-      send_data File.read("#{Rails.root}/app/assets/images/450x250.gif", :mode => "rb"), :status => 200, :content_type => 'image/gif'
+      send_data File.read("#{Rails.root}/app/assets/images/placeholder.jpg", :mode => "rb"), :status => 200, :content_type => 'image/jpeg'
     end
   end
 end

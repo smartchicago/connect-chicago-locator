@@ -6,12 +6,15 @@ TechLocator::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  config.cache_store = :dalli_store, 'localhost:11211', { :expires_in => 1.day, :compress => true }
+  config.action_controller.perform_caching = true
+
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
+  #config.action_controller.perform_caching = false
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
