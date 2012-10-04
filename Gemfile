@@ -9,6 +9,7 @@ gem 'rails', '3.2.8'
 gem 'pg'
 
 # caching
+gem 'memcachier'
 gem 'dalli'
 
 # markup and rendering
