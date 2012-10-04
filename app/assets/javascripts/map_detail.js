@@ -10,7 +10,8 @@ function initializeMap() {
     mapTypeControl: false,
     scrollwheel: false,
     draggable: false,
-    panControl: true
+    panControl: true,
+    styles: MapsLibStyles.styles
   };
   map = new google.maps.Map(document.getElementById("mapDetail"), myOptions);
 }

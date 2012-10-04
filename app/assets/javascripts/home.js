@@ -2,7 +2,9 @@
 // All this logic will automatically be available in application.js.
 
 //= require jquery.address.min
-//= require maps_lib 
+//= require maps_lib_styles
+//= require maps_lib
+
 
 $(window).resize(function () {
   var h = $(window).height(),
