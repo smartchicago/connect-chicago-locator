@@ -29,23 +29,24 @@
       %button#reset.btn Reset
       
     .well      
-      %h4 Show me locations that have …
-      %ul.inputs-list.unstyled
-        %li
-          %label.checkbox.inline
-            %input#filter_internet{:type => "checkbox"}
-            %span{:rel => "popover", :"data-content" => "Locations that offer computers with access to the internet.", :"data-original-title" => "<h4>Internet access</h4>"}
-              Internet access
-        %li
-          %label.checkbox.inline
-            %input#filter_training{:type => "checkbox"}
-            %span{:rel => "popover", :"data-content" => "Locations that offer training and courses on using computers.", :"data-original-title" => "<h4>Technology training</h4>"}
-              Technology training
-        %li
-          %label.checkbox.inline
-            %input#filter_wifi{:type => "checkbox"}
-            %span{:rel => "popover", :"data-content" => "Locations that offer free wireless internet access.", :"data-original-title" => "<h4>Wifi</h4>"}
-              Wi-Fi
+      %p 
+        %strong Show me locations that have …
+        %br
+        
+        %label.checkbox.inline
+          %input#filter_internet{:type => "checkbox"}
+          %span{:rel => "popover", :"data-content" => "Locations that offer computers with access to the internet.", :"data-original-title" => "<h4>Internet access</h4>"}
+            Internet
+
+        %label.checkbox.inline
+          %input#filter_training{:type => "checkbox"}
+          %span{:rel => "popover", :"data-content" => "Locations that offer training and courses on using computers.", :"data-original-title" => "<h4>Technology training</h4>"}
+            Training
+
+        %label.checkbox.inline
+          %input#filter_wifi{:type => "checkbox"}
+          %span{:rel => "popover", :"data-content" => "Locations that offer free wireless internet access.", :"data-original-title" => "<h4>Wifi</h4>"}
+            Wi-Fi
                
       %label 
         %strong and are …

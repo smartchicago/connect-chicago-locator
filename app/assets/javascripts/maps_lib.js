@@ -168,11 +168,6 @@ var MapsLib = {
     });
     MapsLib.searchrecords.setMap(map);
     MapsLib.getResultsList(whereClause, location);
-
-    //for tablet and phone, scroll to results
-    // $('html, body').animate({
-    //      scrollTop: $("#resultsList").offset().top
-    // }, 1000);
   },
   
   clearSearch: function() {
