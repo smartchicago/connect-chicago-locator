@@ -17,7 +17,7 @@ class LocationController < ApplicationController
     location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE Slug = '#{params[:slug]}';").first
     featured_photo = getFlickrFeaturedPhoto(location[:flickr_tag])
     unless featured_photo.nil?
-      url = URI.parse(getFlickrPhotoPath(featured_photo))
+      url = URI.parse(getFlickrPhotoPath(featured_photo, params[:size]))
       open(url) do |http|
         response = http.read
         render :text => response, :status => 200, :content_type => 'image/jpeg'

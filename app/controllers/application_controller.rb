@@ -20,8 +20,14 @@ class ApplicationController < ActionController::Base
     nil
   end
 
-  def getFlickrPhotoPath photo
-    return "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}.jpg"
+  def getFlickrPhotoPath photo, size
+    #see http://www.flickr.com/services/api/misc.urls.html for URL reference
+    flickr_size = ""
+    unless (size.nil?) 
+      flickr_size = "_#{size}"
+    end
+    puts "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}#{flickr_size}.jpg"
+    return "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}#{flickr_size}.jpg"
   end
   
   protected
