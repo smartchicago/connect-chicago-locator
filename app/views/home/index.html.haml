@@ -27,12 +27,14 @@
 
       %input#btnSearch.btn.btn-primary{:type => "button", :value => "Search"}
       %button#reset.btn Reset
+
+      .clearfix
       
     .well      
       %p 
         %strong Show me locations that have …
         %br
-        
+
         %label.checkbox.inline
           %input#filter_internet{:type => "checkbox"}
           %span{:rel => "popover", :"data-content" => "Locations that offer computers with access to the internet.", :"data-original-title" => "<h4>Internet access</h4>"}

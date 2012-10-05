@@ -36,8 +36,11 @@ var MapsLib = {
   
   searchRadius:       805,            //in meters ~ 1/2 mile
   defaultZoom:        11,             //zoom level when map is loaded (bigger is more zoomed in)
-  addrMarkerImage: 'http://derekeder.com/images/icons/blue-pushpin.png',
+  addrMarkerImage: '/assets/blue-pushpin.png',
+  markerImage: '/assets/connect-chicago-location.png',
   currentPinpoint: null,
+  infoWindow: null,
+  markers: [],
   
   initialize: function() {
     $( "#resultCount" ).html("");
@@ -120,6 +123,7 @@ var MapsLib = {
       whereClause += " AND OrganizationType = '" + $("#filter_type").val() + "'";
       $.address.parameter('filter_type', encodeURIComponent($("#filter_type").val()));
     }
+    else $.address.parameter('filter_type', '');
     
     if (address != "") {
       if (address.toLowerCase().indexOf(MapsLib.locationScope) == -1)
@@ -145,7 +149,7 @@ var MapsLib = {
           whereClause += " AND ST_INTERSECTS(" + MapsLib.locationColumn + ", CIRCLE(LATLNG" + MapsLib.currentPinpoint.toString() + "," + MapsLib.searchRadius + "))";
           
           MapsLib.drawSearchRadiusCircle(MapsLib.currentPinpoint);
-          MapsLib.submitSearch(whereClause, map, MapsLib.currentPinpoint);
+          MapsLib.submitSearch(whereClause, MapsLib.currentPinpoint);
         } 
         else {
           alert("We could not find your address: " + status);
@@ -153,21 +157,8 @@ var MapsLib = {
       });
     }
     else { //search without geocoding callback
-      MapsLib.submitSearch(whereClause, map);
+      MapsLib.submitSearch(whereClause);
     }
-  },
-  
-  submitSearch: function(whereClause, map, location) {
-    //get using all filters
-    MapsLib.searchrecords = new google.maps.FusionTablesLayer({
-      query: {
-        from:   MapsLib.fusionTableId,
-        select: MapsLib.locationColumn,
-        where:  whereClause
-      }
-    });
-    MapsLib.searchrecords.setMap(map);
-    MapsLib.getResultsList(whereClause, location);
   },
   
   clearSearch: function() {
@@ -177,6 +168,15 @@ var MapsLib = {
       MapsLib.addrMarker.setMap(null);  
     if (MapsLib.searchRadiusCircle != null)
       MapsLib.searchRadiusCircle.setMap(null);
+
+    //clear map markers
+    if (MapsLib.markers) {
+      for (i in MapsLib.markers) {
+        MapsLib.markers[i].setMap(null);
+      }
+      google.maps.event.clearListeners(map, 'click');
+      MapsLib.markers = [];
+    }
   },
 
   setResultsView: function(view_mode) {
@@ -191,24 +191,25 @@ var MapsLib = {
       map.setCenter(MapsLib.map_centroid);
       MapsLib.doSearch();
       
-      element.html('Show list');
+      element.html('Show list <i class="icon-list icon-white"></i>');
     }
     else {
       $('#listCanvas').show();
       $('#mapCanvas').hide();
       
-      element.html('Show map');
+      element.html('Show map <i class="icon-map-marker icon-white"></i>');
 
     }
     return false;
   },
 
-  getResultsList: function(whereClause, location) {
-    var selectColumns = "Slug, OrganizationName, OrganizationType, Address, Hours ";
-    MapsLib.query(selectColumns, whereClause, "", "MapsLib.renderResultsList");
+  submitSearch: function(whereClause, location) {
+    var selectColumns = "Slug, OrganizationName, OrganizationType, Address, Hours, Latitude, Longitude ";
+    MapsLib.query(selectColumns, whereClause, "", "MapsLib.renderResults");
   },
   
-  renderResultsList: function(json) {
+  renderResults: function(json) {
+    //console.log(MapsLib.markers);
     MapsLib.handleError(json);
     var data = json["rows"];
     var template = "";
@@ -217,6 +218,7 @@ var MapsLib = {
     results.hide().empty(); //hide the existing list and empty it out first
     
     if (data == null) {
+      //clear results list
       results.append("<li><span class='lead'>No results found</span></li>");
     }
     else {
@@ -242,6 +244,7 @@ var MapsLib = {
           </div>"
         
         results.append(template);
+        MapsLib.addMarker(data[row]);
       }
     }
     var resultCount = 0;
@@ -249,6 +252,41 @@ var MapsLib = {
       resultCount = data.length;
     MapsLib.displaySearchCount(resultCount);
     results.fadeIn(); //tada!
+  },
+
+  addMarker: function(record) {
+    var coordinate = new google.maps.LatLng(record[5],record[6])
+    var marker = new google.maps.Marker({
+      map: map, 
+      position: coordinate,
+      icon: new google.maps.MarkerImage(MapsLib.markerImage)
+    });
+    MapsLib.markers.push(marker);
+
+    var content = "\
+        <div class='googft-info-window' style='font-family: sans-serif'>\
+          <a href='/location/" + record[0] + "'>\
+            <span class='lead'>" + record[1] + "</span>\
+          </a>\
+          <br />\
+          " + record[2] + "\
+          <br />\
+          " + record[3] + "\
+          <br />\
+          " + record[4] + "\
+        </div>";
+
+    //add a click listener to the marker to open an InfoWindow,
+    google.maps.event.addListener(marker, 'click', function(event) {
+      if(MapsLib.infoWindow) MapsLib.infoWindow.close();
+
+      MapsLib.infoWindow = new google.maps.InfoWindow( {
+        position: coordinate,
+        content: content
+      });
+      MapsLib.infoWindow.open(map);
+    });
+
   },
 
   displaySearchCount: function(numRows) {     
