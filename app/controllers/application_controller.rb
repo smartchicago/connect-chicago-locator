@@ -26,7 +26,6 @@ class ApplicationController < ActionController::Base
     unless (size.nil?) 
       flickr_size = "_#{size}"
     end
-    puts "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}#{flickr_size}.jpg"
     return "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}#{flickr_size}.jpg"
   end
   
