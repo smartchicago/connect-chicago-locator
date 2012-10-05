@@ -149,7 +149,7 @@ var MapsLib = {
           whereClause += " AND ST_INTERSECTS(" + MapsLib.locationColumn + ", CIRCLE(LATLNG" + MapsLib.currentPinpoint.toString() + "," + MapsLib.searchRadius + "))";
           
           MapsLib.drawSearchRadiusCircle(MapsLib.currentPinpoint);
-          MapsLib.submitSearch(whereClause, MapsLib.currentPinpoint);
+          MapsLib.submitSearch(whereClause, map, MapsLib.currentPinpoint);
         } 
         else {
           alert("We could not find your address: " + status);
@@ -157,8 +157,12 @@ var MapsLib = {
       });
     }
     else { //search without geocoding callback
-      MapsLib.submitSearch(whereClause);
+      MapsLib.submitSearch(whereClause, map);
     }
+  },
+  
+  submitSearch: function(whereClause, map, location) {
+    MapsLib.getResults(whereClause, location);
   },
   
   clearSearch: function() {
@@ -203,7 +207,7 @@ var MapsLib = {
     return false;
   },
 
-  submitSearch: function(whereClause, location) {
+  getResults: function(whereClause, location) {
     var selectColumns = "Slug, OrganizationName, OrganizationType, Address, Hours, Latitude, Longitude ";
     MapsLib.query(selectColumns, whereClause, "", "MapsLib.renderResults");
   },
