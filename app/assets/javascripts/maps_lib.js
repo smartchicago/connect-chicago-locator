@@ -227,6 +227,8 @@ var MapsLib = {
     }
     else {
       for (var row in data) {
+        MapsLib.addMarker(data[row]);
+
         template = "\
           <div class='row-fluid item-list'>\
             <div class='span8'>\
@@ -248,7 +250,6 @@ var MapsLib = {
           </div>"
         
         results.append(template);
-        MapsLib.addMarker(data[row]);
       }
     }
     var resultCount = 0;
