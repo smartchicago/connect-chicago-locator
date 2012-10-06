@@ -20,6 +20,10 @@ $(function() {
     MapsLib.doSearch();
   });
   
+  $('#search_radius').change(function(){
+    MapsLib.doSearch();
+  });
+
   $('#filter_type').change(function(){
     MapsLib.doSearch();
   });

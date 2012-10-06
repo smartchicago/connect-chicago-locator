@@ -137,7 +137,15 @@ var MapsLib = {
           $.address.parameter('address', encodeURIComponent(address));
           $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
           map.setCenter(MapsLib.currentPinpoint);
-          map.setZoom(14);
+
+          if (MapsLib.searchRadius == "3220")
+            map.setZoom(13);
+          else if (MapsLib.searchRadius == "800")
+            map.setZoom(15);
+          else if (MapsLib.searchRadius == "400")
+            map.setZoom(16);
+          else
+            map.setZoom(14);
           
           MapsLib.addrMarker = new google.maps.Marker({
             position: MapsLib.currentPinpoint, 
@@ -336,6 +344,9 @@ var MapsLib = {
   },
   
   drawSearchRadiusCircle: function(point) {
+    if (MapsLib.searchRadiusCircle != null)
+      MapsLib.searchRadiusCircle.setMap(null);
+    
       var circleOptions = {
         strokeColor: "#4b58a6",
         strokeOpacity: 0.3,
