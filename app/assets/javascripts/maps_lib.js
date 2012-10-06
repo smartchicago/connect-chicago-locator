@@ -242,12 +242,13 @@ var MapsLib = {
               <br />\
               " + data[row][4] + "\
             </div>\
-            <div class='span4 pull-right hidden-phone'>\
-              <a href='/location/" + data[row][0] + "'>\
-                <img class='img-polaroid' src='/location/" + data[row][0] + "/m/image.jpg' alt='" + data[row][1] + "' title='" + data[row][1] + "'/>\
-              </a>\
-            </div>\
           </div>"
+
+            // <div class='span4 pull-right hidden-phone'>\
+            //   <a href='/location/" + data[row][0] + "'>\
+            //     <img class='img-polaroid' src='/location/" + data[row][0] + "/m/image.jpg' alt='" + data[row][1] + "' title='" + data[row][1] + "'/>\
+            //   </a>\
+            // </div>\
         
         results.append(template);
       }
