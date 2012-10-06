@@ -50,6 +50,7 @@ var MapsLib = {
       zoom: MapsLib.defaultZoom,
       center: MapsLib.map_centroid,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControl: false,
       styles: MapsLibStyles.styles
     };
     map = new google.maps.Map($("#mapCanvas")[0],myOptions);
