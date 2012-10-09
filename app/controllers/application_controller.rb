@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
     nil
   end
 
-  def getFlickrPhotoPath photo, size
+  def getFlickrPhotoPath photo, size=''
     #see http://www.flickr.com/services/api/misc.urls.html for URL reference
     flickr_size = ""
     unless (size.nil?) 
