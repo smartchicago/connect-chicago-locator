@@ -4,7 +4,7 @@
     %meta(charset="utf-8")
     %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    %title= content_for?(:title) ? yield(:title) : "Locations - Connect Chicago"
+    %title= content_for?(:title) ? yield(:title) + " - Connect Chicago" : "Connect Chicago"
     = csrf_meta_tags
     / Le HTML5 shim, for IE6-8 support of HTML elements
     /[if lt IE 9]
@@ -25,7 +25,8 @@
           %ul.nav
             %li
               %a{:href => APP_CONFIG['domain']} Home
-            %li.active
+            - puts controller?("location")
+            %li{:class => (controller?("location") || controller?("home")) ? "active" : ""}
               %a{:href => "/"} Locations
             %li
               %a{:href => APP_CONFIG['domain'] + "learn"} Learn
@@ -39,9 +40,9 @@
           %ul.nav.pull-right
             - if admin_signed_in?
               - if current_admin.try(:superadmin?)
-                %li
+                %li{:class => controller?("admins") ? "active" : ""}
                   = link_to('Admins', admins_path)
-              %li
+              %li{:class => controller?("devise/registrations") ? "active" : ""}
                 = link_to('Account', edit_admin_registration_path)
               %li
                 = link_to('Logout', destroy_admin_session_path, :method => :delete)        

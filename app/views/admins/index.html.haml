@@ -1,10 +1,14 @@
 .span8
   %h1 Admins
 
-  %p
-    = link_to "All Admins", :action => "index"
-    |
-    = link_to "Admins awaiting approval", :action => "index", :approved => "false"
+  %ul.nav.nav-pills
+    %li{:class => (params[:approved] != "false" ? "active" : "") }
+      = link_to "All", :action => "index" 
+    %li{:class => (params[:approved] == "false" ? "active" : "") }
+      = link_to "Awaiting approval", :action => "index", :approved => "false"
+
+    .clearfix
+    %hr
 
     %table.table.table-bordered.table-condensed.table-hover
       %thead
@@ -16,12 +20,14 @@
       %tbody
         - @admins.each do |admin|
           %tr
-            %td= admin.email
+            %td= link_to admin.email, edit_admin_path(admin)
             %td= admin.approved
             %td= admin.superadmin
             %td
-              = link_to "View", admin_path(admin)
-              |
-              = link_to "Edit", edit_admin_path(admin)
-
-.span4
+              - if current_admin.id == admin.id
+                This is you!
+              - else
+                = link_to "Edit", edit_admin_path(admin)
+                - if !admin.approved?
+                  |
+                  = link_to "Approve", "/admin/admins/#{admin.id}/approve"

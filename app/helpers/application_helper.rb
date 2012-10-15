@@ -11,6 +11,14 @@ module ApplicationHelper
     string = string.delete "http://"
     string.size > length+5 ? [string[0,length],string[-5,5]].join("...") : string
   end 
+
+  def controller?(*controller)
+    controller.include?(params[:controller])
+  end
+
+  def action?(*action)
+    action.include?(params[:action])
+  end
   
   def yes_no_icon input
     #puts "input: #{input}"

@@ -37,4 +37,10 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  private
+  #set default redirect after logging in
+  def after_sign_in_path_for(admin)
+    admins_path
+  end
 end
