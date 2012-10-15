@@ -1,4 +1,4 @@
-class AdminController < ApplicationController
+class AdminsController < ApplicationController
   before_filter :authenticate_admin!
 
   def index
@@ -16,15 +16,13 @@ class AdminController < ApplicationController
 	end
 
 	def new
-
 	end
 
 	def create
-
 	end
 
 	def edit
-
+		
 	end
 
 	def update

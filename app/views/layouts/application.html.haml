@@ -36,18 +36,18 @@
             %li
               %a{:href => APP_CONFIG['domain'] + "about"} About
 
-          / %ul.nav.pull-right
-          /   - if admin_signed_in?
-          /     - if current_admin.try(:superadmin?)
-          /       %li
-          /         = link_to('Manage admins', admin_index_path)
-          /     %li
-          /       = link_to('Edit your account', edit_admin_registration_path)
-          /     %li
-          /       = link_to('Logout', destroy_admin_session_path, :method => :delete)        
-          /   - else
-          /     %li
-          /       = link_to('Admin login', new_admin_session_path)
+          %ul.nav.pull-right
+            - if admin_signed_in?
+              - if current_admin.try(:superadmin?)
+                %li
+                  = link_to('Admins', admins_path)
+              %li
+                = link_to('Account', edit_admin_registration_path)
+              %li
+                = link_to('Logout', destroy_admin_session_path, :method => :delete)        
+            - else
+              %li
+                = link_to('Login', new_admin_session_path)
 
     %div{:class => content_for?(:page_layout) ? content_for(:page_layout) : "container"}
       .content

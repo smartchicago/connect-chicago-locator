@@ -7,10 +7,8 @@
     = f.input :password_confirmation, hint:"Confirm new password"
     = f.input :current_password, hint:"Enter current password (we need your current password to confirm your changes)"
   = f.buttons do
-    = f.commit_button :button_html => {:class => "primary"}
+    = f.commit_button :button_html => {:class => "primary", :value => "Save"}
 
-%h3 Cancel my account
-
-%p Unhappy? #{ link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete }
+%p If you would like to delete your account, you can do so  #{ link_to "here", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete }.
 
 = link_to "Back", :back
