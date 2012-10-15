@@ -1,0 +1,15 @@
+%h1 All locations
+
+- @locations.each do |location|
+  .row-fluid.item-list
+    .span8
+      %a{:href => "/location/#{location[:id]}"}
+        %span.lead
+          = location[:organizationname]
+      %br
+      = location[:organizationtype]
+      %br
+      = formatAddress location[:address], location[:city], location[:state], location[:zipcode], location[:roomlist]
+      %br
+      - unless location[:hours].nil?
+        = location[:hours]
