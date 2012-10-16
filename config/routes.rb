@@ -7,6 +7,7 @@ TechLocator::Application.routes.draw do
   end
   
   match 'location/:id(/:size)/image.jpg' => 'location#showImage'
+  post 'location/:id/edit' => 'location#update'
   resources :location
   
   root :to => 'home#index'

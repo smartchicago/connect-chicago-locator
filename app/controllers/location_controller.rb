@@ -31,19 +31,37 @@ class LocationController < ApplicationController
     end
   end
 
-  #before_filter :authenticate_admin!
+  before_filter :authenticate_admin!
+  
   def new
   end
 
   def create
+    # @location = Location.new(params[:location])
+    # if @location.valid?
+    #   # TODO send message here
+    #   flash[:notice] = "Location saved successfully!"
+    #   redirect_to "/location/#{@location[:slug]}"
+    # else
+    #   render :action => 'new'
+    # end
   end
 
   def edit
-    @location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE Slug = '#{params[:id]}';").first
+    @ft_location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE Slug = '#{params[:id]}';").first
+    @location = Location.new(@ft_location)
   end
 
   def update
-    
+    puts params[:location]
+    @location = Location.new(params[:location])
+    if @location.valid?
+      # TODO send message here
+      flash[:notice] = "Location saved successfully!"
+      redirect_to "/location/#{@location.id}"
+    else
+      render :action => 'edit'
+    end
   end
 
   def destroy

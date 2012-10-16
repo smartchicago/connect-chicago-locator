@@ -1,3 +1,10 @@
 %h2
-  Edit
-  = @location[:organizationname]
+  Editing
+  = "'#{@ft_location[:organizationname]}'"
+
+= semantic_form_for(:location, :action => 'update', :html => { :class => "form-horizontal"} ) do |f|
+  = f.inputs do
+    = f.input :organizationname, :label => "Name"
+    = f.input :organizationtype, :label => "Type"
+  = f.buttons do
+    = f.commit_button :button_html => {:class => "primary", :value => "Save"}
