@@ -12,7 +12,7 @@ if (Rails.env.production?)
 	admin1Pass = ENV['admin1Pass'].dup
 end
 
-admin1 = Admin.create! :first_name => admin1First, :first_name => admin1Last, :first_name => admin1Org,  :email => admin1Email, :password => admin1Pass, :password_confirmation => admin1Pass
+admin1 = Admin.create! :first_name => admin1First, :last_name => admin1Last, :organization => admin1Org,  :email => admin1Email, :password => admin1Pass, :password_confirmation => admin1Pass
 admin1.approved = true
 admin1.superadmin = true
 admin1.save!
