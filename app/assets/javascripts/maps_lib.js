@@ -36,7 +36,7 @@ var MapsLib = {
   
   searchRadius:       805,            //in meters ~ 1/2 mile
   defaultZoom:        11,             //zoom level when map is loaded (bigger is more zoomed in)
-  addrMarkerImage: '/assets/blue-pushpin.png',
+  addrMarkerImage: '/assets/connect-chicago-pushpin.png',
   markerImage: '/assets/connect-chicago-location-white.png',
   currentPinpoint: null,
   infoWindow: null,
