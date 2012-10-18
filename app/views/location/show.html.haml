@@ -14,6 +14,11 @@
   .span7
     %h2
       = @location[:organizationname]
+      - if admin_signed_in? && current_admin.try(:superadmin?)
+        %small
+          %a{:href => "/location/#{params[:id]}/edit"} 
+            %i.icon-pencil
+            Edit
     %p.lead
       = @location[:organizationtype]
 

@@ -27,7 +27,7 @@ var MapsLib = {
   //name of the location column in your Fusion Table. 
   //NOTE: if your location column name has spaces in it, surround it with single quotes 
   //example: locationColumn:     "'my location'",
-  locationColumn:     "Latitude",  
+  locationColumn:     "latitude",  
 
   map_centroid:       new google.maps.LatLng(41.8781136, -87.66677856445312), //center that your map defaults to
   locationScope:      "chicago",      //geographical area appended to all address searches
@@ -102,26 +102,26 @@ var MapsLib = {
 
     //checkbox filters
     if ( $("#filter_internet").is(':checked')) {
-      whereClause += " AND Internet = 1";
+      whereClause += " AND internet = 1";
       $.address.parameter('internet', "1");
     }
     else $.address.parameter('internet', '');
 
     if ( $("#filter_training").is(':checked')) {
-      whereClause += " AND Training = 1";
+      whereClause += " AND training = 1";
       $.address.parameter('training', "1");
     }
     else $.address.parameter('training', '');
     
     if ( $("#filter_wifi").is(':checked')) {
-      whereClause += " AND Wifi = 1";
+      whereClause += " AND wifi = 1";
       $.address.parameter('wifi', "1");
     }
     else $.address.parameter('wifi', '');
 
     //location type filter
     if ( $("#filter_type").val() != "") {
-      whereClause += " AND OrganizationType = '" + $("#filter_type").val() + "'";
+      whereClause += " AND organizationtype = '" + $("#filter_type").val() + "'";
       $.address.parameter('filter_type', encodeURIComponent($("#filter_type").val()));
     }
     else $.address.parameter('filter_type', '');
@@ -217,7 +217,7 @@ var MapsLib = {
   },
 
   getResults: function(whereClause, location) {
-    var selectColumns = "Slug, OrganizationName, OrganizationType, Address, Hours, Latitude, Longitude ";
+    var selectColumns = "slug, organizationname, organizationtype, address, hours, latitude, longitude ";
     MapsLib.query(selectColumns, whereClause, "", "MapsLib.renderResults");
   },
   

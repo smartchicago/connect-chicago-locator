@@ -1,4 +1,5 @@
 class LocationController < ApplicationController
+  before_filter :authenticate_admin!, :except => [:index, :show, :showImage]
   caches_page :showImage
 
   def index
@@ -8,7 +9,7 @@ class LocationController < ApplicationController
   def show
     expire_page :action => :showImage
 
-    @location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE Slug = '#{params[:id]}';").first
+    @location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
     
     respond_to do |format|
       format.html  # show.html.haml
@@ -18,7 +19,7 @@ class LocationController < ApplicationController
 
   def showImage
     require 'open-uri'
-    location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE Slug = '#{params[:id]}';").first
+    location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
     featured_photo = getFlickrFeaturedPhoto(location[:flickr_tag])
     unless featured_photo.nil?
       url = URI.parse(getFlickrPhotoPath(featured_photo, params[:size]))
@@ -30,35 +31,41 @@ class LocationController < ApplicationController
       send_data File.read("#{Rails.root}/app/assets/images/placeholder.jpg", :mode => "rb"), :status => 200, :content_type => 'image/jpeg'
     end
   end
-
-  before_filter :authenticate_admin!
   
   def new
   end
 
   def create
-    # @location = Location.new(params[:location])
-    # if @location.valid?
-    #   # TODO send message here
-    #   flash[:notice] = "Location saved successfully!"
-    #   redirect_to "/location/#{@location[:slug]}"
-    # else
-    #   render :action => 'new'
-    # end
   end
 
   def edit
-    @ft_location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE Slug = '#{params[:id]}';").first
+    @ft_location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+    puts @ft_location.inspect
     @location = Location.new(@ft_location)
   end
 
   def update
     puts params[:location]
-    @location = Location.new(params[:location])
-    if @location.valid?
-      # TODO send message here
+    @location_update = Location.new(params[:location])
+    if @location_update.valid?
+
+      table = GData::Client::FusionTables::Table.new(FT, :table_id => APP_CONFIG['fusion_table_id'], :name => "My table")
+
+      location_save = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+      row_id = FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first[:rowid]
+      
+      params[:location].each do |name, value|
+        unless location_save["#{name}".to_sym].nil?
+          location_save["#{name}".to_sym] = value
+        end
+      end
+      
+      puts location_save.inspect
+
+      table.update row_id, location_save
+
       flash[:notice] = "Location saved successfully!"
-      redirect_to "/location/#{@location.id}"
+      redirect_to "/location/#{params[:id]}"
     else
       render :action => 'edit'
     end

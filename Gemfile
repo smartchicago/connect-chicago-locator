@@ -17,9 +17,10 @@ gem 'haml-rails'
 gem 'twitter-bootstrap-rails'
 gem 'formtastic', " ~> 2.1.1"
 gem 'formtastic-bootstrap'
+gem 'simple_form'
 
 # apis
-gem 'fusion_tables'
+gem 'fusion_tables' #, :git  => 'git://github.com/derekeder/fusion_tables.git'
 gem 'flickraw'
 
 # Gems used only for assets and not required
