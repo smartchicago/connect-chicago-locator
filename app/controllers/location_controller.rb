@@ -39,33 +39,33 @@ class LocationController < ApplicationController
   end
 
   def edit
-    ft_location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
-    @location = Location.new(ft_location)
+    location_edit = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+    @location_title = location_edit[:organization_name]
+    @location = Location.new(location_edit)
   end
 
   def update
-    puts params[:location]
-    @location_update = Location.new(params[:location])
-    if @location_update.valid?
+    location_edit = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+    @location_title = location_edit[:organization_name]
+
+    params[:location].each do |name, value|
+      unless location_edit["#{name}".to_sym].nil?
+        location_edit["#{name}".to_sym] = value
+      end
+    end
+
+    @location = Location.new(location_edit)
+    #puts "valid? #{@location.valid?}"
+    if @location.valid?
 
       table = GData::Client::FusionTables::Table.new(FT, :table_id => APP_CONFIG['fusion_table_id'], :name => "My table")
-
-      location_save = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
       row_id = FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first[:rowid]
-      
-      params[:location].each do |name, value|
-        unless location_save["#{name}".to_sym].nil?
-          location_save["#{name}".to_sym] = value
-        end
-      end
-      
-      puts location_save.inspect
-
-      table.update row_id, location_save
+      table.update row_id, location_edit
 
       flash[:notice] = "Location saved successfully!"
       redirect_to "/location/#{params[:id]}"
     else
+      puts @location.errors.messages.inspect
       render :action => 'edit'
     end
   end

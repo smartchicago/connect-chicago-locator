@@ -5,8 +5,8 @@ class Location
   
   #attr_accessor :id, :organizationname
   
-  validates_presence_of :organizationname
-  validates_presence_of :organizationtype
+  validates_presence_of :organization_name
+  validates_presence_of :organization_type
   # validates_format_of :email, :with => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i
   # validates_length_of :content, :maximum => 500
 
@@ -26,6 +26,8 @@ class Location
   end
   
   def initialize(attributes = {})
+    #read in a hash of attributes from Fusion Tables and set them as attributes of the model
+    #for more, see http://railscasts.com/episodes/219-active-model
     attributes.each do |name, value|
       name = "#{name}"
       create_attr name

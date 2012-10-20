@@ -217,7 +217,7 @@ var MapsLib = {
   },
 
   getResults: function(whereClause, location) {
-    var selectColumns = "slug, organizationname, organizationtype, address, hours, latitude, longitude ";
+    var selectColumns = "slug, organization_name, organization_type, address, hours, latitude, longitude ";
     MapsLib.query(selectColumns, whereClause, "", "MapsLib.renderResults");
   },
   

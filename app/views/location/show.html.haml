@@ -1,4 +1,4 @@
-- title @location[:organizationname]
+- title @location[:organization_name]
 - page_layout "container"
 - content_for :javascripts do
   = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" 
@@ -13,14 +13,14 @@
 .row
   .span7
     %h2
-      = @location[:organizationname]
+      = @location[:organization_name]
       - if admin_signed_in? && current_admin.try(:superadmin?)
         %small
           %a{:href => "/location/#{params[:id]}/edit"} 
             %i.icon-pencil
             Edit
     %p.lead
-      = @location[:organizationtype]
+      = @location[:organization_type]
 
     %p
       / AddThis Button BEGIN
@@ -34,10 +34,10 @@
     .row  
       .span4
         %p  
-          = formatAddress @location[:address], @location[:city], @location[:state], @location[:zipcode], @location[:roomlist]
+          = formatAddress @location[:address], @location[:city], @location[:state], @location[:zip_code], @location[:room_list]
         
         %p 
-          = @location[:orgphone]
+          = @location[:org_phone]
           - unless @location[:website].nil?
             %br
             %a{:href => @location[:website]}
@@ -75,7 +75,7 @@
         %h4 About this place
         %p
           - if @location[:friendly_description].nil?
-            = "There are [#] computer rooms with [#] computers at #{@location[:organizationname]}. The labs are available to [some group of people] with priority given to [some other group of people]. Additional friendly directions and information about locating the lab within the building."
+            = "There are [#] computer rooms with [#] computers at #{@location[:organization_name]}. The labs are available to [some group of people] with priority given to [some other group of people]. Additional friendly directions and information about locating the lab within the building."
           - else
             = @location[:friendly_description]
         
@@ -88,55 +88,55 @@
           %p
             = @location[:training_description]
 
-        - unless @location[:hardwarepublic].nil?  
+        - unless @location[:hardware_public].nil?  
           %hr
           %h4 
             Additional info
             
           %dl.dl-horizontal
-            - unless @location[:hardwarepublic].nil?  
+            - unless @location[:hardware_public].nil?  
               %dt
                 Computers
               %dd
-                = @location[:hardwarepublic]
+                = @location[:hardware_public]
                 computers available to the public
                 
-            - unless @location[:internetupload].nil?  
+            - unless @location[:internet_upload].nil?  
               %dt 
                 Internet speed
               %dd
                 Upload: 
-                = @location[:internetupload] 
+                = @location[:internet_upload] 
               %dd
                 Download: 
-                = @location[:internetdownload] 
+                = @location[:internet_download] 
               
-            - unless @location[:pcuserestrictions].nil?
+            - unless @location[:pc_use_restrictions].nil?
               %dt 
                 Use restrictions
               %dd 
-                = @location[:pcuserestrictions]
+                = @location[:pc_use_restrictions]
             
-            - unless @location[:assistivetechnology].nil?  
+            - unless @location[:assistive_technology].nil?  
               %dt 
                 Assistive tech
               %dd 
-                = @location[:assistivetechnology] 
+                = @location[:assistive_technology] 
             
-            - unless @location[:timeallowedperuser].nil?  
+            - unless @location[:time_allowed_per_user].nil?  
               %dt 
                 Time restrictions
               %dd
-                = @location[:timeallowedperuser] 
+                = @location[:time_allowed_per_user] 
               %dd
-                = @location[:timeallowedperuserdetail]
+                = @location[:time_allowed_per_user_detail]
                 
     .row.hidden-phone
       .span7
         %hr
         %h4 
           Photos of 
-          = @location[:organizationname]
+          = @location[:organization_name]
         %ul.thumbnails#gallery{:"data-toggle" => "modal-gallery", :"data-target" => "#modal-gallery"}
           - getFlickrGalleryPhotos(@location[:flickr_tag]).each do |photo|
             %li.span1
@@ -155,12 +155,12 @@
       %p
         - featured_photo = getFlickrFeaturedPhoto(@location[:flickr_tag])
         - unless featured_photo.nil?
-          %img.img-polaroid{:src => "/location/#{params[:id]}/image.jpg", :title => @location[:organizationname], :alt => @location[:organizationname]}
+          %img.img-polaroid{:src => "/location/#{params[:id]}/image.jpg", :title => @location[:organization_name], :alt => @location[:organization_name]}
 
       #mapDetail
       %hr
       %p.lead
-        = formatAddress @location[:address], @location[:city], @location[:state], @location[:zipcode], @location[:roomlist]
+        = formatAddress @location[:address], @location[:city], @location[:state], @location[:zip_code], @location[:roomlist]
       %p
         %a.btn.btn-success{:href => "https://maps.google.com/maps?f=d&hl=en&geocode=&daddr=#{encodeAddress(@location[:full_address])}"}
           Get directions
@@ -168,25 +168,25 @@
           
       
       %dl.dl-horizontal
-        - unless @location[:nearestparking].nil?
+        - unless @location[:nearest_parking].nil?
           %dt
             Nearest parking 
           %dd
-            = @location[:nearestparking]
+            = @location[:nearest_parking]
           %dd
-            = @location[:nearestparkingdetail]
+            = @location[:nearest_parking_detail]
         
-        - unless @location[:publictransportationdetail].nil?
+        - unless @location[:public_transportation_detail].nil?
           %dt
             Public transit
           %dd 
             = @location[:publictransportationdetail]
             
-        - unless @location[:handicapaccessdetail].nil?
+        - unless @location[:handicap_access_detail].nil?
           %dt
             Handicap access
           %dd 
-            = @location[:handicapaccessdetail]
+            = @location[:handicap_access_detail]
 
 #modal-gallery.modal.modal-gallery.hide.fade
   .modal-header
