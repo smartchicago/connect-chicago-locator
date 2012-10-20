@@ -33,7 +33,6 @@
             %ul.nav
               %li
                 %a{:href => APP_CONFIG['domain']} Home
-              - puts controller?("location")
               %li{:class => (controller?("location") || controller?("home")) ? "active" : ""}
                 %a{:href => "/"} Locations
               %li

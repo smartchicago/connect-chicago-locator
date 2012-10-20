@@ -45,18 +45,43 @@ class LocationController < ApplicationController
   end
 
   def update
+    # fetch the existing data from Fusion Tables (this it probably redundant)
     location_edit = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
     @location_title = location_edit[:organization_name]
 
+    # puts 'parameters'
+    # puts params[:location]
+
+    # stuff in new values from the form in to the Fusion Table hash object
     params[:location].each do |name, value|
-      unless location_edit["#{name}".to_sym].nil?
-        location_edit["#{name}".to_sym] = value
+      location_edit["#{name}".to_sym] = value
+    end
+
+    # strange hack! FT was complaining about empty fields on UPDATE
+    # TODO: fix this so values can be set back to empty
+    # throwing away the values that are empty
+    location_edit.each do |name, value|
+      if location_edit["#{name}".to_sym] == ''
+        location_edit.delete("#{name}".to_sym)
       end
     end
 
+    # special logic for un-editable fields
+    location_edit[:org_phone] = location_edit[:org_phone].gsub /[^0-9x]/, ''
+
+    location_edit[:full_address] = "#{location_edit[:address]} #{location_edit[:city]}, #{location_edit[:state]} #{location_edit[:zip]}"
+    #TODO: if address changed, geocode lat/lng
+
+    # urls
+    location_edit[:website] = add_http location_edit[:website]
+    location_edit[:training_url] = add_http location_edit[:training_url]
+
+
     @location = Location.new(location_edit)
-    #puts "valid? #{@location.valid?}"
     if @location.valid?
+
+      # puts "new location data"
+      # puts location_edit.inspect
 
       table = GData::Client::FusionTables::Table.new(FT, :table_id => APP_CONFIG['fusion_table_id'], :name => "My table")
       row_id = FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first[:rowid]
@@ -65,11 +90,22 @@ class LocationController < ApplicationController
       flash[:notice] = "Location saved successfully!"
       redirect_to "/location/#{params[:id]}"
     else
-      puts @location.errors.messages.inspect
+      #puts @location.errors.messages.inspect
       render :action => 'edit'
     end
   end
 
   def destroy
+  end
+
+  private
+
+  def add_http url
+    if not (url.nil? || url == '')
+      if not url.match(/^https?:\/\//)
+        url = 'http://' + url
+      end
+    end
+    url
   end
 end

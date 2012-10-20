@@ -37,7 +37,7 @@
           = formatAddress @location[:address], @location[:city], @location[:state], @location[:zip_code], @location[:room_list]
         
         %p 
-          = @location[:org_phone]
+          = number_to_phone((@location[:org_phone].gsub /[^0-9x]/, ''), :area_code => true)
           - unless @location[:website].nil?
             %br
             %a{:href => @location[:website]}
@@ -180,7 +180,7 @@
           %dt
             Public transit
           %dd 
-            = @location[:publictransportationdetail]
+            = @location[:public_transportation_detail]
             
         - unless @location[:handicap_access_detail].nil?
           %dt
