@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   def getFlickrPhotoPath photo, size=''
     #see http://www.flickr.com/services/api/misc.urls.html for URL reference
     flickr_size = ""
-    unless (size.nil?) 
+    unless (size == '' || size.nil?) 
       flickr_size = "_#{size}"
     end
     return "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}#{flickr_size}.jpg"

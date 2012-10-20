@@ -39,9 +39,8 @@ class LocationController < ApplicationController
   end
 
   def edit
-    @ft_location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
-    puts @ft_location.inspect
-    @location = Location.new(@ft_location)
+    ft_location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+    @location = Location.new(ft_location)
   end
 
   def update

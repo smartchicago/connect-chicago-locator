@@ -1,19 +1,94 @@
 %h2
   Editing
-  = "'#{@ft_location[:organizationname]}'"
+  = "'#{@location.organizationname}'"
 
-/ = semantic_form_for(:location, :action => 'update', :html => { :class => "form-horizontal"} ) do |f|
-/   = f.inputs do
-/     = f.input :organizationname, :label => "Name"
-/     = f.input :organizationtype, :label => "Type"
-/   = f.buttons do
-/     = f.commit_button :button_html => {:class => "primary", :value => "Save"}
+.row
+  .span7
+    = simple_form_for(:location, :html => { :class => 'form-horizontal' }) do |f|
+      = f.error_notification
 
-= simple_form_for(:location, :html => { :class => 'form-horizontal' }) do |f|
-  = f.error_notification
+      .form-inputs.row
+        = f.input :organizationname, :label => "Name"
+        = f.input :organizationtype, :label => "Type", :collection => ["Chicago Housing Authority", "Chicago Public Library", "Chicago Public School", "City Colleges of Chicago", "Community Service Center", "Community Technology Center", "Senior Center", "WorkForce Center", "WorkNet Chicago", "Youth Career Development Center"]
+     
+      = f.button :submit, :button_html => {:class => "btn-primary", :value => "Save"}
 
-  .form-inputs.row
-    = f.input :organizationname, :label => "Name"
-    = f.input :organizationtype, :label => "Type", :collection => ["Chicago Public Library", "City Colleges of Chicago"]
- 
-  = f.button :submit, :button_html => {:class => "btn-primary", :value => "Save"}
+  .span5
+    .well
+      %h3 Additional details
+
+      %dl.dl-horizontal
+        %dt
+          Id
+        %dd
+          = @location.id
+        %dt
+          Tec Services Id
+        %dd
+          = @location.tecservicesid
+        %dt
+          URL
+        %dd
+          %a{:href => "http://locations.weconnectchicago.org/#{@location.slug}"}
+            = "http://locations.weconnectchicago.org/#{@location.slug}"
+        %dt
+          Flickr tag
+        %dd
+          %a{:href => "http://www.flickr.com/photos/tags/#{@location.flickr_tag}/"}
+            = @location.flickr_tag
+        %dt
+          Location (lat/lng)
+        %dd
+          = "#{@location.latitude}, #{@location.longitude}"
+
+/ id - can't edit
+/ checked - hidden
+/ notes
+/ slug - can't edit
+/ tecservicesid - can't edit
+/ organizationname
+/ organizationtype
+/ full_address - generated based on other fields
+/ address
+/ city
+/ state
+/ zipcode
+/ orgphone
+/ hours
+/ website
+/ appointment
+/ internet
+/ wifi
+/ training
+/ pcuserestrictions
+/ hardwarepublic
+/ assistivetechnology
+/ internetupload
+/ internetdownload
+/ volunteersused
+/ volunteersusedhow
+/ volunteerswantedhow
+/ publicwifidetail
+/ nearestparking
+/ nearestparkingdetail
+/ publictransportationdetail
+/ timeallowedperuser
+/ timeallowedperuserdetail
+/ roomlist
+/ handicapaccessdetail
+/ friendly_description
+/ agency_leadership_contact
+/ agency_staff_person_contact_email
+/ twitter_handle
+/ training_types
+/ flickr_tag - can't edit
+/ training_headline
+/ training_description
+/ training_url
+/ october_open_house
+/ location_leadership
+/ location_leadership_email
+/ pcc_staff_person
+/ pcc_staff_person_email
+/ latitude - geocoded based on saved address
+/ longitude - geocoded based on saved address
