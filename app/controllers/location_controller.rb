@@ -57,7 +57,6 @@ class LocationController < ApplicationController
     change = {}
     params[:location].each do |name, value|
       if value != '' && location_edit["#{name}".to_sym] != value
-        puts 'different, saving change'
         change["#{name}"] = [location_edit["#{name}".to_sym], value]
       end
       location_edit["#{name}".to_sym] = value
@@ -76,7 +75,12 @@ class LocationController < ApplicationController
     location_edit[:org_phone] = location_edit[:org_phone].gsub /[^0-9x]/, ''
 
     location_edit[:full_address] = "#{location_edit[:address]} #{location_edit[:city]}, #{location_edit[:state]} #{location_edit[:zip]}"
-    #TODO: if address changed, geocode lat/lng
+    
+    #if address changed, geocode lat/lng
+    require 'geocoder'
+    lat, long = Geocoder.coordinates(location_edit[:full_address]) 
+    location_edit[:latitude] = "#{lat}"
+    location_edit[:longitude] = "#{long}"
 
     # urls
     location_edit[:website] = add_http location_edit[:website]
@@ -90,8 +94,9 @@ class LocationController < ApplicationController
       if change.length > 0
         @location_changes = LocationChanges.new(:admin_id => current_admin.id,
                                                 :location_id => @location.id,
+                                                :name => @location.organization_name,
+                                                :slug => @location.slug,
                                                 :change => change.to_json)
-
         @location_changes.save
       end
 

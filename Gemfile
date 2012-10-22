@@ -22,6 +22,7 @@ gem 'simple_form'
 # apis
 gem 'fusion_tables' #, :git  => 'git://github.com/derekeder/fusion_tables.git'
 gem 'flickraw'
+gem 'geocoder'
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -1,0 +1,23 @@
+.row
+  .span9
+    %h2 Changes to locations
+    
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th Admin
+          %th Location
+          %th Changes
+          %th Date
+      %tbody
+        - @location_changes.each do |location|
+          %tr
+            %td
+              = "#{location.admin.first_name} #{location.admin.last_name}"
+            %td
+              %a{:href => "/location/#{location[:slug]}"}
+                =location[:name]
+            %td
+              =location[:change]
+            %td
+              =location[:created_at].to_s(:db)

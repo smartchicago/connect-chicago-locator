@@ -49,6 +49,8 @@
                 - if current_admin.try(:superadmin?)
                   %li{:class => controller?("admins") ? "active" : ""}
                     = link_to('Admins', admins_path)
+                  %li{:class => controller?("location_changes") ? "active" : ""}
+                    = link_to('Changes', location_changes_index_path)
                 %li{:class => controller?("devise/registrations") ? "active" : ""}
                   = link_to('Account', edit_admin_registration_path)
                 %li
