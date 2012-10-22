@@ -53,7 +53,13 @@ class LocationController < ApplicationController
     # puts params[:location]
 
     # stuff in new values from the form in to the Fusion Table hash object
+    require 'json'
+    change = {}
     params[:location].each do |name, value|
+      if value != '' && location_edit["#{name}".to_sym] != value
+        puts 'different, saving change'
+        change["#{name}"] = [location_edit["#{name}".to_sym], value]
+      end
       location_edit["#{name}".to_sym] = value
     end
 
@@ -79,6 +85,15 @@ class LocationController < ApplicationController
 
     @location = Location.new(location_edit)
     if @location.valid?
+
+      # save to location_changes tracking table
+      if change.length > 0
+        @location_changes = LocationChanges.new(:admin_id => current_admin.id,
+                                                :location_id => @location.id,
+                                                :change => change.to_json)
+
+        @location_changes.save
+      end
 
       # puts "new location data"
       # puts location_edit.inspect
