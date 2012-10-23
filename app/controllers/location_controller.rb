@@ -52,9 +52,10 @@ class LocationController < ApplicationController
     # stuff in new values from the form in to the Fusion Table hash object
     change = {}
     params[:location].each do |name, value|
+      old_value = "#{location_edit["#{name}".to_sym]}"
       # if a field has changed, add it to the change hash for location_changes tracking
-      if value != '' && location_edit["#{name}".to_sym] != value
-        change["#{name}"] = [location_edit["#{name}".to_sym], value]
+      if old_value != value
+        change["#{name}"] = [old_value, value]
       end
       location_edit["#{name}".to_sym] = value
     end
