@@ -29,3 +29,5 @@
                 = value[0]
               %td{:style => 'color: green;'}
                 = value[1]
+
+= will_paginate @location_changes, :renderer => BootstrapPagination::Rails

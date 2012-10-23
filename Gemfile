@@ -18,6 +18,7 @@ gem 'twitter-bootstrap-rails'
 gem 'formtastic', " ~> 2.1.1"
 gem 'formtastic-bootstrap'
 gem 'simple_form'
+gem 'will_paginate-bootstrap'
 
 # apis
 gem 'fusion_tables' #, :git  => 'git://github.com/derekeder/fusion_tables.git'

@@ -31,6 +31,15 @@ class LocationController < ApplicationController
       send_data File.read("#{Rails.root}/app/assets/images/placeholder.jpg", :mode => "rb"), :status => 200, :content_type => 'image/jpeg'
     end
   end
+
+  def showWidget
+    @location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+    
+    respond_to do |format|
+      format.html  { render :template => "location/widget", :layout => false }
+      format.json  { render :json => @location }
+    end
+  end
   
   def new
   end
