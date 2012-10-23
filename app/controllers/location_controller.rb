@@ -50,30 +50,20 @@ class LocationController < ApplicationController
     @location_title = location_edit[:organization_name]
 
     # stuff in new values from the form in to the Fusion Table hash object
-    require 'json'
     change = {}
     params[:location].each do |name, value|
+      # if a field has changed, add it to the change hash for location_changes tracking
       if value != '' && location_edit["#{name}".to_sym] != value
         change["#{name}"] = [location_edit["#{name}".to_sym], value]
       end
       location_edit["#{name}".to_sym] = value
     end
 
-    # strange hack! FT was complaining about empty fields on UPDATE
-    # TODO: fix this so values can be set back to empty
-    # throwing away the values that are empty
-    location_edit.each do |name, value|
-      if location_edit["#{name}".to_sym] == ''
-        location_edit.delete("#{name}".to_sym)
-      end
-    end
-
     # special logic for un-editable fields
     location_edit[:org_phone] = location_edit[:org_phone].gsub /[^0-9x]/, ''
-
     location_edit[:full_address] = "#{location_edit[:address]} #{location_edit[:city]}, #{location_edit[:state]} #{location_edit[:zip]}"
     
-    #if address changed, geocode lat/lng
+    # geocode lat/lng
     require 'geocoder'
     lat, long = Geocoder.coordinates(location_edit[:full_address]) 
     location_edit[:latitude] = "#{lat}"
@@ -82,7 +72,6 @@ class LocationController < ApplicationController
     # urls
     location_edit[:website] = add_http location_edit[:website]
     location_edit[:training_url] = add_http location_edit[:training_url]
-
 
     @location = Location.new(location_edit)
     if @location.valid?

@@ -1,23 +1,30 @@
-.row
-  .span9
-    %h2 Changes to locations
-    
-    %table.table.table-bordered
-      %thead
-        %tr
-          %th Admin
-          %th Location
-          %th Changes
-          %th Date
-      %tbody
-        - @location_changes.each do |location|
+%h2 Changes to locations
+
+- @location_changes.each do |location|
+  .row
+    .span3
+      .well
+        %h4
+          %a{:href => "/location/#{location[:slug]}"}
+            =location[:name]
+        %p
+          = "by #{location.admin.first_name} #{location.admin.last_name}"
+          %br
+          = "on #{location[:created_at].to_s(:long)}"
+    .span9
+      %table.table.table-bordered
+        %thead
           %tr
-            %td
-              = "#{location.admin.first_name} #{location.admin.last_name}"
-            %td
-              %a{:href => "/location/#{location[:slug]}"}
-                =location[:name]
-            %td
-              =location[:change]
-            %td
-              =location[:created_at].to_s(:db)
+            %th Field
+            %th Old
+            %th New
+        %tbody
+          - change = JSON.parse(location[:change])
+          - change.each do |name, value|
+            %tr
+              %td
+                = name
+              %td{:style => 'color: red;'}
+                = value[0]
+              %td{:style => 'color: green;'}
+                = value[1]
