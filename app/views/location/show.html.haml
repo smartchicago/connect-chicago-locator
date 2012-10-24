@@ -37,7 +37,8 @@
           = formatAddress @location[:address], @location[:city], @location[:state], @location[:zip_code], @location[:room_list]
         
         %p 
-          = number_to_phone((@location[:org_phone].gsub /[^0-9x]/, ''), :area_code => true)
+          - unless @location[:org_phone].nil?
+            = number_to_phone((@location[:org_phone].gsub /[^0-9x]/, ''), :area_code => true)
           - unless @location[:website].nil?
             %br
             %a{:href => @location[:website]}
