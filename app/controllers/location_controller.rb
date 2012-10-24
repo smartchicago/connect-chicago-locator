@@ -65,13 +65,15 @@ class LocationController < ApplicationController
       # if a field has changed, add it to the change hash for location_changes tracking
       if old_value != value
         change["#{name}"] = [old_value, value]
+        location_edit["#{name}".to_sym] = value
+      elsif old_value == '' && value == ''
+        location_edit.delete("#{name}".to_sym)
       end
-      location_edit["#{name}".to_sym] = value
     end
 
     # special logic for un-editable fields
     location_edit[:org_phone] = location_edit[:org_phone].gsub /[^0-9x]/, ''
-    location_edit[:full_address] = "#{location_edit[:address]} #{location_edit[:city]}, #{location_edit[:state]} #{location_edit[:zip]}"
+    location_edit[:full_address] = "#{location_edit[:address]} #{location_edit[:city]}, #{location_edit[:state]} #{location_edit[:zip_code]}"
     
     # geocode lat/lng
     require 'geocoder'
@@ -84,17 +86,15 @@ class LocationController < ApplicationController
     location_edit[:training_url] = add_http location_edit[:training_url]
 
     @location = Location.new(location_edit)
-    if @location.valid?
+    if @location.valid? && change.length > 0
 
       # save to location_changes tracking table
-      if change.length > 0
-        @location_changes = LocationChanges.new(:admin_id => current_admin.id,
+      @location_changes = LocationChanges.new(:admin_id => current_admin.id,
                                                 :location_id => @location.id,
                                                 :name => @location.organization_name,
                                                 :slug => @location.slug,
                                                 :change => change.to_json)
-        @location_changes.save
-      end
+      @location_changes.save
 
       table = GData::Client::FusionTables::Table.new(FT, :table_id => APP_CONFIG['fusion_table_id'], :name => "My table")
       row_id = FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first[:rowid]
