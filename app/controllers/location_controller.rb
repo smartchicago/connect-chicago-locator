@@ -96,11 +96,15 @@ class LocationController < ApplicationController
                                                 :change => change.to_json)
       @location_changes.save
 
-      table = GData::Client::FusionTables::Table.new(FT, :table_id => APP_CONFIG['fusion_table_id'], :name => "My table")
-      row_id = FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first[:rowid]
-      table.update row_id, location_edit
+      begin
+        table = GData::Client::FusionTables::Table.new(FT, :table_id => APP_CONFIG['fusion_table_id'], :name => "My table")
+        row_id = FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first[:rowid]
+        table.update row_id, location_edit
 
-      flash[:notice] = "Location saved successfully!"
+        flash[:notice] = "Location saved successfully!"
+      rescue
+        flash[:notice] = "There was a problem saving this location. Please try again or contact the system administrator."
+      end
       redirect_to "/location/#{params[:id]}"
     else
       render :action => 'edit'

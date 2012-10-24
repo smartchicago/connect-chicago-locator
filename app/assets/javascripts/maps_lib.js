@@ -121,7 +121,7 @@ var MapsLib = {
 
     //location type filter
     if ( $("#filter_type").val() != "") {
-      whereClause += " AND organizationtype = '" + $("#filter_type").val() + "'";
+      whereClause += " AND organization_type = '" + $("#filter_type").val() + "'";
       $.address.parameter('filter_type', encodeURIComponent($("#filter_type").val()));
     }
     else $.address.parameter('filter_type', '');
