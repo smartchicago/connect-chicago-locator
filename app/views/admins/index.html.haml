@@ -1,4 +1,4 @@
-.span8
+.span10
   %h1 Admins
 
   %ul.nav.nav-pills
@@ -13,21 +13,28 @@
     %table.table.table-bordered.table-condensed.table-hover
       %thead
         %tr
+          %th Name
           %th Email
+          %th Organization
+          %th Twitter
           %th Approved
           %th Super admin
           %th 
       %tbody
-        - @admins.each do |admin|
-          %tr
-            %td= link_to admin.email, edit_admin_path(admin)
-            %td= admin.approved
-            %td= admin.superadmin
-            %td
-              - if current_admin.id == admin.id
-                This is you!
-              - else
-                = link_to "Edit", edit_admin_path(admin)
-                - if !admin.approved?
-                  |
-                  = link_to "Approve", "/admin/admins/#{admin.id}/approve"
+        - unless @admins.nil?
+          - @admins.each do |admin|
+            %tr
+              %td= "#{admin.first_name} #{admin.last_name}"
+              %td= link_to admin.email, edit_admin_path(admin)
+              %td= admin.organization
+              %td= admin.twitter_handle
+              %td= admin.approved
+              %td= admin.superadmin
+              %td
+                - if current_admin.id == admin.id
+                  This is you!
+                - else
+                  = link_to "Edit", edit_admin_path(admin)
+                  - if !admin.approved?
+                    |
+                    = link_to "Approve", "/admin/admins/#{admin.id}/approve"

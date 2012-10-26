@@ -1,0 +1,26 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+  %body
+    %p
+      New admin signup: 
+      = "#{@admin.first_name} #{@admin.last_name}"
+
+    %p
+      Email:
+      %a{:href => "mailto:#{@admin.email}"} 
+        = @admin.email
+      %br
+      Organization:
+      = @admin.organization
+      - unless @admin.twitter_handle.nil? && @admin.twitter_handle == ''
+        %br
+        Twitter handle:
+        %a{:href => "http://twitter.com/#{@admin.twitter_handle}"}
+          = @admin.twitter_handle
+
+    %p
+      To approve this user,
+      = succeed '.' do
+        %a{:href => @url} click here

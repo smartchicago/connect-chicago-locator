@@ -1,5 +1,5 @@
 class LocationController < ApplicationController
-  before_filter :authenticate_admin!, :except => [:index, :show, :showImage]
+  before_filter :authenticate_admin!, :except => [:index, :show, :showImage, :showWidget]
   caches_page :showImage
 
   def index

@@ -52,6 +52,8 @@ class AdminsController < ApplicationController
     @admin.approved = 1
     @admin.save
 
+    AdminsMailer.notify_approved_admin(admin).deliver
+
     redirect_to(admins_path, :notice => 'Admin was approved.')
   end
 

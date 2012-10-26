@@ -10,7 +10,7 @@ class Admin < ActiveRecord::Base
   
   after_create :send_admin_mail
   def send_admin_mail
-     ###Send email stuff here
+     AdminsMailer.signup_notify_admin(self).deliver
   end
 
   def active_for_authentication? 

@@ -1,0 +1,12 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+  %body
+    %p
+      Hi 
+      = "#{@admin.first_name} #{@admin.last_name}!"
+    %p
+      Your Connect Chicago account has been approved. Go ahead and sign in 
+      = succeed '.' do
+        %a{:href => @url} here
