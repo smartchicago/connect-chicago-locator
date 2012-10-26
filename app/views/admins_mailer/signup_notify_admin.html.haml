@@ -14,7 +14,7 @@
       %br
       Organization:
       = @admin.organization
-      - unless @admin.twitter_handle.nil? && @admin.twitter_handle == ''
+      - unless @admin.twitter_handle.nil? || @admin.twitter_handle == ''
         %br
         Twitter handle:
         %a{:href => "http://twitter.com/#{@admin.twitter_handle}"}
