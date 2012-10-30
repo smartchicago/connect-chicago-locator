@@ -48,5 +48,8 @@ gem 'unicorn'
 # Deploy with Heroku
 gem 'heroku'
 
+# Performance and monitoring
+gem 'newrelic_rpm'
+
 # To use debugger
 # gem 'debugger'
