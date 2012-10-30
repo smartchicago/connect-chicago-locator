@@ -3,13 +3,13 @@
 - @locations.each do |location|
   .row-fluid.item-list
     .span8
-      %a{:href => "/location/#{location[:id]}"}
+      %a{:href => "/location/#{location[:slug]}"}
         %span.lead
-          = location[:organizationname]
+          = location[:organization_name]
       %br
-      = location[:organizationtype]
+      = location[:organization_type]
       %br
-      = formatAddress location[:address], location[:city], location[:state], location[:zipcode], location[:roomlist]
+      = formatAddress location[:address], location[:city], location[:state], location[:zip_code], location[:roomlist]
       %br
       - unless location[:hours].nil?
         = location[:hours]

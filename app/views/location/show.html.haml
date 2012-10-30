@@ -154,9 +154,10 @@
   .span5
     .well
       %p
-        - featured_photo = getFlickrFeaturedPhoto(@location[:flickr_tag])
-        - unless featured_photo.nil?
-          %img.img-polaroid{:src => "/location/#{params[:id]}/image.jpg", :title => @location[:organization_name], :alt => @location[:organization_name]}
+        - cache(@location[:flickr_tag]) do
+          - featured_photo = getFlickrFeaturedPhoto(@location[:flickr_tag])
+          - unless featured_photo.nil?
+            %img.img-polaroid{:src => "/location/#{params[:id]}/image.jpg", :title => @location[:organization_name], :alt => @location[:organization_name]}
 
       #mapDetail
       %hr
