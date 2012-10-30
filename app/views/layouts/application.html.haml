@@ -17,49 +17,48 @@
     %link(href="/favicon.ico" rel="shortcut icon")
 
   %body
-    %a{:href => APP_CONFIG['domain']}
-      %img.logo{:src => "/assets/logo.png", :alt => "Connect Chicago"}
-    .navbar
-      .navbar-inner
-        .container
+    .container
+      %a{:href => APP_CONFIG['domain']}
+        %img.logo{:src => "/assets/logo.png", :alt => "Connect Chicago"}
+      .navbar
+        .navbar-inner
+          .container
 
-          / .btn-navbar is used as the toggle for collapsed navbar content
-          %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
+            / .btn-navbar is used as the toggle for collapsed navbar content
+            %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
 
-          .nav-collapse
-            %ul.nav
-              %li
-                %a{:href => APP_CONFIG['domain']} Home
-              %li{:class => (controller?("location") || controller?("home")) ? "active" : ""}
-                %a{:href => "/"} Locations
-              %li
-                %a{:href => APP_CONFIG['domain'] + "learn"} Learn
-              %li
-                %a{:href => APP_CONFIG['domain'] + "partners"} Partners
-              %li
-                %a{:href => APP_CONFIG['domain'] + "news-events"} News &amp; Events
-              %li
-                %a{:href => APP_CONFIG['domain'] + "volunteer"} Volunteer
-              %li
-                %a{:href => APP_CONFIG['domain'] + "about"} About
-
-            %ul.nav.pull-right
-              - if admin_signed_in?
-                - if current_admin.try(:superadmin?)
-                  %li{:class => controller?("admins") ? "active" : ""}
-                    = link_to('Admins', admins_path)
-                  %li{:class => controller?("location_changes") ? "active" : ""}
-                    = link_to('Changes', location_changes_index_path)
-                %li{:class => controller?("devise/registrations") ? "active" : ""}
-                  = link_to('Account', edit_admin_registration_path)
+            .nav-collapse
+              %ul.nav
                 %li
-                  = link_to('Logout', destroy_admin_session_path, :method => :delete)        
-              - else
+                  %a{:href => APP_CONFIG['domain']} Home
+                %li{:class => (controller?("location") || controller?("home")) ? "active" : ""}
+                  %a{:href => "/"} Locations
                 %li
-                  = link_to('Login', new_admin_session_path)
+                  %a{:href => APP_CONFIG['domain'] + "learn"} Learn
+                %li
+                  %a{:href => APP_CONFIG['domain'] + "partners"} Partners
+                %li
+                  %a{:href => APP_CONFIG['domain'] + "news-events"} News &amp; Events
+                %li
+                  %a{:href => APP_CONFIG['domain'] + "about"} About
+
+              %ul.nav.pull-right
+                - if admin_signed_in?
+                  - if current_admin.try(:superadmin?)
+                    %li{:class => controller?("admins") ? "active" : ""}
+                      = link_to('Admins', admins_path)
+                    %li{:class => controller?("location_changes") ? "active" : ""}
+                      = link_to('Changes', location_changes_index_path)
+                  %li{:class => controller?("devise/registrations") ? "active" : ""}
+                    = link_to('Account', edit_admin_registration_path)
+                  %li
+                    = link_to('Logout', destroy_admin_session_path, :method => :delete)        
+                - else
+                  %li
+                    = link_to('Login', new_admin_session_path)
 
     %div{:class => content_for?(:page_layout) ? content_for(:page_layout) : "container"}
       .content
