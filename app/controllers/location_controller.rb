@@ -3,23 +3,24 @@ class LocationController < ApplicationController
   caches_page :showImage
 
   def index
-    @locations = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']};")
+    @locations = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']};") || not_found
   end
 
   def show
     expire_page :action => :showImage
 
-    @location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+    @location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first || not_found
     
     respond_to do |format|
       format.html  # show.html.haml
       format.json  { render :json => @location }
     end
+
   end
 
   def showImage
     require 'open-uri'
-    location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+    location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first || not_found
     featured_photo = getFlickrFeaturedPhoto(location[:flickr_tag])
     unless featured_photo.nil?
       url = URI.parse(getFlickrPhotoPath(featured_photo, params[:size]))
@@ -33,7 +34,7 @@ class LocationController < ApplicationController
   end
 
   def showWidget
-    @location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+    @location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first || not_found
     
     respond_to do |format|
       format.html  { render :template => "location/widget", :layout => false }
@@ -48,7 +49,7 @@ class LocationController < ApplicationController
   end
 
   def edit
-    location_edit = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+    location_edit = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first || not_found
     @location_title = location_edit[:organization_name]
     @location = Location.new(location_edit)
   end

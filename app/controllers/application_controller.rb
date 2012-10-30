@@ -29,6 +29,10 @@ class ApplicationController < ActionController::Base
     end
     return "http://farm#{photo.farm}.static.flickr.com/#{photo.server}/#{photo.id}_#{photo.secret}#{flickr_size}.jpg"
   end
+
+  def not_found
+    raise ActionController::RoutingError.new('Not Found')
+  end
   
   protected
   def authenticate
