@@ -1,14 +1,14 @@
 class LocationController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show, :showImage, :showWidget]
-  caches_page :showImage
+  # caches_action :showImage
+  caches_action :show, :layout => false
+  caches_action :index, :layout => false
 
   def index
     @locations = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']};") || not_found
   end
 
   def show
-    expire_page :action => :showImage
-
     @location = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first || not_found
     
     respond_to do |format|

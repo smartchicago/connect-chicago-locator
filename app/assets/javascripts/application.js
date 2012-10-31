@@ -12,6 +12,10 @@
 //
 //= require jquery
 //= require twitter/bootstrap
+//= require maps_lib_styles
+//= require map_detail
+//= require load-image.min
+//= require bootstrap-image-gallery
 
 $('#flash').delay(500).fadeIn('normal', function() {
   $(this).delay(2500).fadeOut();

@@ -1,24 +1,22 @@
 - title @location[:organization_name]
 - page_layout "container"
-- content_for :javascripts do
-  = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" 
-  = javascript_include_tag :location
-  :javascript 
-    $(function(){
-      initializeMap();
-    
-      if (map != null)
-        displayPoint("#{encodeAddress(@location[:full_address])}");
-    });
+:javascript 
+  $(function(){
+    MapsDetailLib.initializeMap();
+  
+    if (MapsDetailLib.map != null)
+      MapsDetailLib.displayPoint("#{encodeAddress(@location[:full_address])}");
+  });
+
+%script{:src => "/admin/admins/logged_in.js", :type => "text/javascript"}
 .row
   .span7
     %h2
       = @location[:organization_name]
-      - if admin_signed_in?
-        %small
-          %a{:href => "/location/#{params[:id]}/edit"} 
-            %i.icon-pencil
-            Edit
+      %small.admin-edit{:style => 'display: none;'}
+        %a{:href => "/location/#{params[:id]}/edit"} 
+          %i.icon-pencil
+          Edit
     %p.lead
       = @location[:organization_type]
 
@@ -154,10 +152,9 @@
   .span5
     .well
       %p
-        - cache(@location[:flickr_tag]) do
-          - featured_photo = getFlickrFeaturedPhoto(@location[:flickr_tag])
-          - unless featured_photo.nil?
-            %img.img-polaroid{:src => "/location/#{params[:id]}/image.jpg", :title => @location[:organization_name], :alt => @location[:organization_name]}
+        - featured_photo = getFlickrFeaturedPhoto(@location[:flickr_tag])
+        - unless featured_photo.nil?
+          %img.img-polaroid{:src => "/location/#{params[:id]}/image.jpg", :title => @location[:organization_name], :alt => @location[:organization_name]}
 
       #mapDetail
       %hr

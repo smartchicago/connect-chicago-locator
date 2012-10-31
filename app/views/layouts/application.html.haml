@@ -16,6 +16,9 @@
     
     %link(href="/favicon.ico" rel="shortcut icon")
 
+    = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" 
+    = javascript_include_tag "application"
+
   %body
     .container
       %a{:href => APP_CONFIG['domain']}
@@ -71,7 +74,6 @@
       Javascripts
       \==================================================
     / Placed at the end of the document so the pages load faster
-    = javascript_include_tag "application"
     = content_for :javascripts
     
     = javascript_include_tag "analytics_lib" if Rails.env.production?

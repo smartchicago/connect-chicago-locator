@@ -1,5 +1,5 @@
 class AdminsController < ApplicationController
-  before_filter :authenticate_admin!
+  before_filter :authenticate_admin!, :except => [:logged_in]
 
   def index
 		if current_admin.try(:superadmin?)
@@ -12,8 +12,11 @@ class AdminsController < ApplicationController
 	end
 
 	def show
-		@admin = Admin.find(params[:id])
+		@admin = Admin.find(params[:id]) || not_found
 	end
+
+  def logged_in
+  end
 
 	def new
 	end

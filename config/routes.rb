@@ -3,6 +3,7 @@ TechLocator::Application.routes.draw do
   devise_for :admins
 
   match '/admin/admins/:id/approve' => 'admins#approve'
+  match '/admin/admins/logged_in' => 'admins#logged_in'
   scope "/admin" do
     resources :admins
   end
