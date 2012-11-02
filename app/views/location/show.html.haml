@@ -70,12 +70,10 @@
                 = yes_no_icon @location[:wifi]
     .row
       .span7
-        %hr
-        %h4 About this place
-        %p
-          - if @location[:friendly_description].nil?
-            = "There are [#] computer rooms with [#] computers at #{@location[:organization_name]}. The labs are available to [some group of people] with priority given to [some other group of people]. Additional friendly directions and information about locating the lab within the building."
-          - else
+        - unless @location[:friendly_description].nil?
+          %hr
+          %h4 About this place
+          %p
             = @location[:friendly_description]
         
         - unless @location[:training_headline].nil?  

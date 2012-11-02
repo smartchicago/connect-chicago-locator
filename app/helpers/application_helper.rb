@@ -8,7 +8,7 @@ module ApplicationHelper
   end
   
   def snippet(string, length = 40) 
-    string = string.delete "http://"
+    string = string.chomp "http://"
     string.size > length+5 ? [string[0,length],string[-5,5]].join("...") : string
   end 
 
