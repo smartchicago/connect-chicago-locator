@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :authenticate
+  # before_filter :authenticate
 
   #TODO: move these flickr functions to a more appropriate place
   helper_method :getFlickrGalleryPhotos
