@@ -6,7 +6,6 @@ namespace :cache do
 
     @locations.each do |location|
       sh "curl -o /dev/null 'http://locations.weconnectchicago.org/location/#{location[:slug]}'"
-      sleep(10)
     end
 
     puts "done"
