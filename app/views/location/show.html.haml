@@ -137,8 +137,8 @@
         %ul.thumbnails#gallery{:"data-toggle" => "modal-gallery", :"data-target" => "#modal-gallery"}
           - getFlickrGalleryPhotos(@location[:flickr_tag]).each do |photo|
             %li.span1
-              %a.thumbnail{:href => "/location/#{params[:id]}/c/image.jpg", :rel =>"gallery", :title => "#{photo.title}"}
-                %img{:src => "/location/#{params[:id]}/s/image.jpg"} 
+              %a.thumbnail{:href => getFlickrPhotoPath(photo, 'z'), :rel =>"gallery", :title => "#{photo.title}"}
+                %img{:src => getFlickrPhotoPath(photo, 's')} 
 
         %p
           Have a photo for this location? Upload it to
