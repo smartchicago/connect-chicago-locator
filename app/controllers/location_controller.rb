@@ -5,7 +5,7 @@ class LocationController < ApplicationController
   caches_action :index, :layout => false
 
   def index
-    @locations = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']};") || not_found
+    @locations = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} ORDER BY organization_name;") || not_found
   end
 
   def show
