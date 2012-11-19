@@ -7,33 +7,33 @@
  * https://github.com/derekeder/FusionTable-Map-Template/wiki/License
  *
  * Date: 8/15/2012
- * 
+ *
  */
- 
+
 var MapsLib = MapsLib || {};
 var MapsLib = {
-  
+
   //Setup section - put your Fusion Table details here
   //Using the v1 Fusion Tables API. See https://developers.google.com/fusiontables/docs/v1/migration_guide for more info
-  
+
   //the encrypted Table ID of your Fusion Table (found under File => About)
   //NOTE: numeric IDs will be depricated soon
-  fusionTableId:      "1xy_wp4-NhtKPecuDlhsS8MLO0z-g5ayY1OfBhAg",  
-  
-  //*New Fusion Tables Requirement* API key. found at https://code.google.com/apis/console/   
-  //*Important* this key is for demonstration purposes. please register your own.   
-  googleApiKey:       "AIzaSyDEr3t9l3rUbE69ZB72Lj7hMVx_R_IXKaE",        
-  
-  //name of the location column in your Fusion Table. 
-  //NOTE: if your location column name has spaces in it, surround it with single quotes 
+  fusionTableId:      "1xy_wp4-NhtKPecuDlhsS8MLO0z-g5ayY1OfBhAg",
+
+  //*New Fusion Tables Requirement* API key. found at https://code.google.com/apis/console/
+  //*Important* this key is for demonstration purposes. please register your own.
+  googleApiKey:       "AIzaSyDEr3t9l3rUbE69ZB72Lj7hMVx_R_IXKaE",
+
+  //name of the location column in your Fusion Table.
+  //NOTE: if your location column name has spaces in it, surround it with single quotes
   //example: locationColumn:     "'my location'",
-  locationColumn:     "latitude",  
+  locationColumn:     "latitude",
 
   map_centroid:       new google.maps.LatLng(41.8781136, -87.66677856445312), //center that your map defaults to
   locationScope:      "chicago",      //geographical area appended to all address searches
   recordName:         "location",       //for showing number of results
-  recordNamePlural:   "locations", 
-  
+  recordNamePlural:   "locations",
+
   searchRadius:       805,            //in meters ~ 1/2 mile
   defaultZoom:        11,             //zoom level when map is loaded (bigger is more zoomed in)
   addrMarkerImage: '/assets/connect-chicago-pushpin.png',
@@ -41,10 +41,10 @@ var MapsLib = {
   currentPinpoint: null,
   infoWindow: null,
   markers: [],
-  
+
   initialize: function() {
     $( "#resultCount" ).html("");
-  
+
     geocoder = new google.maps.Geocoder();
     var myOptions = {
       zoom: MapsLib.defaultZoom,
@@ -54,45 +54,45 @@ var MapsLib = {
       styles: MapsLibStyles.styles
     };
     map = new google.maps.Map($("#mapCanvas")[0],myOptions);
-    
+
     MapsLib.searchrecords = null;
     $("#resultCount").hide();
-    
+
     //reset filters
     $(":checkbox").attr("checked", false);
 
     var loadAddress = MapsLib.convertToPlainString($.address.parameter('address'));
     $("#search_address").val(loadAddress);
-    
+
     var loadRadius = MapsLib.convertToPlainString($.address.parameter('radius'));
     if (loadRadius != "") $("#search_radius").val(loadRadius);
     else $("#search_radius").val(MapsLib.searchRadius);
 
-    if ($.address.parameter('internet') == "1") 
+    if ($.address.parameter('internet') == "1")
       $("#filter_internet").attr("checked", true);
-    else 
+    else
       $("#filter_internet").attr("checked", false);
 
     if ($.address.parameter('training') == "1")
       $("#filter_training").attr("checked", true);
-    else 
+    else
       $("#filter_training").attr("checked", false);
 
-    if ($.address.parameter('wifi') == "1") 
+    if ($.address.parameter('wifi') == "1")
       $("#filter_wifi").attr("checked", true);
-    else 
+    else
       $("#filter_wifi").attr("checked", false);
 
     var filter_type = MapsLib.convertToPlainString($.address.parameter('filter_type'));
     $("#filter_type").val(filter_type);
 
-    if ($.address.parameter('view_mode') != undefined) 
+    if ($.address.parameter('view_mode') != undefined)
       MapsLib.setResultsView($.address.parameter('view_mode'));
-     
+
     //run the default search
     MapsLib.doSearch();
   },
-  
+
   doSearch: function(location) {
     MapsLib.clearSearch();
     var address = $("#search_address").val();
@@ -112,7 +112,7 @@ var MapsLib = {
       $.address.parameter('training', "1");
     }
     else $.address.parameter('training', '');
-    
+
     if ( $("#filter_wifi").is(':checked')) {
       whereClause += " AND wifi = 1";
       $.address.parameter('wifi', "1");
@@ -125,15 +125,15 @@ var MapsLib = {
       $.address.parameter('filter_type', encodeURIComponent($("#filter_type").val()));
     }
     else $.address.parameter('filter_type', '');
-    
+
     if (address != "") {
       if (address.toLowerCase().indexOf(MapsLib.locationScope) == -1)
         address = address + " " + MapsLib.locationScope;
-  
+
       geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           MapsLib.currentPinpoint = results[0].geometry.location;
-          
+
           $.address.parameter('address', encodeURIComponent(address));
           $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
           map.setCenter(MapsLib.currentPinpoint);
@@ -146,20 +146,21 @@ var MapsLib = {
             map.setZoom(16);
           else
             map.setZoom(14);
-          
+
           MapsLib.addrMarker = new google.maps.Marker({
-            position: MapsLib.currentPinpoint, 
-            map: map, 
+            position: MapsLib.currentPinpoint,
+            map: map,
             icon: MapsLib.addrMarkerImage,
             animation: google.maps.Animation.DROP,
-            title:address
+            title:address,
+            zIndex: -10
           });
-          
+
           whereClause += " AND ST_INTERSECTS(" + MapsLib.locationColumn + ", CIRCLE(LATLNG" + MapsLib.currentPinpoint.toString() + "," + MapsLib.searchRadius + "))";
-          
+
           MapsLib.drawSearchRadiusCircle(MapsLib.currentPinpoint);
           MapsLib.submitSearch(whereClause, map, MapsLib.currentPinpoint);
-        } 
+        }
         else {
           alert("We could not find your address: " + status);
         }
@@ -169,16 +170,16 @@ var MapsLib = {
       MapsLib.submitSearch(whereClause, map);
     }
   },
-  
+
   submitSearch: function(whereClause, map, location) {
     MapsLib.getResults(whereClause, location);
   },
-  
+
   clearSearch: function() {
     if (MapsLib.searchrecords != null)
       MapsLib.searchrecords.setMap(null);
     if (MapsLib.addrMarker != null)
-      MapsLib.addrMarker.setMap(null);  
+      MapsLib.addrMarker.setMap(null);
     if (MapsLib.searchRadiusCircle != null)
       MapsLib.searchRadiusCircle.setMap(null);
 
@@ -203,13 +204,13 @@ var MapsLib = {
       google.maps.event.trigger(map, 'resize');
       map.setCenter(MapsLib.map_centroid);
       MapsLib.doSearch();
-      
+
       element.html('Show list <i class="icon-list icon-white"></i>');
     }
     else {
       $('#listCanvas').show();
       $('#mapCanvas').hide();
-      
+
       element.html('Show map <i class="icon-map-marker icon-white"></i>');
 
     }
@@ -220,16 +221,16 @@ var MapsLib = {
     var selectColumns = "slug, organization_name, organization_type, address, hours, latitude, longitude ";
     MapsLib.query(selectColumns, whereClause, "", "MapsLib.renderResults");
   },
-  
+
   renderResults: function(json) {
     //console.log(MapsLib.markers);
     MapsLib.handleError(json);
     var data = json["rows"];
     var template = "";
-    
+
     var results = $("#resultsList");
     results.hide().empty(); //hide the existing list and empty it out first
-    
+
     if (data == null) {
       //clear results list
       results.append("<li><span class='lead'>No results found</span></li>");
@@ -258,7 +259,7 @@ var MapsLib = {
             //     <img class='img-polaroid' src='/location/" + data[row][0] + "/m/image.jpg' alt='" + data[row][1] + "' title='" + data[row][1] + "'/>\
             //   </a>\
             // </div>\
-        
+
         results.append(template);
       }
     }
@@ -272,7 +273,7 @@ var MapsLib = {
   addMarker: function(record) {
     var coordinate = new google.maps.LatLng(record[5],record[6])
     var marker = new google.maps.Marker({
-      map: map, 
+      map: map,
       position: coordinate,
       icon: new google.maps.MarkerImage(MapsLib.markerImage)
     });
@@ -304,7 +305,7 @@ var MapsLib = {
 
   },
 
-  displaySearchCount: function(numRows) {     
+  displaySearchCount: function(numRows) {
     var name = MapsLib.recordNamePlural;
     if (numRows == 1)
     name = MapsLib.recordName;
@@ -313,11 +314,11 @@ var MapsLib = {
       });
     $( "#resultCount" ).fadeIn();
   },
-  
+
   findMe: function() {
     // Try W3C Geolocation (Preferred)
     var foundLocation;
-    
+
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
         foundLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
@@ -328,7 +329,7 @@ var MapsLib = {
       alert("Sorry, we could not find your location.");
     }
   },
-  
+
   addrFromLatLng: function(latLngPoint) {
     geocoder.geocode({'latLng': latLngPoint}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
@@ -342,11 +343,11 @@ var MapsLib = {
       }
     });
   },
-  
+
   drawSearchRadiusCircle: function(point) {
     if (MapsLib.searchRadiusCircle != null)
       MapsLib.searchRadiusCircle.setMap(null);
-    
+
       var circleOptions = {
         strokeColor: "#4b58a6",
         strokeOpacity: 0.3,
@@ -361,21 +362,21 @@ var MapsLib = {
       };
       MapsLib.searchRadiusCircle = new google.maps.Circle(circleOptions);
   },
-  
+
   query: function(selectColumns, whereClause, orderBy, callback) {
     var queryStr = [];
     queryStr.push("SELECT " + selectColumns);
     queryStr.push(" FROM " + MapsLib.fusionTableId);
-    
+
     if (whereClause != "")
       queryStr.push(" WHERE " + whereClause);
 
     if (orderBy != "")
       queryStr.push(" ORDER BY " + orderBy);
-  
+
     var sql = encodeURIComponent(queryStr.join(" "));
     $.ajax({
-      url: "https://www.googleapis.com/fusiontables/v1/query?sql="+sql+"&callback="+callback+"&key="+MapsLib.googleApiKey, 
+      url: "https://www.googleapis.com/fusiontables/v1/query?sql="+sql+"&callback="+callback+"&key="+MapsLib.googleApiKey,
       dataType: "jsonp"
     });
   },
@@ -384,7 +385,7 @@ var MapsLib = {
     if (json["error"] != undefined)
       console.log("Error in Fusion Table call: " + json["error"]["message"]);
   },
-  
+
   addCommas: function(nStr) {
     nStr += '';
     x = nStr.split('.');
@@ -396,7 +397,7 @@ var MapsLib = {
     }
     return x1 + x2;
   },
-  
+
   //converts a slug or query string in to readable text
   convertToPlainString: function(text) {
     if (text == undefined) return '';
