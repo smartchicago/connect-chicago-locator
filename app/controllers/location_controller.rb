@@ -88,6 +88,9 @@ class LocationController < ApplicationController
 
     @location = Location.new(location_edit)
     if @location.valid? && change.length > 0
+      # expire cache
+      expire_action :action => :show
+      expire_action :action => :index
 
       # save to location_changes tracking table
       @location_changes = LocationChanges.new(:admin_id => current_admin.id,
@@ -113,6 +116,24 @@ class LocationController < ApplicationController
   end
 
   def destroy
+    if current_admin.try(:superadmin?)
+      expire_action :action => :show
+      expire_action :action => :index
+
+      begin
+        table = GData::Client::FusionTables::Table.new(FT, :table_id => APP_CONFIG['fusion_table_id'], :name => "My table")
+        row_id = FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first[:rowid]
+        table.delete row_id
+        flash[:notice] = "Location deleted successfully!"
+        redirect_to "/"
+      rescue
+        flash[:notice] = "There was a problem deleting this location. Please try again or contact the system administrator."
+        redirect_to "/location/#{params[:id]}"
+      end
+    else
+      flash[:notice] = "You must be a super admin to delete locations."
+      redirect_to "/location/#{params[:id]}"
+    end
   end
 
   private

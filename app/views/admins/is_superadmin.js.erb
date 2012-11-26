@@ -1,0 +1,7 @@
+$(document).ready(function() {
+  <% if admin_signed_in? %>
+    <% if current_admin.try(:superadmin?) %>
+      $(".superadmin-edit").show();
+    <% end %>
+  <% end %>
+});

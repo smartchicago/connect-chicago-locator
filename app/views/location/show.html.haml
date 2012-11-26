@@ -9,6 +9,7 @@
   });
 
 %script{:src => "/admin/admins/logged_in.js", :type => "text/javascript"}
+%script{:src => "/admin/admins/is_superadmin.js", :type => "text/javascript"}
 .row
   .span7
     %h2
@@ -17,6 +18,9 @@
         %a{:href => "/location/#{params[:id]}/edit"} 
           %i.icon-pencil
           Edit
+        %a.superadmin-edit{:href => "/location/#{params[:id]}/delete", :style => 'display: none;', :onclick => "return confirm('Are you sure want to delete this location?');"} 
+          %i.icon-remove
+          Delete
     %p.lead
       = @location[:organization_type]
 

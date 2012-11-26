@@ -18,6 +18,9 @@ class AdminsController < ApplicationController
   def logged_in
   end
 
+  def is_superadmin
+  end
+
 	def new
 	end
 
