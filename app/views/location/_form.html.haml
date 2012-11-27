@@ -1,0 +1,140 @@
+= simple_form_for(:location, :html => { :class => 'form-horizontal' }) do |f|
+  - unless @location.errors.messages.length == 0
+    .alert.alert-error.fade.in
+      %a.close{"data-dismiss" => "alert", :href => "#"} &times;
+      %h4 Plese review the following errors:
+      %ul
+      - @location.errors.messages.each do |error|
+        %li 
+          = "#{error[0].to_s.humanize} #{error[1][0]}"
+
+  %fieldset
+    %legend Basic information
+    = f.input :organization_name, :input_html => {:class => 'span12'}
+    = f.input :organization_type, :collection => ["Chicago Housing Authority", "Chicago Public Library", "Chicago Public School", "City Colleges of Chicago", "Community Service Center", "Community Technology Center", "Senior Center", "WorkForce Center", "WorkNet Chicago", "Youth Career Development Center"]
+  
+    = f.input :org_phone, :label => "Phone", :hint => "Formatting will be provided automatically"
+    = f.input :hours, :required => false, :input_html => {:class => 'span12'}
+    = f.input :website, :required => false, :input_html => {:class => 'span12'}
+
+  %fieldset
+    %legend Address
+    = f.input :address, :input_html => {:class => 'span12'}, :label => 'Street address'
+    = f.input :room_list, :input_html => {:class => 'span12'}, :label => 'Room number(s)', :required => false, :hint => 'Room or suite numbers for on-site public computer lab(s)'
+
+    = f.input :city, :input_html => {:class => 'span5'}
+    = f.input :state, :input_html => {:class => 'span1'}
+    = f.input :zip_code, :input_html => {:class => 'span3'}
+
+  %fieldset
+    %legend Description
+    = f.input :friendly_description, :as => :text, :hint => "A few sentences describing this location and its environment", :input_html => {:rows => 5, :class => 'span12'}, :required => false 
+      
+  %fieldset
+    %legend Features
+
+    /TODO: format these checkboxes to fit on one line
+    = f.input :internet, :as => :boolean
+    = f.input :training, :as => :boolean
+    = f.input :wifi, :as => :boolean
+    = f.input :october_open_house, :as => :boolean
+
+    = f.input :pc_use_restrictions, :as => :text, :required => false, :input_html => {:rows => 5, :class => 'span12'}, :input_html => {:rows => 5, :class => 'span12'}
+    = f.input :hardware_public, :input_html => {:class => 'span2'}, :hint => "Number of public computers available", :required => false
+    = f.input :assistive_technology, :as => :text, :hint => "Software for aiding the blind or disabled", :required => false, :input_html => {:rows => 5, :class => 'span12'}
+    = f.input :internet_upload, :input_html => {:class => 'span2'}, :required => false
+    = f.input :internet_download, :input_html => {:class => 'span2'}, :required => false
+    = f.input :public_wifi_detail, :as => :text, :hint => "Wifi encryption (if any), other notes about wifi", :required => false, :input_html => {:rows => 5, :class => 'span12'}
+    = f.input :time_allowed_per_user, :collection => ["Timed", "Unlimited"], :required => false
+    = f.input :time_allowed_per_user_detail, :hint => "Time in minutes if there is a limit", :required => false
+    = f.input :handicap_access_detail, :hint => "Details for handicap accessibility", :required => false, :as => :text, :input_html => {:rows => 5, :class => 'span12'}
+
+  %fieldset
+    %legend Training
+    = f.input :training_types, :hint => 'Type of training offered. Example: Digitial Skills Initiative, Cyber Navigator', :required => false
+    = f.input :training_headline, :hint => 'If training is offered, the name of the training program', :required => false
+    = f.input :training_description, :hint => 'If training is offered, a description of the training program', :required => false, :as => :text, :input_html => {:rows => 5, :class => 'span12'}
+    = f.input :training_url, :hint => 'If training is offered, website for more information', :required => false
+
+  %fieldset
+    %legend Tranportaion
+    = f.input :nearest_parking, :collection => ["Free", "Paid"], :required => false
+    = f.input :nearest_parking_detail, :hint => "Details and directions for nearest parking lot", :required => false
+    = f.input :public_transportation_detail, :hint => "Details and directions for nearest CTA or Metra stations or bus stops", :required => false
+
+  %fieldset
+    %legend Volunteers
+    = f.input :volunteers_used, :as => :boolean
+    = f.input :volunteers_used_how, :hint => "If volunteers are used, for what purpose?", :required => false, :as => :text, :input_html => {:rows => 5, :class => 'span12'}
+    = f.input :volunteers_wanted_how, :hint => "If volunteers are needed, for what purpose?", :required => false, :as => :text, :input_html => {:rows => 5, :class => 'span12'}
+      
+  %fieldset
+    %legend Personel contact
+    .form-inputs.row
+      = f.input :location_leadership, :required => false, :wrapper_html => {:class => "span6"}, :label => "Location leadership", :hint => "Name"
+      = f.input :location_leadership_email, :required => false, :wrapper_html => {:class => "span6"}, :label => false, :hint => "Email"
+    .form-inputs.row
+      = f.input :agency_leadership_contact, :required => false, :wrapper_html => {:class => "span6"}, :label => "Agency leadership", :hint => "Name"
+      = f.input :agency_staff_person_contact_email, :required => false, :wrapper_html => {:class => "span6"}, :label => false, :hint => "Email"
+    .form-inputs.row
+      = f.input :pcc_staff_person, :required => false, :wrapper_html => {:class => "span6"}, :label => "PCC staff person", :hint => "Name"
+      = f.input :pcc_staff_person_email, :required => false, :wrapper_html => {:class => "span6"}, :label => false, :hint => "Email"
+    
+    = f.input :twitter_handle, :required => false
+ 
+  %hr
+    = f.button :submit
+    %a.btn{:href => "/location/#{params[:id]}"} Cancel
+
+
+/ id - can't edit
+/ checked - hidden
+/ notes
+/ slug - can't edit
+/ tecservicesid - can't edit
+/ organization_name
+/ organization_type
+/ full_address - generated based on other fields
+/ address
+/ city
+/ state
+/ zip_code
+/ org_phone
+/ hours
+/ website - url
+/ appointment
+/ internet
+/ wifi
+/ training
+/ pc_use_restrictions
+/ hardware_public
+/ assistive_technology
+/ internet_upload
+/ internet_download
+/ volunteers_used
+/ volunteers_used_how
+/ volunteers_wanted_how
+/ public_wifi_detail
+/ nearest_parking
+/ nearest_parking_detail
+/ public_transportation_detail
+/ time_allowed_per_user
+/ time_allowed_per_user_detail
+/ room_list
+/ handicap_access_detail
+/ friendly_description
+/ agency_leadership_contact
+/ agency_staff_person_contact_email
+/ twitter_handle
+/ training_types
+/ flickr_tag - can't edit
+/ training_headline
+/ training_description
+/ training_url - url
+/ october_open_house
+/ location_leadership
+/ location_leadership_email
+/ pcc_staff_person
+/ pcc_staff_person_email
+/ latitude - geocoded based on saved address
+/ longitude - geocoded based on saved address

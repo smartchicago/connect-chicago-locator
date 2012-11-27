@@ -43,6 +43,7 @@ class LocationController < ApplicationController
   end
   
   def new
+    @location = Location.new
   end
 
   def create

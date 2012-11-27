@@ -1,0 +1,24 @@
+- title "New location"
+%h2
+  New location
+
+%p 
+  %abbr{:title => "required" } *
+  \= required field
+
+.row-fluid
+  .span7
+    = render "location/form"
+
+  .span5
+    .well
+      %h3 Generated fields
+
+      %p
+        When you create a new location, some fields will be populated for you. They are:
+
+      %ul
+        %li Id
+        %li Url
+        %li Flickr tag
+        %li Latitude and longitude
