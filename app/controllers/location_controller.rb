@@ -49,12 +49,10 @@ class LocationController < ApplicationController
 
   def create
     location_edit = fetch_empty
-
     location_edit = set_changes(location_edit, params)
 
     # fill in read-only values
     location_edit[:id] = get_new_id
-    location_edit[:slug] = to_slug "#{location_edit[:organization_name]} #{location_edit[:address]}"
     location_edit[:flickr_tag] = to_flickr_tag "pcc-#{location_edit[:organization_name]} #{location_edit[:id]}"
     
     # FT has some problems with empty fields. clearing them out
@@ -65,8 +63,6 @@ class LocationController < ApplicationController
     end
 
     @location = Location.new(location_edit)
-    puts 'location object'
-    puts @location.inspect
     
     if @location.valid?
        # expire cache
@@ -77,13 +73,13 @@ class LocationController < ApplicationController
 
       begin
         table = fetch_table
-        table.insert location_edit
+        table.insert location_edit #saves to Fusion Tables
 
         flash[:notice] = "Location created successfully!"
       rescue
         flash[:notice] = "There was a problem creating this location. Please try again or contact the system administrator."
       end
-      redirect_to "/location/#{location_edit[:id]}"
+      redirect_to "/location/#{location_edit[:slug]}"
     else
        render :action => 'new'
     end
@@ -124,14 +120,14 @@ class LocationController < ApplicationController
 
       begin
         table = fetch_table
-        row_id = FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first[:rowid]
-        table.update row_id, location_edit
+        row_id = fetch_row_id location_edit[:slug]
+        table.update row_id, location_edit # saves to Fusion Tables
 
         flash[:notice] = "Location saved successfully!"
       rescue
         flash[:notice] = "There was a problem saving this location. Please try again or contact the system administrator."
       end
-      redirect_to "/location/#{params[:id]}"
+      redirect_to "/location/#{location_edit[:slug]}"
     else
       render :action => 'edit'
     end
@@ -149,17 +145,17 @@ class LocationController < ApplicationController
         save_location_changes({"Location deleted" => ""})
 
         table = fetch_table
-        row_id = FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first[:rowid]
+        row_id = fetch_row_id location_edit[:slug]
         table.delete row_id
         flash[:notice] = "Location deleted successfully!"
         redirect_to "/"
       rescue
         flash[:notice] = "There was a problem deleting this location. Please try again or contact the system administrator."
-        redirect_to "/location/#{params[:id]}"
+        redirect_to "/location/#{location_edit[:slug]}"
       end
     else
       flash[:notice] = "You must be a super admin to delete locations."
-      redirect_to "/location/#{params[:id]}"
+      redirect_to "/location/#{location_edit[:slug]}"
     end
   end
 
@@ -180,6 +176,10 @@ class LocationController < ApplicationController
 
   def fetch(slug)
     FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{slug}';").first
+  end
+
+  def fetch_row_id(slug)
+    FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{slug}';").first[:rowid]
   end
 
   def set_changes(location_edit, params)
@@ -211,6 +211,8 @@ class LocationController < ApplicationController
     # urls
     location_edit[:website] = add_http location_edit[:website]
     location_edit[:training_url] = add_http location_edit[:training_url]
+
+    location_edit[:slug] = to_slug "#{location_edit[:organization_name]} #{location_edit[:address]}"
 
     location_edit
   end

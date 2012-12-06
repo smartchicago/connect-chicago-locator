@@ -13,21 +13,28 @@
           %br
           = "on #{location[:created_at].to_s(:long)}"
     .span9
-      %table.table.table-bordered
-        %thead
-          %tr
-            %th Field
-            %th Old
-            %th New
-        %tbody
-          - change = JSON.parse(location[:change])
-          - change.each do |name, value|
+      - change = JSON.parse(location[:change])
+      - puts change.first
+      - if change.first[0] == "Location created"
+        %h4 Location created
+      - elsif change.first[0] == "Location deleted"
+        %h4 Location deleted
+      - else
+        %table.table.table-bordered
+          %thead
             %tr
-              %td
-                = name
-              %td{:style => 'color: red;'}
-                = value[0]
-              %td{:style => 'color: green;'}
-                = value[1]
+              %th Field
+              %th Old
+              %th New
+          %tbody
+            
+            - change.each do |name, value|
+              %tr
+                %td
+                  = name
+                %td{:style => 'color: red;'}
+                  = value[0]
+                %td{:style => 'color: green;'}
+                  = value[1]
 
 = will_paginate @location_changes, :renderer => BootstrapPagination::Rails
