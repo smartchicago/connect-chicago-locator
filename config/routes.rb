@@ -12,6 +12,7 @@ TechLocator::Application.routes.draw do
   match 'location/:id(/:size)/image.jpg' => 'location#showImage'
   match 'location/:id/widget' => 'location#showWidget'
   post 'location/:id/edit' => 'location#update'
+  post 'location/new' => 'location#create'
   get "location/:id/delete" => 'location#destroy'
   resources :location
 

@@ -51,6 +51,8 @@
               %ul.nav.pull-right
                 - if admin_signed_in?
                   - if current_admin.try(:superadmin?)
+                    %li
+                      = link_to('New', location_new_path)
                     %li{:class => controller?("admins") ? "active" : ""}
                       = link_to('Admins', admins_path)
                     %li{:class => controller?("location_changes") ? "active" : ""}

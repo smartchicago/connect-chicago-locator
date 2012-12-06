@@ -10,6 +10,7 @@
 .row-fluid
   .span7
     = render "location/form"
+    %a.btn{:href => "/location/#{params[:id]}"} Cancel
 
   .span5
     .well
