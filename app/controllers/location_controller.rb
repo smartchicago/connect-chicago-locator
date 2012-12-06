@@ -43,7 +43,12 @@ class LocationController < ApplicationController
   end
   
   def new
-    @location = Location.new
+    # fetch a row to get the column names and set to blank
+    location_edit = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} LIMIT 1;").first || not_found
+    location_edit.each do |k, v|
+      location_edit[k] = ''
+    end
+    @location = Location.new(location_edit)
   end
 
   def create
@@ -122,6 +127,16 @@ class LocationController < ApplicationController
       expire_action :action => :index
 
       begin
+        location_edit = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first
+        @location = Location.new(location_edit)
+        # save to location_changes tracking table
+        @location_changes = LocationChanges.new(:admin_id => current_admin.id,
+                                                  :location_id => @location.id,
+                                                  :name => @location.organization_name,
+                                                  :slug => @location.slug,
+                                                  :change => {"Location deleted" => ""}.to_json)
+        @location_changes.save
+
         table = GData::Client::FusionTables::Table.new(FT, :table_id => APP_CONFIG['fusion_table_id'], :name => "My table")
         row_id = FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{params[:id]}';").first[:rowid]
         table.delete row_id

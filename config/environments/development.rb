@@ -7,7 +7,7 @@ TechLocator::Application.configure do
   config.cache_classes = false
 
   config.cache_store = :dalli_store, 'localhost:11211', { :expires_in => 1.day, :compress => true }
-  config.action_controller.perform_caching = true
+  config.action_controller.perform_caching = false
 
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
