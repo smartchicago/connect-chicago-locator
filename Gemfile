@@ -52,7 +52,7 @@ gem 'heroku'
 gem 'newrelic_rpm'
 
 # Exception notification
-gem 'exception_notification', :require => 'exception_notifier'
+gem 'exception_notification', git: 'git://github.com/alanjds/exception_notification.git'
 
 # To use debugger
 # gem 'debugger'
