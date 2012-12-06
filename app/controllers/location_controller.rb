@@ -53,6 +53,7 @@ class LocationController < ApplicationController
 
     # fill in read-only values
     location_edit[:id] = get_new_id
+    location_edit[:slug] = to_slug "#{location_edit[:organization_name]} #{location_edit[:address]}"
     location_edit[:flickr_tag] = to_flickr_tag "pcc-#{location_edit[:organization_name]} #{location_edit[:id]}"
     
     # FT has some problems with empty fields. clearing them out
@@ -97,8 +98,6 @@ class LocationController < ApplicationController
     location_edit = fetch params[:id]
     @location_title = location_edit[:organization_name]
 
-    location_edit = set_changes(location_edit, params)
-
     # stuff in new values from the form in to the Fusion Table hash object
     change = {}
     params[:location].each do |name, value|
@@ -109,6 +108,10 @@ class LocationController < ApplicationController
       end
     end
 
+    location_edit = set_changes(location_edit, params)
+
+    puts 'changes!'
+    puts change.inspect
     @location = Location.new(location_edit)
     if @location.valid? && change.length > 0
       # expire cache
@@ -211,8 +214,6 @@ class LocationController < ApplicationController
     # urls
     location_edit[:website] = add_http location_edit[:website]
     location_edit[:training_url] = add_http location_edit[:training_url]
-
-    location_edit[:slug] = to_slug "#{location_edit[:organization_name]} #{location_edit[:address]}"
 
     location_edit
   end
