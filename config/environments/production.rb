@@ -64,7 +64,7 @@ TechLocator::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   
-  config.action_mailer.default_url_options = { :host => 'tech-locator-rails.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'connect-chicago-locator.herokuapp.com' }
   ### ActionMailer Config
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
@@ -81,5 +81,5 @@ TechLocator::Application.configure do
   config.middleware.use ExceptionNotifier,
     :email_prefix => "[Exception] ",
     :sender_address => %{"Exception Notifier" <error@weconnectchicago.org>},
-    :exception_recipients => %w{derek.eder+error@gmail.com}
+    :exception_recipients => %w{derek.eder@gmail.com}
 end
