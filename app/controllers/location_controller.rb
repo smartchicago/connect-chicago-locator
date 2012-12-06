@@ -233,13 +233,14 @@ class LocationController < ApplicationController
   end
 
   def add_http url
-    proper_url = ''
     if not (url.nil? || url == '')
       if not url.match(/^https?:\/\//)
-        proper_url = 'http://' + url
+        url = 'http://' + url
       end
+    else
+      url = ''
     end
-    proper_url
+    url
   end
 
   def to_slug s
