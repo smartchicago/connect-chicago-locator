@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
 
   private
   def render_error(status, exception)
+    message = "\n#{exception.class} (#{exception.message}):\n"
+    AdminsMailer.notify_exception(exception).deliver
+    logger.fatal message
+
     respond_to do |format|
       format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
       format.all { render nothing: true, status: status }
