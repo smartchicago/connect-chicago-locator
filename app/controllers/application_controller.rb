@@ -9,8 +9,7 @@ class ApplicationController < ActionController::Base
 
   private
   def render_error(status, exception)
-    message = "\n#{exception.class} (#{exception.message}):\n"
-    AdminsMailer.notify_exception(exception).deliver
+    ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
     logger.fatal message
 
     respond_to do |format|

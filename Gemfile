@@ -51,5 +51,8 @@ gem 'heroku'
 # Performance and monitoring
 gem 'newrelic_rpm'
 
+# Exception email
+gem 'exception_notification'
+
 # To use debugger
 # gem 'debugger'
