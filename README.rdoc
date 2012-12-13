@@ -4,8 +4,8 @@ The Tech Locator is an online, searchable map for finding free and affordable te
 
 == Installation
 
-  $ git clone git@github.com:smartchicago/tech-locator-rails.git
-  $ cd tech-locator
+  $ git clone git@github.com:smartchicago/connect-chicago-locator.git
+  $ cd connect-chicago-locator
   $ gem install bundler
   $ bundle
   $ rake db:setup
@@ -25,7 +25,7 @@ The Tech Locator is an online, searchable map for finding free and affordable te
 
 == Team
 
-* Derek Eder mailto:derek.eder@gmail.com
+* Derek Eder mailto:derek.eder+git@gmail.com
 
 
 == More detail needed?
@@ -36,7 +36,7 @@ Contact us via email!
 == Errors / Bugs
 
 If something is not behaving intuitively, it is a bug, and should be reported.
-Report it here: https://github.com/open-city/site-template/issues
+Report it here: https://github.com/smartchicago/connect-chicago-locator/issues
 
 
 == Note on Patches/Pull Requests

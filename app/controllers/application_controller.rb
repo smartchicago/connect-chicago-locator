@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   private
   def render_error(status, exception)
+    AdminsMailer.notify_exception(request.env, exception).deliver # redundant email sending, just in case ExceptionNotifier isn't working
     ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
     logger.fatal message
 

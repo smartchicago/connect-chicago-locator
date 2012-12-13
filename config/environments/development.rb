@@ -41,4 +41,9 @@ TechLocator::Application.configure do
   config.action_mailer.delivery_method = :sendmail
   config.action_mailer.perform_deliveries = false
   config.action_mailer.raise_delivery_errors = true
+
+  config.middleware.use ExceptionNotifier,
+      :email_prefix => "[Exception] ",
+      :sender_address => %{"Exception Notifier" <error@weconnectchicago.org>},
+      :exception_recipients => %w{derek.eder@gmail.com}
 end

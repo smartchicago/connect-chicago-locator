@@ -37,7 +37,7 @@
     = f.input :internet, :as => :boolean
     = f.input :training, :as => :boolean
     = f.input :wifi, :as => :boolean
-    = f.input :october_open_house, :as => :boolean
+    / = f.input :october_open_house, :as => :boolean
 
     = f.input :pc_use_restrictions, :as => :text, :required => false, :input_html => {:rows => 5, :class => 'span12'}, :input_html => {:rows => 5, :class => 'span12'}
     = f.input :hardware_public, :input_html => {:class => 'span2'}, :hint => "Number of public computers available", :required => false
@@ -51,7 +51,7 @@
 
   %fieldset
     %legend Training
-    = f.input :training_types, :hint => 'Type of training offered. Example: Digitial Skills Initiative, Cyber Navigator', :required => false
+    / = f.input :training_types, :hint => 'Type of training offered. Example: Digitial Skills Initiative, Cyber Navigator', :required => false
     = f.input :training_headline, :hint => 'If training is offered, the name of the training program', :required => false
     = f.input :training_description, :hint => 'If training is offered, a description of the training program', :required => false, :as => :text, :input_html => {:rows => 5, :class => 'span12'}
     = f.input :training_url, :hint => 'If training is offered, website for more information', :required => false
@@ -69,7 +69,7 @@
     = f.input :volunteers_wanted_how, :hint => "If volunteers are needed, for what purpose?", :required => false, :as => :text, :input_html => {:rows => 5, :class => 'span12'}
       
   %fieldset
-    %legend Personel contact
+    %legend Personnel contact
     .form-inputs.row
       = f.input :location_leadership, :required => false, :wrapper_html => {:class => "span6"}, :label => "Location leadership", :hint => "Name"
       = f.input :location_leadership_email, :required => false, :wrapper_html => {:class => "span6"}, :label => false, :hint => "Email"
