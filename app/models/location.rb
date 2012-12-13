@@ -4,9 +4,9 @@ class Location
   extend ActiveModel::Naming
   
   validates_presence_of :organization_name, :organization_type, :org_phone, :address, :city, :state, :zip_code
-  validates_format_of :agency_staff_person_contact_email, :location_leadership_email, :pcc_staff_person_email, 
-                      :with => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i,
-                      :allow_nil => true, :allow_blank => true
+  # validates_format_of :agency_staff_person_contact_email, :location_leadership_email, :pcc_staff_person_email, 
+  #                     :with => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i,
+  #                     :allow_nil => true, :allow_blank => true
 
   def create_method( name, &block )
     self.class.send( :define_method, name, &block )
