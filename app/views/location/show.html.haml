@@ -39,19 +39,19 @@
           = formatAddress @location[:address], @location[:city], @location[:state], @location[:zip_code], @location[:room_list]
         
         %p 
-          - unless @location[:org_phone].nil?
+          - unless @location[:org_phone] == ''
             = number_to_phone((@location[:org_phone].gsub /[^0-9x]/, ''), :area_code => true)
-          - unless @location[:website].nil?
+          - unless @location[:website] == ''
             %br
             %a{:href => @location[:website]}
               = snippet @location[:website]
 
-          - unless @location[:pcc_staff_person].nil?
+          - unless @location[:pcc_staff_person] == ''
             %br
               Administrator:  
               = formatContact @location[:pcc_staff_person], @location[:pcc_staff_person_email]
               
-        - unless @location[:hours].nil?
+        - unless @location[:hours] == ''
           %p
             Hours:  
             = @location[:hours]
@@ -74,13 +74,13 @@
                 = yes_no_icon @location[:wifi]
     .row
       .span7
-        - unless @location[:friendly_description].nil?
+        - unless @location[:friendly_description] == ''
           %hr
           %h4 About this place
           %p
             = @location[:friendly_description]
         
-        - unless @location[:training_headline].nil?  
+        - unless @location[:training_headline] == ''
           %hr
           %h4 
             Training
@@ -89,20 +89,20 @@
           %p
             = @location[:training_description]
 
-        - unless @location[:hardware_public].nil?  
+        - unless @location[:hardware_public] == '' 
           %hr
           %h4 
             Additional info
             
           %dl.dl-horizontal
-            - unless @location[:hardware_public].nil?  
+            - unless @location[:hardware_public] == ''  
               %dt
                 Computers
               %dd
                 = @location[:hardware_public]
                 computers available to the public
                 
-            - unless @location[:internet_upload].nil?  
+            - unless @location[:internet_upload] == ''
               %dt 
                 Internet speed
               %dd
@@ -112,19 +112,19 @@
                 Download: 
                 = @location[:internet_download] 
               
-            - unless @location[:pc_use_restrictions].nil?
+            - unless @location[:pc_use_restrictions] == ''
               %dt 
                 Use restrictions
               %dd 
                 = @location[:pc_use_restrictions]
             
-            - unless @location[:assistive_technology].nil?  
+            - unless @location[:assistive_technology] == ''
               %dt 
                 Assistive tech
               %dd 
                 = @location[:assistive_technology] 
             
-            - unless @location[:time_allowed_per_user].nil?  
+            - unless @location[:time_allowed_per_user] == ''
               %dt 
                 Time restrictions
               %dd
@@ -169,7 +169,7 @@
           
       
       %dl.dl-horizontal
-        - unless @location[:nearest_parking].nil?
+        - unless @location[:nearest_parking] == ''
           %dt
             Nearest parking 
           %dd
@@ -177,13 +177,13 @@
           %dd
             = @location[:nearest_parking_detail]
         
-        - unless @location[:public_transportation_detail].nil?
+        - unless @location[:public_transportation_detail] == ''
           %dt
             Public transit
           %dd 
             = @location[:public_transportation_detail]
             
-        - unless @location[:handicap_access_detail].nil?
+        - unless @location[:handicap_access_detail] == ''
           %dt
             Handicap access
           %dd 
