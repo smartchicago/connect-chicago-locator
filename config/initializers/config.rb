@@ -6,6 +6,7 @@ rescue Errno::ENOENT
   APP_CONFIG['fusion_table_id'] = ENV['fusion_table_id'].to_s
   APP_CONFIG['google_account'] = ENV['google_account'].to_s
   APP_CONFIG['google_password'] = ENV['google_password'].to_s
+  APP_CONFIG['google_api_key'] = ENV['google_api_key'].to_s
   
   APP_CONFIG['flickr_key'] = ENV['flickr_key'].to_s
   APP_CONFIG['flickr_secret'] = ENV['flickr_secret'].to_s
@@ -26,6 +27,7 @@ APP_CONFIG['domain'] = 'http://weconnectchicago.org/'
 #initialize Fusion Tables API
 FT = GData::Client::FusionTables.new      
 FT.clientlogin(APP_CONFIG['google_account'], APP_CONFIG['google_password'])
+FT.set_api_key(APP_CONFIG['google_api_key'])
 
 #initialize Flickr
 FlickRaw.api_key=APP_CONFIG['flickr_key']
