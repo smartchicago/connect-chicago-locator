@@ -14,7 +14,7 @@ gem 'dalli'
 
 # markup and rendering
 gem 'haml-rails'
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', " ~> 2.1.4"
 gem 'formtastic', " ~> 2.1.1"
 gem 'formtastic-bootstrap'
 gem 'simple_form'

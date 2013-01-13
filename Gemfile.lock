@@ -153,7 +153,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter-bootstrap-rails (2.2.0)
+    twitter-bootstrap-rails (2.1.9)
       actionpack (>= 3.1)
       execjs
       railties (>= 3.1)
@@ -194,7 +194,7 @@ DEPENDENCIES
   pg
   rails (= 3.2.11)
   simple_form
-  twitter-bootstrap-rails
+  twitter-bootstrap-rails (~> 2.1.4)
   uglifier (>= 1.0.3)
   unicorn
   will_paginate-bootstrap
