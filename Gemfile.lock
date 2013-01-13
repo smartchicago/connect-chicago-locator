@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/derekeder/fusion_tables.git
-  revision: 1faec6c6c65d936e240b7472b0f94399b5810d1c
+  revision: 21e625ee3df2d24a3358de6fcf848dae3ba180ba
   specs:
     fusion_tables (0.3.2)
       gdata_19 (>= 1.1.2)
