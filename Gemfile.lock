@@ -39,6 +39,7 @@ GEM
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
+    commonjs (0.2.6)
     dalli (2.6.0)
     devise (2.2.1)
       bcrypt-ruby (~> 3.0)
@@ -88,6 +89,12 @@ GEM
     kgio (2.7.4)
     launchy (2.1.2)
       addressable (~> 2.3)
+    less (2.2.2)
+      commonjs (~> 0.2.6)
+    less-rails (2.2.6)
+      actionpack (>= 3.1)
+      less (~> 2.2.0)
+    libv8 (3.11.8.13)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -127,6 +134,7 @@ GEM
     rake (10.0.3)
     rdoc (3.12)
       json (~> 1.4)
+    ref (1.0.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rubyzip (0.9.9)
@@ -139,6 +147,9 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    therubyracer (0.11.2)
+      libv8 (~> 3.11.8.12)
+      ref
     thor (0.16.0)
     tilt (1.3.3)
     tinder (1.9.2)
@@ -153,7 +164,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter-bootstrap-rails (2.1.9)
+    twitter-bootstrap-rails (2.2.0)
       actionpack (>= 3.1)
       execjs
       railties (>= 3.1)
@@ -189,12 +200,14 @@ DEPENDENCIES
   geocoder
   haml-rails
   heroku
+  less-rails
   memcachier
   newrelic_rpm
   pg
   rails (= 3.2.11)
   simple_form
-  twitter-bootstrap-rails (~> 2.1.4)
+  therubyracer
+  twitter-bootstrap-rails
   uglifier (>= 1.0.3)
   unicorn
   will_paginate-bootstrap
