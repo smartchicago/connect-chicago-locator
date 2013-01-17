@@ -61,9 +61,9 @@
                     = link_to('Account', edit_admin_registration_path)
                   %li
                     = link_to('Logout', destroy_admin_session_path, :method => :delete)        
-                / - else
-                /   %li
-                /     = link_to('Login', new_admin_session_path)
+                - else
+                  %li
+                    = link_to('Login', new_admin_session_path)
 
     %div{:class => content_for?(:page_layout) ? content_for(:page_layout) : "container"}
       .content
