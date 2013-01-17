@@ -26,7 +26,11 @@ class ApplicationController < ActionController::Base
   
   def getFlickrGalleryPhotos tags, count=14
     list = flickr.photos.search(:tags => tags, :safe_search => "1", :per_page => count)
-    list
+    if list.length > 0
+      list
+    else
+      []
+    end
   end
 
   def getFlickrFeaturedPhoto tags
