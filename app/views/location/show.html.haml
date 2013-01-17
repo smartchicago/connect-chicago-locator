@@ -189,6 +189,12 @@
           %dd 
             = @location[:handicap_access_detail]
 
+      %hr
+      %h4 Do you help manage this location? 
+      %p
+        = link_to('Sign up to be a Connect Chicago admin', new_admin_registration_path)
+        and update this page anytime you want!
+
 #modal-gallery.modal.modal-gallery.hide.fade
   .modal-header
     %a.close{"data-dismiss" => "modal"} x
