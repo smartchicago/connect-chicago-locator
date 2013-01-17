@@ -11,6 +11,8 @@ rescue Errno::ENOENT
   APP_CONFIG['flickr_key'] = ENV['flickr_key'].to_s
   APP_CONFIG['flickr_secret'] = ENV['flickr_secret'].to_s
 
+  APP_CONFIG['signupNotificationEmail'] = ENV['signupNotificationEmail'].to_s
+
   APP_CONFIG['admin1Email'] = ENV['admin1Email'].to_s
   APP_CONFIG['admin1Pass'] = ENV['admin1Pass'].to_s
   APP_CONFIG['admin2Email'] = ENV['admin2Email'].to_s

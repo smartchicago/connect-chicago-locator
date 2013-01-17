@@ -4,7 +4,7 @@ class AdminsMailer < ActionMailer::Base
   def signup_notify_admin(admin)
     @admin = admin
     @url  = 'http://locations.weconnectchicago.org/admin/admins?approved=false'
-    mail(to: APP_CONFIG['admin1Email'], subject: 'Connect Chicago: New admin registration')
+    mail(to: APP_CONFIG['signupNotificationEmail'], subject: 'Connect Chicago: New admin registration')
   end
 
   def notify_approved_admin(admin)
