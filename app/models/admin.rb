@@ -30,7 +30,7 @@ class Admin < ActiveRecord::Base
       sql = "SELECT slug, organization_name FROM #{APP_CONFIG['fusion_table_id']} WHERE id='#{self.location_id}';"
       name = FT.execute(sql)
       if name.length > 0
-        "<a href='/location/#{name.first[:slug]}'>#{name.first[:organization_name]}</a>".html_safe
+        "<a href='http://locations.weconnectchicago.org/location/#{name.first[:slug]}'>#{name.first[:organization_name]}</a>".html_safe
       else
         ''
       end
