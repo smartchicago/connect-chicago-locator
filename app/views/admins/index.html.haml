@@ -16,6 +16,7 @@
           %th Name
           %th Email
           %th Organization
+          %th Location
           %th Twitter
           %th Approved
           %th Super admin
@@ -27,6 +28,7 @@
               %td= "#{admin.first_name} #{admin.last_name}"
               %td= link_to admin.email, edit_admin_path(admin)
               %td= admin.organization
+              %td= admin.location_link
               %td= admin.twitter_handle
               %td= admin.approved
               %td= admin.superadmin

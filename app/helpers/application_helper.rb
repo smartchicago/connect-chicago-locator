@@ -64,4 +64,13 @@ module ApplicationHelper
     end
     result.html_safe()
   end
+
+  def locationNameList 
+    location_list = FT.execute("SELECT id, organization_name FROM #{APP_CONFIG['fusion_table_id']} ORDER BY organization_name;")
+    location_array = [['--Select--','']]
+    location_list.each do |l|
+      location_array << [l[:organization_name], l[:id]]
+    end
+    return location_array
+  end
 end

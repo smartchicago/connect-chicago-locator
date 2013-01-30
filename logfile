@@ -1,0 +1,210 @@
+LOG:  database system was shut down at 2013-01-23 14:30:26 CST
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+FATAL:  role "edifice" does not exist
+FATAL:  role "edifice" does not exist
+FATAL:  role "edifice" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+ERROR:  database "edifice" is being accessed by other users
+DETAIL:  There are 1 other session(s) using the database.
+STATEMENT:  DROP DATABASE edifice;
+	
+ERROR:  database "edifice" is being accessed by other users
+DETAIL:  There are 1 other session(s) using the database.
+STATEMENT:  DROP DATABASE edifice;
+	
+ERROR:  role "edifice" already exists
+STATEMENT:  CREATE USER edifice;
+ERROR:  must be owner of database edifice
+STATEMENT:  DROP DATABASE edifice;
+	
+ERROR:  database "edifice" already exists
+STATEMENT:  CREATE DATABASE edifice TEMPLATE base_postgis;
+	
+ERROR:  relation "pins_master" already exists
+STATEMENT:  CREATE TABLE pins_master (
+	    pin character varying(30),
+	    taxcode integer,
+	    city character varying(20),
+	    amt_billed money,
+	    year integer,
+	    id integer NOT NULL
+	);
+ERROR:  relation "pins_master_id_seq" already exists
+STATEMENT:  CREATE SEQUENCE pins_master_id_seq
+	    START WITH 1
+	    INCREMENT BY 1
+	    NO MINVALUE
+	    NO MAXVALUE
+	    CACHE 1;
+ERROR:  must be owner of relation pins_master_id_seq
+STATEMENT:  ALTER SEQUENCE pins_master_id_seq OWNED BY pins_master.id;
+ERROR:  must be owner of relation pins_master
+STATEMENT:  ALTER TABLE ONLY pins_master ALTER COLUMN id SET DEFAULT nextval('pins_master_id_seq'::regclass);
+ERROR:  must be owner of relation pins_master
+STATEMENT:  ALTER TABLE ONLY pins_master
+	    ADD CONSTRAINT pins_master_pkey PRIMARY KEY (id);
+ERROR:  permission denied for database edifice
+STATEMENT:  CREATE SCHEMA assessed;
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE apts (
+	    pin character varying(20),
+	    address character varying(100),
+	    lav_2011 character varying(20),
+	    lav_2012 character varying(20),
+	    bav_2011 character varying(20),
+	    bav_2012 character varying(20),
+	    bldg_age character varying(4),
+	    bldg_sqft character varying(20),
+	    bldg_units character varying(10)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE assessed_sent_pins (
+	    pin character varying(20),
+	    nodash character varying(20)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE condos (
+	    pin character varying(20),
+	    address character varying(150),
+	    lav_2011 character varying(50),
+	    lav_2012 character varying(50),
+	    mkt_val_2011 character varying(100),
+	    mkt_val_2012 character varying(100),
+	    bav_2011 character varying(100),
+	    bav_2012 character varying(100),
+	    bldg_age character varying(20),
+	    cur_year character varying(10),
+	    last_year character varying(10)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE exempt (
+	    pin character varying(20)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE res202 (
+	    pin character varying(20),
+	    address character varying(100),
+	    lav_2011 character varying(20),
+	    lav_2012 character varying(20),
+	    bav_2011 character varying(20),
+	    bav_2012 character varying(20),
+	    bldg_age character varying(4),
+	    mkt_val_2011 character varying(50),
+	    mkt_val_2012 character varying(50),
+	    res_type character varying(100),
+	    res_use character varying(100),
+	    res_apts character varying(100),
+	    ext_const character varying(100),
+	    full_bath character varying(100),
+	    half_bath character varying(100),
+	    basement character varying(200),
+	    attic character varying(100),
+	    central_air character varying(100),
+	    fireplace character varying(100),
+	    garage character varying(100),
+	    cur_year character varying(10),
+	    last_year character varying(10)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE vacant (
+	    pin character varying(20),
+	    address character varying(150),
+	    lav_2011 character varying(50),
+	    lav_2012 character varying(50)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE vacant_adjacent (
+	    pin character varying(20),
+	    address character varying(150),
+	    lav_2011 character varying(50),
+	    lav_2012 character varying(50),
+	    mkt_val_2011 character varying(100),
+	    mkt_val_2012 character varying(100)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE vacant_improved (
+	    pin character varying(20),
+	    address character varying(100),
+	    lav_last character varying(20),
+	    lav_current character varying(20),
+	    bav_last character varying(20),
+	    bav_current character varying(20),
+	    bldg_age character varying(4),
+	    current_year character varying(10),
+	    last_year character varying(10)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE garage (
+	    pin character varying(20),
+	    address character varying(100),
+	    lav_2011 character varying(20),
+	    lav_2012 character varying(20),
+	    bav_2011 character varying(20),
+	    bav_2012 character varying(20),
+	    bldg_age character varying(4)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE invalid_pins (
+	    pin character varying(20)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE pins_propclass_tocheck (
+	    sent_pin character varying(20),
+	    property_class character varying(200)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE propclass (
+	    property_class character varying(5),
+	    description character varying(200),
+	    shortdesc character varying(200),
+	    tilemill_display character varying(100)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE retry (
+	    pin character varying(20),
+	    propclass character varying(5)
+	);
+ERROR:  permission denied for schema pg_catalog
+STATEMENT:  CREATE TABLE sent_pins (
+	    pin character varying(20)
+	);
+LOG:  autovacuum launcher shutting down
+LOG:  received smart shutdown request
+LOG:  shutting down
+LOG:  database system is shut down
+LOG:  database system was shut down at 2013-01-30 09:17:03 CST
+LOG:  autovacuum launcher started
+LOG:  database system is ready to accept connections

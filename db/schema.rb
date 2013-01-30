@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121024155908) do
+ActiveRecord::Schema.define(:version => 20130129225459) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                  :default => "",    :null => false
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20121024155908) do
     t.string   "last_name",              :default => ""
     t.string   "organization",           :default => ""
     t.string   "twitter_handle"
+    t.integer  "location_id"
   end
 
   add_index "admins", ["approved"], :name => "index_admins_on_approved"

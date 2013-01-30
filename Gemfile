@@ -23,7 +23,7 @@ gem 'simple_form'
 gem 'will_paginate-bootstrap'
 
 # apis
-gem 'fusion_tables', :git  => 'git://github.com/derekeder/fusion_tables.git'
+gem 'fusion_tables' #, :git  => 'git://github.com/derekeder/fusion_tables.git'
 gem 'flickraw'
 gem 'geocoder'
 
