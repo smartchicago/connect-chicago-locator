@@ -14,6 +14,10 @@
       %br
       Organization:
       = @admin.organization
+      - unless @admin.location_id.nil? || @admin.location_id == ''
+        %br
+        Associated location:
+        = @admin.location_link
       - unless @admin.twitter_handle.nil? || @admin.twitter_handle == ''
         %br
         Twitter handle:
