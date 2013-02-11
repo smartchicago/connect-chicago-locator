@@ -58,3 +58,6 @@ gem 'exception_notification'
 
 # To use debugger
 # gem 'debugger'
+
+# ensure updated JSON gem
+gem 'json', ">= 1.7.7"

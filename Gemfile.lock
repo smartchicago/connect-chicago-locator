@@ -196,6 +196,7 @@ DEPENDENCIES
   geocoder
   haml-rails
   heroku
+  json (>= 1.7.7)
   less-rails
   memcachier
   newrelic_rpm
