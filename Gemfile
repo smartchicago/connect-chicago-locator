@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -58,3 +58,6 @@ gem 'exception_notification'
 
 # To use debugger
 # gem 'debugger'
+
+# ensure updated JSON gem
+gem 'json', ">= 1.7.7"
