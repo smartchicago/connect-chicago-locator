@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://weconnectchicago.org/learn</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://weconnectchicago.org/news-events</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://weconnectchicago.org/about</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://weconnectchicago.org/contact-us</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+<% @locations.each do |location| -%>
+  <url>
+    <loc><%= location_url :id => location.slug %></loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+<% end -%>
+</urlset>
