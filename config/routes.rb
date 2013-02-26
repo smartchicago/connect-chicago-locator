@@ -17,6 +17,8 @@ TechLocator::Application.routes.draw do
   resources :location
 
   get "location_changes/index"
+
+  match "/sitemap", :to => "home#sitemap"
   
   root :to => 'home#index'
 
