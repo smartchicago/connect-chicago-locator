@@ -1,15 +1,19 @@
-= Tech Locator
+= Connect Chicago Locator
 
-The Tech Locator is an online, searchable map for finding free and affordable technology resources and services in the City of Chicago
+The Connect Chicago Locator is an online, searchable map for finding free and affordable technology resources and services in the City of Chicago.
 
 == Installation
 
   $ git clone git@github.com:smartchicago/connect-chicago-locator.git
   $ cd connect-chicago-locator
   $ gem install bundler
-  $ bundle
+  $ bundle install
   $ rake db:setup
-  $ unicorn
+  $ cp config/config.yml.example config/config.yml
+
+  Populate the config.yml file with config settings. Values can be found via `heroku config`
+
+  $ bundle exec unicorn
   navigate to http://localhost:8080/
 
 == Dependencies
@@ -25,8 +29,9 @@ The Tech Locator is an online, searchable map for finding free and affordable te
 
 == Team
 
-* Derek Eder mailto:derek.eder+git@gmail.com
-
+* Chris Gansen mailto:cgansen@gmail.com
+* Dan O'Neil mailto:doneil@cct.org
+* Derek Eder (alumnus) mailto:derek.eder+git@gmail.com
 
 == More detail needed?
 
@@ -51,4 +56,3 @@ Report it here: https://github.com/smartchicago/connect-chicago-locator/issues
 
 Copyright (c) 2012 Derek Eder Released under the MIT License.
 
-License coming soon
