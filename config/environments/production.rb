@@ -81,5 +81,5 @@ TechLocator::Application.configure do
   config.middleware.use ExceptionNotifier,
       :email_prefix => "[Exception] ",
       :sender_address => %{"Exception Notifier" <error@weconnectchicago.org>},
-      :exception_recipients => %w{derek.eder@gmail.com cgansen@gmail.com}
+      :exception_recipients => %w{cgansen@gmail.com}
 end
