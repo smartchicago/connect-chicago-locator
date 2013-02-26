@@ -36,14 +36,15 @@ class Location
     false
   end
   
-  def self.all
-    Rails.cache.fetch("all-locations", :expires_in => 12.hours) do
-      collection = []
-      results = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} ORDER BY organization_name;")
-      results.each do |result|
-        collection << Location.new(result)
-      end
-      collection
+  def self.all    
+    collection = []
+    results = Rails.cache.fetch("all-locations", :expires_in => 12.hours) do
+      FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} ORDER BY organization_name;")
     end
+    
+    results.each do |result|
+      collection << Location.new(result)
+    end
+    collection
   end
 end
