@@ -9,7 +9,7 @@ class LocationController < ApplicationController
   end
 
   def show
-    @location = fetch params[:id]
+    @location = fetch(params[:id]) || not_found
     
     respond_to do |format|
       format.html  # show.html.haml
