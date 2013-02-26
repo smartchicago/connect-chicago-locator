@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   def render_error(status, exception)
     AdminsMailer.notify_exception(request.env, exception).deliver # redundant email sending, just in case ExceptionNotifier isn't working
     ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
-    logger.fatal message
+    Rails.logger.fatal "[FATAL] #{exception.message}\n\nBacktrace:\n\n#{exception.backtrace.join(%Q(\n))}"
 
     respond_to do |format|
       format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
