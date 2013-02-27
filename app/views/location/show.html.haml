@@ -10,10 +10,10 @@
 
 %script{:src => "/admin/admins/logged_in.js", :type => "text/javascript"}
 %script{:src => "/admin/admins/is_superadmin.js", :type => "text/javascript"}
-.row
+.row{:itemscope => '', :itemtype => "http://schema.org/Organization"}
   .span7
     %h2
-      = @location[:organization_name]
+      %span{:itemprop => "name"}= @location[:organization_name]
       %small.admin-edit{:style => 'display: none;'}
         %a{:href => "/location/#{params[:id]}/edit"} 
           %i.icon-pencil
@@ -40,9 +40,10 @@
         
         %p 
           - unless @location[:org_phone] == ''
-            = number_to_phone((@location[:org_phone].gsub /[^0-9x]/, ''), :area_code => true)
+            %span{:itemprop => "telephone"}= number_to_phone((@location[:org_phone].gsub /[^0-9x]/, ''), :area_code => true)
           - unless @location[:website] == ''
             %br
+            %span{:itemprop => 'url', :style => "display:none;"}= @location[:website]
             %a{:href => @location[:website]}
               = snippet @location[:website]
 
@@ -77,7 +78,7 @@
         - unless @location[:friendly_description] == ''
           %hr
           %h4 About this place
-          %p
+          %p{:itemprop => 'description'}
             = @location[:friendly_description]
         
         - unless @location[:training_headline] == ''
