@@ -157,7 +157,7 @@
       %p
         - featured_photo = getFlickrFeaturedPhoto(@location[:flickr_tag])
         - unless featured_photo.nil?
-          %img.img-polaroid{:src => "/location/#{params[:id]}/image.jpg", :title => @location[:organization_name], :alt => @location[:organization_name]}
+          %img.img-polaroid{:src => "/location/#{params[:id]}/image.jpg", :title => @location[:organization_name], :alt => @location[:organization_name], :itemprop => 'image'}
 
       #mapDetail
       %hr
