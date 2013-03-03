@@ -36,7 +36,7 @@ module ApplicationHelper
   end
   
   def formatAddress street, city, state, zip, room
-    result = "<span itemprop='location' itemscope itemtype='http://schema.org/PostalAddress'>"    
+    result = "<span itemprop='address' itemscope itemtype='http://schema.org/PostalAddress'>"    
     result += "<span itemprop='streetAddress'>#{street}</span>"
     result += "<br />"
     result += "<span itemprop='addressLocality'>#{city}</span>, <span itemprop='addressRegion'>#{state}</span> <span itemprop='postalCode'>#{zip}</span>"
