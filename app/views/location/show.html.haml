@@ -37,7 +37,10 @@
       .span4
         %p  
           = formatAddress @location[:address], @location[:city], @location[:state], @location[:zip_code], @location[:room_list]
-        
+          %span{:itemprop => 'geo', :itemscope => '', :itemtype => 'http://schema.org/GeoCoordinates', :style => "display:none"}
+            %span{:itemprop => 'latitude'}= @location[:latitude]
+            %span{:itemprop => 'longitude'}= @location[:longitude]
+          
         %p 
           - unless @location[:org_phone] == ''
             %span{:itemprop => "telephone"}= number_to_phone((@location[:org_phone].gsub /[^0-9x]/, ''), :area_code => true)
