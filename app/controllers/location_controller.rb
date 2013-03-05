@@ -1,7 +1,7 @@
 class LocationController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show, :showImage, :showWidget]
   # caches_action :showImage
-  caches_action :show, :layout => false
+  # caches_action :show, :layout => false
   caches_action :index, :layout => false
 
   def index
