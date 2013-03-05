@@ -1,7 +1,8 @@
 class LocationController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show, :showImage, :showWidget]
+  before_filter :set_location, :only => [:show]
   # caches_action :showImage
-  # caches_action :show, :layout => false
+  caches_action :show, :layout => false
   caches_action :index, :layout => false
 
   def index
@@ -9,19 +10,16 @@ class LocationController < ApplicationController
   end
 
   def show
-    @location = fetch(params[:id]) || not_found
-    
     respond_to do |format|
       format.html  # show.html.haml
       format.json  { render :json => @location }
     end
-
   end
 
   def showImage
     require 'open-uri'
     location = fetch params[:id]
-    featured_photo = getFlickrFeaturedPhoto(location[:flickr_tag])
+    featured_photo = getFlickrFeaturedPhoto(location.flickr_tag)
     unless featured_photo.nil?
       url = URI.parse(getFlickrPhotoPath(featured_photo, params[:size]))
       open(url) do |http|
@@ -183,6 +181,11 @@ class LocationController < ApplicationController
 
   def fetch_row_id(slug)
     FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{slug}';").first[:rowid]
+  end
+
+  def set_location
+    @location = fetch(params[:id]) || not_found
+    @page_title = @location.organization_name
   end
 
   def set_changes(location_edit, params)
