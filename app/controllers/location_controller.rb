@@ -1,6 +1,6 @@
 class LocationController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show, :showImage, :showWidget]
-  before_filter :set_location, :only => [:show]
+  before_filter :set_location, :only => [:show, :edit]
   # caches_action :showImage
   caches_action :show, :layout => false
   caches_action :index, :layout => false
@@ -86,31 +86,28 @@ class LocationController < ApplicationController
   end
 
   def edit
-    location_edit = fetch params[:id]
-    @location_title = location_edit[:organization_name]
-    @location = Location.new(location_edit)
+    @location_title = @location[:organization_name]
   end
 
   def update
     # fetch the existing data from Fusion Tables (this it probably redundant)
-    location_edit = fetch params[:id]
-    @location_title = location_edit[:organization_name]
+    @location = fetch params[:id]
+    @location_title = @location[:organization_name]
 
     # stuff in new values from the form in to the Fusion Table hash object
     change = {}
     params[:location].each do |name, value|
-      old_value = "#{location_edit["#{name}".to_sym]}"
+      old_value = "#{@location["#{name}".to_sym]}"
       # if a field has changed, add it to the change hash for location_changes tracking
       if old_value != value
         change["#{name}"] = [old_value, value]
       end
     end
 
-    location_edit = set_changes(location_edit, params)
+    @location = set_changes(@location, params)
 
-    puts 'changes!'
-    puts change.inspect
-    @location = Location.new(location_edit)
+    Rails.logger.debug 'changes!'
+    Rails.logger.debug change.inspect
     if @location.valid? && change.length > 0
       # expire cache
       expire_action :action => :show
@@ -120,15 +117,14 @@ class LocationController < ApplicationController
       save_location_changes(change)
 
       begin
-        table = fetch_table
-        row_id = fetch_row_id location_edit[:slug]
-        table.update row_id, location_edit # saves to Fusion Tables
-
+        @location.save # saves to Fusion Tables
         flash[:notice] = "Location saved successfully!"
-      rescue
+      rescue StandardError => e
+        Rails.logger.error("[LocationController#update] error saving update: #{e.message}")
+        Rails.logger.error("[LocationController#update] error message:\n\n #{e.backtrace.join("\n")}")        
         flash[:notice] = "There was a problem saving this location. Please try again or contact the system administrator."
       end
-      redirect_to "/location/#{location_edit[:slug]}"
+      redirect_to location_path :id => @location.slug
     else
       render :action => 'edit'
     end
@@ -194,9 +190,9 @@ class LocationController < ApplicationController
       old_value = "#{location_edit["#{name}".to_sym]}"
       # if a field has changed, add it to the change hash for location_changes tracking
       if old_value != value
-        location_edit["#{name}".to_sym] = value
+        location_edit.send("#{name}=", value)
       elsif old_value == '' && value == ''
-        location_edit.delete("#{name}".to_sym)
+        # location_edit.delete("#{name}".to_sym)
       end
     end
 
