@@ -178,7 +178,7 @@ class LocationController < ApplicationController
   end
 
   def fetch(slug)
-    FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{slug}';").first
+    Location.new(FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{slug}';").first)
   end
 
   def fetch_row_id(slug)

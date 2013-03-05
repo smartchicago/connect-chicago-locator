@@ -1,11 +1,11 @@
-- title @location[:organization_name]
+- title @location.organization_name
 - page_layout "container"
 :javascript 
   $(function(){
     MapsDetailLib.initializeMap();
   
     if (MapsDetailLib.map != null)
-      MapsDetailLib.displayPoint("#{encodeAddress(@location[:full_address])}");
+      MapsDetailLib.displayPoint("#{encodeAddress(@location.full_address)}");
   });
 
 %script{:src => "/admin/admins/logged_in.js", :type => "text/javascript"}
@@ -13,7 +13,7 @@
 .row{:itemscope => '', :itemtype => "http://schema.org/Place"}
   .span7
     %h2
-      %span{:itemprop => "name"}= @location[:organization_name]
+      %span{:itemprop => "name"}= @location.organization_name
       %small.admin-edit{:style => 'display: none;'}
         %a{:href => "/location/#{params[:id]}/edit"} 
           %i.icon-pencil
@@ -22,7 +22,7 @@
           %i.icon-remove
           Delete
     %p.lead
-      = @location[:organization_type]
+      = @location.organization_type
 
     %p
       / AddThis Button BEGIN
@@ -36,29 +36,29 @@
     .row  
       .span4
         %p  
-          = formatAddress @location[:address], @location[:city], @location[:state], @location[:zip_code], @location[:room_list]
+          = formatAddress @location.address, @location.city, @location.state, @location.zip_code, @location.room_list
           %span{:itemprop => 'geo', :itemscope => '', :itemtype => 'http://schema.org/GeoCoordinates', :style => "display:none"}
-            %span{:itemprop => 'latitude'}= @location[:latitude]
-            %span{:itemprop => 'longitude'}= @location[:longitude]
+            %span{:itemprop => 'latitude'}= @location.latitude
+            %span{:itemprop => 'longitude'}= @location.longitude
           
         %p 
-          - unless @location[:org_phone] == ''
-            %span{:itemprop => "telephone"}= number_to_phone((@location[:org_phone].gsub /[^0-9x]/, ''), :area_code => true)
-          - unless @location[:website] == ''
+          - unless @location.org_phone == ''
+            %span{:itemprop => "telephone"}= number_to_phone((@location.org_phone.gsub /[^0-9x]/, ''), :area_code => true)
+          - unless @location.website == ''
             %br
-            %span{:itemprop => 'url', :style => "display:none;"}= @location[:website]
-            %a{:href => @location[:website]}
-              = snippet @location[:website]
+            %span{:itemprop => 'url', :style => "display:none;"}= @location.website
+            %a{:href => @location.website}
+              = snippet @location.website
 
-          - unless @location[:pcc_staff_person] == ''
+          - unless @location.pcc_staff_person == ''
             %br
               Administrator:  
-              = formatContact @location[:pcc_staff_person], @location[:pcc_staff_person_email]
+              = formatContact @location.pcc_staff_person, @location.pcc_staff_person_email
               
-        - unless @location[:hours] == ''
+        - unless @location.hours == ''
           %p
             Hours:  
-            = @location[:hours]
+            = @location.hours
     
       .span3  
         %table.table.table-bordered
@@ -71,79 +71,79 @@
           %tbody
             %tr
               %td
-                = yes_no_icon @location[:internet]
+                = yes_no_icon @location.internet
               %td
-                = yes_no_icon @location[:training]
+                = yes_no_icon @location.training
               %td
-                = yes_no_icon @location[:wifi]
+                = yes_no_icon @location.wifi
     .row
       .span7
-        - unless @location[:friendly_description] == ''
+        - unless @location.friendly_description == ''
           %hr
           %h4 About this place
           %p{:itemprop => 'description'}
-            = @location[:friendly_description]
+            = @location.friendly_description
         
-        - unless @location[:training_headline] == ''
+        - unless @location.training_headline == ''
           %hr
           %h4 
             Training
           %h5
-            = @location[:training_headline]
+            = @location.training_headline
           %p
-            = @location[:training_description]
+            = @location.training_description
 
-        - unless @location[:hardware_public] == '' 
+        - unless @location.hardware_public == '' 
           %hr
           %h4 
             Additional info
             
           %dl.dl-horizontal
-            - unless @location[:hardware_public] == ''  
+            - unless @location.hardware_public == ''  
               %dt
                 Computers
               %dd
-                = @location[:hardware_public]
+                = @location.hardware_public
                 computers available to the public
                 
-            - unless @location[:internet_upload] == ''
+            - unless @location.internet_upload == ''
               %dt 
                 Internet speed
               %dd
                 Upload: 
-                = @location[:internet_upload] 
+                = @location.internet_upload 
               %dd
                 Download: 
-                = @location[:internet_download] 
+                = @location.internet_download 
               
-            - unless @location[:pc_use_restrictions] == ''
+            - unless @location.pc_use_restrictions == ''
               %dt 
                 Use restrictions
               %dd 
-                = @location[:pc_use_restrictions]
+                = @location.pc_use_restrictions
             
-            - unless @location[:assistive_technology] == ''
+            - unless @location.assistive_technology == ''
               %dt 
                 Assistive tech
               %dd 
-                = @location[:assistive_technology] 
+                = @location.assistive_technology 
             
-            - unless @location[:time_allowed_per_user] == ''
+            - unless @location.time_allowed_per_user == ''
               %dt 
                 Time restrictions
               %dd
-                = @location[:time_allowed_per_user] 
+                = @location.time_allowed_per_user 
               %dd
-                = @location[:time_allowed_per_user_detail]
+                = @location.time_allowed_per_user_detail
                 
     .row.hidden-phone
       .span7
         %hr
         %h4 
           Photos of 
-          = @location[:organization_name]
+          = @location.organization_name
         %ul.thumbnails#gallery{:"data-toggle" => "modal-gallery", :"data-target" => "#modal-gallery"}
-          - getFlickrGalleryPhotos(@location[:flickr_tag]).each do |photo|
+          - getFlickrGalleryPhotos(@location.flickr_tag).each do |photo|
             %li.span1
               %a.thumbnail{:href => getFlickrPhotoPath(photo, 'z'), :rel =>"gallery", :title => "#{photo.title}"}
                 %img{:src => getFlickrPhotoPath(photo, 's')} 
@@ -153,45 +153,45 @@
           %a{:href => "http://flickr.com"} Flickr
           and tag it with
           %strong
-            = @location[:flickr_tag]
+            = @location.flickr_tag
                 
   .span5
     .well
       %p
-        - featured_photo = getFlickrFeaturedPhoto(@location[:flickr_tag])
+        - featured_photo = getFlickrFeaturedPhoto(@location.flickr_tag)
         - unless featured_photo.nil?
-          %img.img-polaroid{:src => "/location/#{params[:id]}/image.jpg", :title => @location[:organization_name], :alt => @location[:organization_name], :itemprop => 'image'}
+          %img.img-polaroid{:src => "/location/#{params[:id]}/image.jpg", :title => @location.organization_name, :alt => @location.organization_name, :itemprop => 'image'}
 
       #mapDetail
       %hr
       %p.lead
-        = formatAddress @location[:address], @location[:city], @location[:state], @location[:zip_code], @location[:roomlist]
+        = formatAddress @location.address, @location.city, @location.state, @location.zip_code, ''
       %p
-        %a.btn.btn-success{:href => "https://maps.google.com/maps?f=d&hl=en&geocode=&daddr=#{encodeAddress(@location[:full_address])}"}
+        %a.btn.btn-success{:href => "https://maps.google.com/maps?f=d&hl=en&geocode=&daddr=#{encodeAddress(@location.full_address)}"}
           Get directions
           %i.icon-white.icon-arrow-right
           
       
       %dl.dl-horizontal
-        - unless @location[:nearest_parking] == ''
+        - unless @location.nearest_parking == ''
           %dt
             Nearest parking 
           %dd
-            = @location[:nearest_parking]
+            = @location.nearest_parking
           %dd
-            = @location[:nearest_parking_detail]
+            = @location.nearest_parking_detail
         
-        - unless @location[:public_transportation_detail] == ''
+        - unless @location.public_transportation_detail == ''
           %dt
             Public transit
           %dd 
-            = @location[:public_transportation_detail]
+            = @location.public_transportation_detail
             
-        - unless @location[:handicap_access_detail] == ''
+        - unless @location.handicap_access_detail == ''
           %dt
             Handicap access
           %dd 
-            = @location[:handicap_access_detail]
+            = @location.handicap_access_detail
 
       %hr
       %h4 Do you help manage this location? 
