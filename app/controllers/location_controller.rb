@@ -46,22 +46,23 @@ class LocationController < ApplicationController
   end
 
   def create
-    location_edit = fetch_empty
-    location_edit = set_changes(location_edit, params)
+    @location = Location.new(params[:location])
+    
+    # location_edit = fetch_empty
+    @location = set_changes(@location, params)
 
     # fill in read-only values
-    location_edit[:id] = get_new_id
-    location_edit[:slug] = to_slug "#{location_edit[:organization_name]} #{location_edit[:address]}"
-    location_edit[:flickr_tag] = to_flickr_tag "pcc-#{location_edit[:organization_name]} #{location_edit[:id]}"
+    # FIXME: move to model
+    @location[:id] = get_new_id
+    @location[:slug] = to_slug "#{@location[:organization_name]} #{@location[:address]}"
+    @location[:flickr_tag] = to_flickr_tag "pcc-#{@location[:organization_name]} #{@location[:id]}"
     
     # FT has some problems with empty fields. clearing them out
-    location_edit.each do |name, value|
-      if value == ''
-        location_edit.delete("#{name}".to_sym)
-      end
-    end
-
-    @location = Location.new(location_edit)
+    # @location.each do |name, value|
+    #   if value == ''
+    #     location_edit.delete("#{name}".to_sym)
+    #   end
+    # end
     
     if @location.valid?
        # expire cache
@@ -71,14 +72,14 @@ class LocationController < ApplicationController
       save_location_changes({"Location created" => ""})
 
       begin
-        table = fetch_table
-        table.insert location_edit #saves to Fusion Tables
-
+        @location.create
         flash[:notice] = "Location created successfully!"
-      rescue
+      rescue StandardError => e
         flash[:notice] = "There was a problem creating this location. Please try again or contact the system administrator."
+        Rails.logger.error("[LocationController#create] error saving new item: #{e.message}")
+        Rails.logger.error("[LocationController#create] error message:\n\n #{e.backtrace.join("\n")}")                
       end
-      redirect_to "/location/#{location_edit[:slug]}"
+      redirect_to location_path :id => @location.slug
     else
        render :action => 'new'
     end

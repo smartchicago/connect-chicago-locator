@@ -28,6 +28,7 @@ class Location
   end
 
   def []=(attr, val)
+    create_attr(attr.to_s) unless respond_to?(attr)  # initialize new attrs on the fly
     self.send("#{attr}=", val)
   end
   
@@ -48,6 +49,13 @@ class Location
       memo[k.to_sym] = send(k)
       memo
     end
+  end
+  
+  def create
+    table = GData::Client::FusionTables::Table.new(FT, :table_id => APP_CONFIG['fusion_table_id'], :name => "My table")
+    column_names = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} LIMIT 1;").first.collect{|k,v| k }    
+    new_values = self.to_fusion_format.delete_if{ |k,v| !column_names.include?(k) }    
+    table.insert new_values #saves to Fusion Tables    
   end
   
   def save
