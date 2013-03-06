@@ -1,27 +1,25 @@
 class LocationController < ApplicationController
   before_filter :authenticate_admin!, :except => [:index, :show, :showImage, :showWidget]
+  before_filter :set_location, :only => [:show, :edit]
   # caches_action :showImage
   caches_action :show, :layout => false
   caches_action :index, :layout => false
 
   def index
-    @locations = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} ORDER BY organization_name;") || not_found
+    @locations = Location.all
   end
 
   def show
-    @location = fetch(params[:id]) || not_found
-    
     respond_to do |format|
       format.html  # show.html.haml
       format.json  { render :json => @location }
     end
-
   end
 
   def showImage
     require 'open-uri'
     location = fetch params[:id]
-    featured_photo = getFlickrFeaturedPhoto(location[:flickr_tag])
+    featured_photo = getFlickrFeaturedPhoto(location.flickr_tag)
     unless featured_photo.nil?
       url = URI.parse(getFlickrPhotoPath(featured_photo, params[:size]))
       open(url) do |http|
@@ -48,22 +46,23 @@ class LocationController < ApplicationController
   end
 
   def create
-    location_edit = fetch_empty
-    location_edit = set_changes(location_edit, params)
+    @location = Location.new(params[:location])
+    
+    # location_edit = fetch_empty
+    @location = set_changes(@location, params)
 
     # fill in read-only values
-    location_edit[:id] = get_new_id
-    location_edit[:slug] = to_slug "#{location_edit[:organization_name]} #{location_edit[:address]}"
-    location_edit[:flickr_tag] = to_flickr_tag "pcc-#{location_edit[:organization_name]} #{location_edit[:id]}"
+    # FIXME: move to model
+    @location[:id] = get_new_id
+    @location[:slug] = to_slug "#{@location[:organization_name]} #{@location[:address]}"
+    @location[:flickr_tag] = to_flickr_tag "pcc-#{@location[:organization_name]} #{@location[:id]}"
     
     # FT has some problems with empty fields. clearing them out
-    location_edit.each do |name, value|
-      if value == ''
-        location_edit.delete("#{name}".to_sym)
-      end
-    end
-
-    @location = Location.new(location_edit)
+    # @location.each do |name, value|
+    #   if value == ''
+    #     location_edit.delete("#{name}".to_sym)
+    #   end
+    # end
     
     if @location.valid?
        # expire cache
@@ -73,14 +72,14 @@ class LocationController < ApplicationController
       save_location_changes({"Location created" => ""})
 
       begin
-        table = fetch_table
-        table.insert location_edit #saves to Fusion Tables
-
+        @location.create
         flash[:notice] = "Location created successfully!"
-      rescue
+      rescue StandardError => e
         flash[:notice] = "There was a problem creating this location. Please try again or contact the system administrator."
+        Rails.logger.error("[LocationController#create] error saving new item: #{e.message}")
+        Rails.logger.error("[LocationController#create] error message:\n\n #{e.backtrace.join("\n")}")                
       end
-      redirect_to "/location/#{location_edit[:slug]}"
+      redirect_to location_path :id => @location.slug
     else
        render :action => 'new'
     end
@@ -88,31 +87,28 @@ class LocationController < ApplicationController
   end
 
   def edit
-    location_edit = fetch params[:id]
-    @location_title = location_edit[:organization_name]
-    @location = Location.new(location_edit)
+    @location_title = @location[:organization_name]
   end
 
   def update
     # fetch the existing data from Fusion Tables (this it probably redundant)
-    location_edit = fetch params[:id]
-    @location_title = location_edit[:organization_name]
+    @location = fetch params[:id]
+    @location_title = @location[:organization_name]
 
     # stuff in new values from the form in to the Fusion Table hash object
     change = {}
     params[:location].each do |name, value|
-      old_value = "#{location_edit["#{name}".to_sym]}"
+      old_value = "#{@location["#{name}".to_sym]}"
       # if a field has changed, add it to the change hash for location_changes tracking
       if old_value != value
         change["#{name}"] = [old_value, value]
       end
     end
 
-    location_edit = set_changes(location_edit, params)
+    @location = set_changes(@location, params)
 
-    puts 'changes!'
-    puts change.inspect
-    @location = Location.new(location_edit)
+    Rails.logger.debug 'changes!'
+    Rails.logger.debug change.inspect
     if @location.valid? && change.length > 0
       # expire cache
       expire_action :action => :show
@@ -122,15 +118,14 @@ class LocationController < ApplicationController
       save_location_changes(change)
 
       begin
-        table = fetch_table
-        row_id = fetch_row_id location_edit[:slug]
-        table.update row_id, location_edit # saves to Fusion Tables
-
+        @location.save # saves to Fusion Tables
         flash[:notice] = "Location saved successfully!"
-      rescue
+      rescue StandardError => e
+        Rails.logger.error("[LocationController#update] error saving update: #{e.message}")
+        Rails.logger.error("[LocationController#update] error message:\n\n #{e.backtrace.join("\n")}")        
         flash[:notice] = "There was a problem saving this location. Please try again or contact the system administrator."
       end
-      redirect_to "/location/#{location_edit[:slug]}"
+      redirect_to location_path :id => @location.slug
     else
       render :action => 'edit'
     end
@@ -142,23 +137,22 @@ class LocationController < ApplicationController
       expire_action :action => :index
 
       begin
-        location_edit = fetch params[:id]
-        @location = Location.new(location_edit)
+        @location = fetch params[:id]
         # save to location_changes tracking table
         save_location_changes({"Location deleted" => ""})
 
         table = fetch_table
-        row_id = fetch_row_id location_edit[:slug]
+        row_id = fetch_row_id @location.slug
         table.delete row_id
         flash[:notice] = "Location deleted successfully!"
-        redirect_to "/"
+        redirect_to root_path
       rescue
         flash[:notice] = "There was a problem deleting this location. Please try again or contact the system administrator."
-        redirect_to "/location/#{location_edit[:slug]}"
+        redirect_to location_path :id => @location.slug
       end
     else
       flash[:notice] = "You must be a super admin to delete locations."
-      redirect_to "/location/#{location_edit[:slug]}"
+      redirect_to location_path :id => @location.slug
     end
   end
 
@@ -178,11 +172,16 @@ class LocationController < ApplicationController
   end
 
   def fetch(slug)
-    FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{slug}';").first
+    Location.new(FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{slug}';").first)
   end
 
   def fetch_row_id(slug)
     FT.execute("SELECT ROWID FROM #{APP_CONFIG['fusion_table_id']} WHERE slug = '#{slug}';").first[:rowid]
+  end
+
+  def set_location
+    @location = fetch(params[:id]) || not_found
+    @page_title = @location.organization_name
   end
 
   def set_changes(location_edit, params)
@@ -191,9 +190,9 @@ class LocationController < ApplicationController
       old_value = "#{location_edit["#{name}".to_sym]}"
       # if a field has changed, add it to the change hash for location_changes tracking
       if old_value != value
-        location_edit["#{name}".to_sym] = value
+        location_edit.send("#{name}=", value)
       elsif old_value == '' && value == ''
-        location_edit.delete("#{name}".to_sym)
+        # location_edit.delete("#{name}".to_sym)
       end
     end
 

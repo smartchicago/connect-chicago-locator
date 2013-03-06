@@ -36,21 +36,28 @@ module ApplicationHelper
   end
   
   def formatAddress street, city, state, zip, room
-    result = street
+    result = "<span itemprop='address' itemscope itemtype='http://schema.org/PostalAddress'>"    
+    result += "<span itemprop='streetAddress'>#{street}</span>"
     result += "<br />"
-    result += "#{city}, #{state} #{zip}"
+    result += "<span itemprop='addressLocality'>#{city}</span>, <span itemprop='addressRegion'>#{state}</span> <span itemprop='postalCode'>#{zip}</span>"
     unless room.nil?
       result += "<br />"
       result += room
     end
+    result += "</span>"
     result.html_safe()
   end
 
   def formatContact name, email
-    result = name
-    unless (email.nil?)
-      result = "<a href='mailto:#{email}'>#{name}</a>";
+    result = "<span itemprop='contactPoint' itemscope itemtype='http://schema.org/ContactPoint'>"
+    
+    result += if email.blank?
+      "<span itemprop='name'>#{name}</span>"
+    else
+      "<a itemprop='email' href='mailto:#{email}'><span itemprop='name'>#{name}</span></a>";
     end
+    
+    result += "</span>"
     result.html_safe()
   end
   
