@@ -6,7 +6,7 @@ class LocationController < ApplicationController
   caches_action :index, :layout => false
 
   def index
-    @locations = FT.execute("SELECT * FROM #{APP_CONFIG['fusion_table_id']} ORDER BY organization_name;") || not_found
+    @locations = Location.all
   end
 
   def show
@@ -137,23 +137,22 @@ class LocationController < ApplicationController
       expire_action :action => :index
 
       begin
-        location_edit = fetch params[:id]
-        @location = Location.new(location_edit)
+        @location = fetch params[:id]
         # save to location_changes tracking table
         save_location_changes({"Location deleted" => ""})
 
         table = fetch_table
-        row_id = fetch_row_id location_edit[:slug]
+        row_id = fetch_row_id @location.slug
         table.delete row_id
         flash[:notice] = "Location deleted successfully!"
-        redirect_to "/"
+        redirect_to root_path
       rescue
         flash[:notice] = "There was a problem deleting this location. Please try again or contact the system administrator."
-        redirect_to "/location/#{location_edit[:slug]}"
+        redirect_to location_path :id => @location.slug
       end
     else
       flash[:notice] = "You must be a super admin to delete locations."
-      redirect_to "/location/#{location_edit[:slug]}"
+      redirect_to location_path :id => @location.slug
     end
   end
 

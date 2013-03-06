@@ -1,13 +1,18 @@
 class Location
   include ActiveModel::Validations
   include ActiveModel::Conversion
+  extend ActiveModel::Callbacks
   extend ActiveModel::Naming
-  
+    
   validates_presence_of :organization_name, :organization_type, :org_phone, :address, :city, :state, :zip_code
   # validates_format_of :agency_staff_person_contact_email, :location_leadership_email, :pcc_staff_person_email, 
   #                     :with => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i,
   #                     :allow_nil => true, :allow_blank => true
-
+  
+  define_model_callbacks :create, :save
+  after_save    :bust_cache
+  after_create  :bust_cache
+  
   def create_method( name, &block )
     self.class.send( :define_method, name, &block )
   end
@@ -83,4 +88,9 @@ class Location
     end
     collection
   end
+  
+  def bust_cache
+    Rails.cache.delete("all-locations")
+  end
+  
 end
