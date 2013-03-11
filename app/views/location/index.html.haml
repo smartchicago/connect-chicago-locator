@@ -9,7 +9,7 @@
       %br
       = location[:organization_type]
       %br
-      = formatAddress location[:address], location[:city], location[:state], location[:zip_code], location[:roomlist]
+      = formatAddress location[:address], location[:city], location[:state], location[:zip_code], ''
       %br
       - unless location[:hours].nil?
         = location[:hours]
