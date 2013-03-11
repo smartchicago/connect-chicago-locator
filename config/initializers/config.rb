@@ -20,16 +20,16 @@ rescue Errno::ENOENT
 
 end
 
-#APP_CONFIG['domain'] = 'http://localhost:8888/'
 APP_CONFIG['domain'] = 'http://weconnectchicago.org/'
-
-#puts "google_account: #{APP_CONFIG['google_account']}"
-#puts "google_password: #{APP_CONFIG['google_password']}"
 
 #initialize Fusion Tables API
 FT = GData::Client::FusionTables.new      
-FT.clientlogin(APP_CONFIG['google_account'], APP_CONFIG['google_password'])
-FT.set_api_key(APP_CONFIG['google_api_key'])
+begin
+  FT.clientlogin(APP_CONFIG['google_account'], APP_CONFIG['google_password'])
+  FT.set_api_key(APP_CONFIG['google_api_key'])
+rescue StandardError => e
+  puts "[fusion tables] error initializing Fusion Tables API. Fusion Tables are unavailable. \n[fusion tables] Error message: #{e.message}."
+end
 
 #initialize Flickr
 FlickRaw.api_key=APP_CONFIG['flickr_key']
