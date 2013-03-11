@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
 
   private
   def render_error(status, exception)
-    ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+    # send error email on 500s
+    ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver if status == 500
     Rails.logger.fatal "[FATAL] #{exception.message}\n\nBacktrace:\n\n#{exception.backtrace.join(%Q(\n))}"
 
     respond_to do |format|
