@@ -5,8 +5,7 @@
     = f.input :first_name
     = f.input :last_name
     = f.input :organization, hint:"Your organization or agency"
-    = f.label :location_id, "Associated location<br/>(If your location is not in this list, <a href='http://weconnectchicago.org/contact-us/'>contact us</a>)".html_safe
-    = f.select :location_id, locationNameList
+    = f.input :location_id, collection: locationNameList, member_label: :first, member_value: :last, label: "Associated Location", as: :select, include_blank: false, hint: "(If your location is not in this list, please <a href='http://weconnectchicago.org/contact-us/'>contact us</a>)".html_safe
     = f.input :twitter_handle, hint:"(optional)"
     = f.input :email, hint:"Enter your email address"
     = f.input :password, hint:"Enter password"

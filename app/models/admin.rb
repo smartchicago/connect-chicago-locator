@@ -8,6 +8,8 @@ class Admin < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :first_name, :last_name, :organization, :twitter_handle, :email, :password, :password_confirmation, :remember_me, :location_id
   
+  validates_presence_of :location_id
+  
   after_create :send_admin_mail
   def send_admin_mail
      AdminsMailer.signup_notify_admin(self).deliver
