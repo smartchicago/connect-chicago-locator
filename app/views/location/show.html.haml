@@ -1,8 +1,8 @@
 - page_layout "container"
-:javascript 
+:javascript
   $(function(){
     MapsDetailLib.initializeMap();
-  
+
     if (MapsDetailLib.map != null)
       MapsDetailLib.displayPoint("#{encodeAddress(@location.full_address)}");
   });
@@ -14,10 +14,10 @@
     %h2
       %span{:itemprop => "name"}= @location.organization_name
       %small.admin-edit{:style => 'display: none;'}
-        %a{:href => "/location/#{params[:id]}/edit"} 
+        %a{:href => "/location/#{params[:id]}/edit"}
           %i.icon-pencil
           Edit
-        %a.superadmin-edit{:href => "/location/#{params[:id]}/delete", :style => 'display: none;', :onclick => "return confirm('Are you sure want to delete this location?');"} 
+        %a.superadmin-edit{:href => "/location/#{params[:id]}/delete", :style => 'display: none;', :onclick => "return confirm('Are you sure want to delete this location?');"}
           %i.icon-remove
           Delete
     %p.lead
@@ -32,15 +32,15 @@
         var addthis_config = {"data_track_addressbar":false};
       %script{:src => "http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5023cf8c771737b1", :type => "text/javascript"}
       / AddThis Button END
-    .row  
+    .row
       .span4
-        %p  
+        %p
           = formatAddress @location.address, @location.city, @location.state, @location.zip_code, @location.room_list
           %span{:itemprop => 'geo', :itemscope => '', :itemtype => 'http://schema.org/GeoCoordinates', :style => "display:none"}
             %span{:itemprop => 'latitude'}= @location.latitude
             %span{:itemprop => 'longitude'}= @location.longitude
-          
-        %p 
+
+        %p
           - unless @location.org_phone == ''
             %span{:itemprop => "telephone"}= number_to_phone((@location.org_phone.gsub /[^0-9x]/, ''), :area_code => true)
           - unless @location.website == ''
@@ -51,22 +51,22 @@
 
           - unless @location.pcc_staff_person == ''
             %br
-              Administrator:  
+              Administrator:
               = formatContact @location.pcc_staff_person, @location.pcc_staff_person_email
-              
+
         - unless @location.hours == ''
           %p
-            Hours:  
+            Hours:
             = @location.hours
-    
-      .span3  
+
+      .span3
         %table.table.table-bordered
           %thead
             %tr
               %th Internet
               %th Training
               %th Wi-Fi
-              
+
           %tbody
             %tr
               %td
@@ -81,71 +81,72 @@
           %hr
           %h4 About this place
           %p{:itemprop => 'description'}
-            = @location.friendly_description
-        
+            = raw simple_format h(@location.friendly_description)
+
+
         - unless @location.training_headline == ''
           %hr
-          %h4 
+          %h4
             Training
           %h5
             = @location.training_headline
           %p
             = @location.training_description
 
-        - unless @location.hardware_public == '' 
+        - unless @location.hardware_public == ''
           %hr
-          %h4 
+          %h4
             Additional info
-            
+
           %dl.dl-horizontal
-            - unless @location.hardware_public == ''  
+            - unless @location.hardware_public == ''
               %dt
                 Computers
               %dd
                 = @location.hardware_public
                 computers available to the public
-                
+
             - unless @location.internet_upload == ''
-              %dt 
+              %dt
                 Internet speed
               %dd
-                Upload: 
-                = @location.internet_upload 
+                Upload:
+                = @location.internet_upload
               %dd
-                Download: 
-                = @location.internet_download 
-              
+                Download:
+                = @location.internet_download
+
             - unless @location.pc_use_restrictions == ''
-              %dt 
+              %dt
                 Use restrictions
-              %dd 
+              %dd
                 = @location.pc_use_restrictions
-            
+
             - unless @location.assistive_technology == ''
-              %dt 
+              %dt
                 Assistive tech
-              %dd 
-                = @location.assistive_technology 
-            
+              %dd
+                = @location.assistive_technology
+
             - unless @location.time_allowed_per_user == ''
-              %dt 
+              %dt
                 Time restrictions
               %dd
-                = @location.time_allowed_per_user 
+                = @location.time_allowed_per_user
               %dd
                 = @location.time_allowed_per_user_detail
-                
+
     .row.hidden-phone
       .span7
         %hr
-        %h4 
-          Photos of 
+        %h4
+          Photos of
           = @location.organization_name
         %ul.thumbnails#gallery{:"data-toggle" => "modal-gallery", :"data-target" => "#modal-gallery"}
           - getFlickrGalleryPhotos(@location.flickr_tag).each do |photo|
             %li.span1
               %a.thumbnail{:href => getFlickrPhotoPath(photo, 'z'), :rel =>"gallery", :title => "#{photo.title}"}
-                %img{:src => getFlickrPhotoPath(photo, 's')} 
+                %img{:src => getFlickrPhotoPath(photo, 's')}
 
         %p
           Have a photo for this location? Upload it to
@@ -153,7 +154,7 @@
           and tag it with
           %strong
             = @location.flickr_tag
-                
+
   .span5
     .well
       %p
@@ -169,31 +170,31 @@
         %a.btn.btn-success{:href => "https://maps.google.com/maps?f=d&hl=en&geocode=&daddr=#{encodeAddress(@location.full_address)}"}
           Get directions
           %i.icon-white.icon-arrow-right
-          
-      
+
+
       %dl.dl-horizontal
         - unless @location.nearest_parking == ''
           %dt
-            Nearest parking 
+            Nearest parking
           %dd
             = @location.nearest_parking
           %dd
             = @location.nearest_parking_detail
-        
+
         - unless @location.public_transportation_detail == ''
           %dt
             Public transit
-          %dd 
+          %dd
             = @location.public_transportation_detail
-            
+
         - unless @location.handicap_access_detail == ''
           %dt
             Handicap access
-          %dd 
+          %dd
             = @location.handicap_access_detail
 
       %hr
-      %h4 Do you help manage this location? 
+      %h4 Do you help manage this location?
       %p
         = link_to('Sign up to be a Connect Chicago admin', new_admin_registration_path)
         and update this page anytime you want!
@@ -214,4 +215,4 @@
     %a.btn.modal-next
       %span Next
       %i.icon-arrow-right.icon-white
-    
+
