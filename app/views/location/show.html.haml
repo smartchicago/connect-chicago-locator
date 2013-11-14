@@ -142,11 +142,12 @@
         %h4
           Photos of
           = @location.organization_name
-        %ul.thumbnails#gallery{:"data-toggle" => "modal-gallery", :"data-target" => "#modal-gallery"}
-          - getFlickrGalleryPhotos(@location.flickr_tag).each do |photo|
-            %li.span1
-              %a.thumbnail{:href => getFlickrPhotoPath(photo, 'z'), :rel =>"gallery", :title => "#{photo.title}"}
-                %img{:src => getFlickrPhotoPath(photo, 's')}
+
+        %object{:id => "slideshow", :width => 670, :height => 500}
+          %param{:name => "flashvars", :value => "offsite=true&lang=en-us&page_show_url=%2Fphotos%2Ftags%2F#{@location.flickr_tag}%2Fshow%2F&page_show_back_url=%2Fphotos%2Ftags%2F#{@location.flickr_tag}%2F&tags=#{@location.flickr_tag}&jump_to=&start_index="}
+          %param{:name => "movie", :value => "http://www.flickr.com/apps/slideshow/show.swf?v=124984"}
+          %param{:name => "allowFullScreen", :value => "true"}
+          %embed{:type => "application/x-shockwave-flash", :src => "http://www.flickr.com/apps/slideshow/show.swf?v=124984", :allowFullScreen => "true", :flashvars => "offsite=true&lang=en-us&page_show_url=%2F#{@location.flickr_tag}%2Fshow%2F&page_show_back_url=%2Fphotos%2Ftags%2F#{@location.flickr_tag}%2F&tags=#{@location.flickr_tag}&jump_to=&start_index=", :width => 400, :height => 300}
 
         %p
           Have a photo for this location? Upload it to

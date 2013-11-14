@@ -17,7 +17,7 @@ development:
   encoding: unicode
   database: TechLocator_development
   pool: 5
-  username: Keith
+  username: 
   password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
