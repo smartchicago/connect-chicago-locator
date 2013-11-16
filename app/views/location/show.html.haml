@@ -142,7 +142,7 @@
         %h4
           Photos of
           = @location.organization_name
-        .galleria
+        .slideshow
 
         %p
           Have a photo for this location? Upload it to
@@ -218,14 +218,14 @@
     var flickr = new Galleria.Flickr();
     flickr.tags('#{@location.flickr_tag}', function(data) {
         // Should we show or hide the slideshow?
-        var $galleria = $(".galleria");
+        var $slideshow = $(".slideshow");
         if (data.length) {
-          $galleria.css({height: 400, marginBottom: 20});
+          $slideshow.css({height: 400, marginBottom: 20});
         } else {
-          $galleria.hide();
+          $slideshow.hide();
         }
 
-        Galleria.run('.galleria', {
+        Galleria.run('.slideshow', {
             dataSource: data
         });
     });
