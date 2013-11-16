@@ -142,12 +142,7 @@
         %h4
           Photos of
           = @location.organization_name
-
-        %object{:id => "slideshow", :width => 670, :height => 500}
-          %param{:name => "flashvars", :value => "offsite=true&lang=en-us&page_show_url=%2Fphotos%2Ftags%2F#{@location.flickr_tag}%2Fshow%2F&page_show_back_url=%2Fphotos%2Ftags%2F#{@location.flickr_tag}%2F&tags=#{@location.flickr_tag}&jump_to=&start_index="}
-          %param{:name => "movie", :value => "http://www.flickr.com/apps/slideshow/show.swf?v=124984"}
-          %param{:name => "allowFullScreen", :value => "true"}
-          %embed{:type => "application/x-shockwave-flash", :src => "http://www.flickr.com/apps/slideshow/show.swf?v=124984", :allowFullScreen => "true", :flashvars => "offsite=true&lang=en-us&page_show_url=%2F#{@location.flickr_tag}%2Fshow%2F&page_show_back_url=%2Fphotos%2Ftags%2F#{@location.flickr_tag}%2F&tags=#{@location.flickr_tag}&jump_to=&start_index=", :width => 400, :height => 300}
+        .galleria
 
         %p
           Have a photo for this location? Upload it to
@@ -216,4 +211,22 @@
     %a.btn.modal-next
       %span Next
       %i.icon-arrow-right.icon-white
+
+= javascript_include_tag "galleria/galleria-1.3.2", "galleria/plugins/flickr/galleria.flickr", "galleria/themes/classic/galleria.classic.js"
+= content_for :javascripts do
+  :javascript
+    var flickr = new Galleria.Flickr();
+    flickr.tags('#{@location.flickr_tag}', function(data) {
+        // Should we show or hide the slideshow?
+        var $galleria = $(".galleria");
+        if (data.length) {
+          $galleria.css({height: 400, marginBottom: 20});
+        } else {
+          $galleria.hide();
+        }
+
+        Galleria.run('.galleria', {
+            dataSource: data
+        });
+    });
 
