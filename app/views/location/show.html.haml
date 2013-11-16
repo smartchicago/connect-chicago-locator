@@ -212,21 +212,21 @@
       %span Next
       %i.icon-arrow-right.icon-white
 
-= javascript_include_tag "galleria/galleria-1.3.2", "galleria/plugins/flickr/galleria.flickr", "galleria/themes/classic/galleria.classic.js"
-= content_for :javascripts do
-  :javascript
-    var flickr = new Galleria.Flickr();
-    flickr.tags('#{@location.flickr_tag}', function(data) {
-        // Should we show or hide the slideshow?
-        var $slideshow = $(".slideshow");
-        if (data.length) {
-          $slideshow.css({height: 400, marginBottom: 20});
-        } else {
-          $slideshow.hide();
-        }
+= javascript_include_tag "galleria"
+:javascript
+  var flickr = new Galleria.Flickr();
+  flickr.tags('#{@location.flickr_tag}', function(data) {
+      // Should we show or hide the slideshow?
+      var $slideshow = $(".slideshow");
+      if (data.length) {
+        $slideshow.css({height: 400, marginBottom: 20});
+      } else {
+        $slideshow.hide();
+      }
 
-        Galleria.run('.slideshow', {
-            dataSource: data
-        });
-    });
+      Galleria.run('.slideshow', {
+          dataSource: data
+      });
+  });
+    
 
