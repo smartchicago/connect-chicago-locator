@@ -28,7 +28,7 @@
 
   %fieldset
     %legend Description
-    = f.input :friendly_description, :as => :text, :hint => "A few sentences describing this location and its environment", :input_html => {:rows => 5, :class => 'span12'}, :required => false 
+    = f.input :friendly_description, :as => :text, :hint => "A few sentences describing this location and its environment", :input_html => {:rows => 5, :class => 'span12'}, :required => false
       
   %fieldset
     %legend Features
@@ -81,7 +81,11 @@
       = f.input :pcc_staff_person_email, :required => false, :wrapper_html => {:class => "span6"}, :label => false, :hint => "Email"
     
     = f.input :twitter_handle, :required => false
- 
+  
+  %fieldset
+    %legend Additional media
+    = f.input :additional_media, :as => :text, :label => "Embed code", :hint => "e.g. A Slideshare or YouTube embed.", :input_html => {:rows => 5, :class => 'span12'}, :required => false
+
   %hr
     = f.button :submit
 

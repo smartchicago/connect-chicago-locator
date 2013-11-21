@@ -23,6 +23,10 @@ body {
   padding: 15px 0 15px 20px;
 }
 
+.content {
+  margin-bottom: 40px;
+}
+
 @media (max-width: 767px) {
   .logo {
     margin-right: -20px;

@@ -151,6 +151,14 @@
           %strong
             = @location.flickr_tag
 
+    - unless @location.additional_media == ''
+      .row.hidden-phone
+        .span7
+          %hr
+          %h4
+            Additional media
+        = @location.additional_media.html_safe
+
   .span5
     .well
       %p
