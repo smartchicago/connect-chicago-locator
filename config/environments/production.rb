@@ -78,8 +78,8 @@ TechLocator::Application.configure do
                     :password       => ENV['google_password']
     }
 
-  config.middleware.use ExceptionNotifier,
-      :email_prefix => "[Exception] ",
-      :sender_address => %{"Exception Notifier" <error@weconnectchicago.org>},
-      :exception_recipients => %w{keith@keiththecomputerguy.com}
+  # config.middleware.use ExceptionNotifier,
+  #     :email_prefix => "[Exception] ",
+  #     :sender_address => %{"Exception Notifier" <error@weconnectchicago.org>},
+  #     :exception_recipients => %w{keith@keiththecomputerguy.com}
 end
