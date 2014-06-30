@@ -2,6 +2,8 @@
  * Galleria Flickr Plugin 2012-09-04
  * http://galleria.io
  *
+ * Modified to use HTTPS
+ *
  * Licensed under the MIT license
  * https://raw.github.com/aino/galleria/master/LICENSE
  *
@@ -11,7 +13,7 @@
 
 /*global jQuery, Galleria, window */
 
-Galleria.requires(1.25, 'The Flickr Plugin requires Galleria version 1.2.5 or later.');
+Galleria.requires(1.25, 'The Flickr Plugin requires Galleria version 1.2.5 or later!');
 
 // The script path
 var PATH = Galleria.utils.getScriptPath();
@@ -190,7 +192,7 @@ Galleria.Flickr.prototype = {
 
     _call: function( params, callback ) {
 
-        var url = 'http://api.flickr.com/services/rest/?';
+        var url = 'https://api.flickr.com/services/rest/?';
 
         var scope = this;
 

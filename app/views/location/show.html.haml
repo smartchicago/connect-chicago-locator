@@ -220,7 +220,7 @@
       %span Next
       %i.icon-arrow-right.icon-white
 
-= javascript_include_tag "galleria"
+= javascript_include_tag "galleria-combined"
 :javascript
   var flickr = new Galleria.Flickr();
   flickr.tags('#{@location.flickr_tag}', function(data) {

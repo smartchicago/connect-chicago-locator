@@ -27,20 +27,17 @@ class ApplicationController < ActionController::Base
   helper_method :getFlickrPhotoPath
   
   def getFlickrGalleryPhotos tags, count=14
-    list = flickr.photos.search(:tags => tags, :safe_search => "1", :per_page => count)
-    if list.length > 0
-      list
-    else
-      []
-    end
+    flickr.photos.search(:tags => tags, :safe_search => "1", :per_page => count)
+  rescue
+    []
   end
 
   def getFlickrFeaturedPhoto tags
+    puts "#{tags}-featured"
     featured_photos = flickr.photos.search(:tags => "#{tags}-featured", :safe_search => "1", 
       :per_page => 1, :user_id => "36521980095@N01")
-    if featured_photos.length > 0
-      return featured_photos.first
-    end
+    featured_photos.first
+  rescue
     nil
   end
 
